@@ -785,7 +785,7 @@ package action_script
 				var costume:String = SlotsString.substring(i,pos);
 				var fields:Array = costume.split(",");
 				
-				if (fields.length != 8)
+				if (fields.length != 9)
 				{
 					trace("Invalid number of elements: " + fields.length);
 					return null;
@@ -798,7 +798,7 @@ package action_script
 				_loc11_.push(int(fields[4])); // Flag GK2				
 				_loc11_.push(new Array(int(fields[5]), int(fields[6]))); // Voices id list
 				_loc11_.push(int(fields[7])); // Dlc key flag
-				_loc11_.push(0); // Dlc key 2 (1.16) This is expected to beging being used in (1.18?) in DLC 14.
+				_loc11_.push(int(fields[8])); // Dlc key 2 (aka, upper 32 bits) Added in 1.16, started to being in use in 1.18
 				_loc11_.push(0); // Custom costume flag
 				_loc11_.push(main_cac_index); // Avatar ID (new in 1.10)
 				_loc11_.push(-1); // After TU9 Order, whatever this shit is. It was added in 1.14, let's set it to -1...
