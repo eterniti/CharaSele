@@ -7,7 +7,8 @@ package action_script
 	  // From version 02 of the XV2Patcher external interface, all internal names must start with XV2P.
 	  // This is for the xv2patchet to quickly filter out the original native functions of the game.
    
-	  public static const XV2_PATCHER_AS3_TAG = "XV2_PATCHER_AS3_V10";
+	  // This version has to be increased (here and in xv2ins_common) every time the iggy changes, even if the AS3 part of the iggy doesn't change.
+	  public static const XV2_PATCHER_AS3_TAG = "XV2_PATCHER_AS3_V11";
       
       public function XV2Patcher()
       {
