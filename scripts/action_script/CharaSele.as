@@ -1363,7 +1363,15 @@ package action_script
                if(_loc26_ != InvalidCode)
                {
                   _loc25_ = new Bitmap(null);
-                  IggyFunctions.setTextureForBitmap(_loc25_,_loc27_);
+                  validPortrait = XV2Patcher.IsValidCharacterPortrait(_loc27_,_loc25_);
+                  if(validPortrait)
+                  {
+                     IggyFunctions.setTextureForBitmap(_loc25_,_loc27_);
+                  }
+                  else 
+                  {
+                     IggyFunctions.setTextureForBitmap(_loc25_,"IMG_CHARA01_FOF0");
+                  }
                   _loc25_.scaleX = 256 / _loc25_.width;
                   _loc25_.scaleY = 128 / _loc25_.height;
                }
@@ -1377,7 +1385,15 @@ package action_script
          {
             _loc28_ = m_callback.GetUserDataString(ReceiveType_ImageStrNpcStart + _loc1_);
             _loc29_ = new Bitmap(null);
-            IggyFunctions.setTextureForBitmap(_loc29_,_loc28_);
+            validPortrait = XV2Patcher.IsValidCharacterPortrait(_loc28_,_loc29_);
+            if(validPortrait)
+            {
+               IggyFunctions.setTextureForBitmap(_loc29_,_loc28_);
+            }
+            else 
+            {
+               IggyFunctions.setTextureForBitmap(_loc29_,"IMG_CHARA01_FOF0");
+            }
             _loc29_.scaleX = 256 / _loc29_.width;
             _loc29_.scaleY = 128 / _loc29_.height;
             m_chara_face_npc[_loc1_] = _loc29_;
@@ -2481,7 +2497,15 @@ package action_script
             {
                _loc5_ = m_callback.GetUserDataString(ReceiveType_ImageStrStart + param2);
                _loc4_ = new Bitmap(null);
-               IggyFunctions.setTextureForBitmap(_loc4_,_loc5_);
+               validPortrait = XV2Patcher.IsValidCharacterPortrait(_loc5_,_loc4_);
+               if(validPortrait)
+               {
+                  IggyFunctions.setTextureForBitmap(_loc4_,_loc5_);
+               }
+               else 
+               {
+                  IggyFunctions.setTextureForBitmap(_loc4_,"IMG_CHARA01_FOF0");
+               }
                _loc4_.scaleX = 256 / _loc4_.width;
                _loc4_.scaleY = 128 / _loc4_.height;
             }
@@ -3114,7 +3138,6 @@ package action_script
       private function checkKey(param1:KeyboardEvent) : void
       {
          trace("[CHARASELE] checkKey " + param1.keyCode);
-         trace("hello");
          if(m_flag_decide)
          {
             return;
