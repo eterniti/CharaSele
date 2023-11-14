@@ -1,5 +1,6 @@
 package action_script
 {
+   import flash.display.Bitmap;
    import flash.external.ExternalInterface;
 
    public class XV2Patcher
@@ -178,5 +179,19 @@ package action_script
 		
 		return 0;
 	  }
+      
+      public static function IsValidCharacterPortrait(portraitId:String, bitmap:Bitmap) : Boolean
+      {
+         try
+         {
+            IggyFunctions.setTextureForBitmap(bitmap,portraitId);
+            return true;
+         }
+         catch(e:Error)
+         {
+            trace("[CHARASELE] Character portrait \"" + portraitId + "\" not found, using default portrait");
+            return false;
+         }
+      }
    }
 }
