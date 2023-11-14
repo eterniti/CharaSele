@@ -8,7 +8,7 @@ package action_script
 	  // This is for the xv2patchet to quickly filter out the original native functions of the game.
    
 	  // This version has to be increased (here and in xv2ins_common) every time the iggy changes, even if the AS3 part of the iggy doesn't change.
-	  public static const XV2_PATCHER_AS3_TAG = "XV2_PATCHER_AS3_V11";
+	  public static const XV2_PATCHER_AS3_TAG = "XV2_PATCHER_AS3_V12";
       
       public function XV2Patcher()
       {
@@ -178,5 +178,18 @@ package action_script
 		
 		return 0;
 	  }
+	  
+	  public static function SetTextureForBitmapWithFallback(bitmap:Bitmap, portraitId:String, fallback:String) : void
+      {
+         try
+         {
+            IggyFunctions.setTextureForBitmap(bitmap,portraitId);
+         }
+         catch(e:Error)
+         {
+            trace("[CHARASELE] Character portrait \"" + portraitId + "\" not found, using default portrait");
+            IggyFunctions.setTextureForBitmap(bitmap,portraitId, fallback);
+         }
+      }
    }
 }

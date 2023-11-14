@@ -878,7 +878,7 @@ package action_script
             {
                if((param1 & _loc25_[_loc27_][VarTypeDlcKeyFlag]) == 0 && (param2 & _loc25_[_loc27_][VarTypeDlcKeyFlag2]) == 0)
                {
-                  trace("delete chara:",_loc5_,",",_loc27_);
+                  trace("delete chara:" + _loc5_ + "," + _loc27_);
                   _loc25_.splice(_loc27_,1);
                   _loc27_--;
                }
@@ -1242,20 +1242,20 @@ package action_script
       
       private function startMain() : void
       {
-         var _loc19_:int = 0;
-         var _loc20_:MovieClip = null;
-         var _loc21_:int = 0;
-         var _loc22_:MovieClip = null;
-         var _loc23_:MovieClip = null;
-         var _loc24_:Array = null;
-         var _loc25_:Bitmap = null;
-         var _loc26_:String = null;
-         var _loc27_:String = null;
-         var _loc28_:String = null;
-         var _loc29_:Bitmap = null;
-         var _loc30_:MovieClip = null;
-         var _loc31_:int = 0;
-         var _loc32_:MovieClip = null;
+         var _loc25_:int = 0;
+         var _loc26_:MovieClip = null;
+         var _loc27_:int = 0;
+         var _loc28_:MovieClip = null;
+         var _loc29_:MovieClip = null;
+         var _loc30_:Array = null;
+         var _loc31_:Bitmap = null;
+         var _loc32_:String = null;
+         var _loc33_:String = null;
+         var _loc34_:String = null;
+         var _loc35_:Bitmap = null;
+         var _loc36_:MovieClip = null;
+         var _loc37_:int = 0;
+         var _loc38_:MovieClip = null;
          var _loc1_:int = 0;
          m_timeline.visible = true;
          m_timeline.cha_frame.cmn_CMN_M_frame.visible = true;
@@ -1263,9 +1263,41 @@ package action_script
          m_timeline.cha_select.visible = true;
          m_timeline.cha_parameter.visible = true;
          m_timeline.cha_arrow.visible = true;
-         var _loc2_:int = m_callback.GetUserDataInt(ReceiveType_PlayerFriNum);
-         var _loc3_:int = m_callback.GetUserDataInt(ReceiveType_PlayerEnmNum);
-         if(_loc2_ == 0 && _loc3_ == 0)
+         var _loc2_:* = m_timeline.cha_select;
+         _loc2_.chara_icn_set00.visible = false;
+         var _loc3_:int = (m_chara_list_num - 1) / IndexNumRow + 1;
+         var _loc4_:int = 1;
+         while(_loc4_ < 9)
+         {
+            if(_loc4_ <= _loc3_)
+            {
+               _loc2_["chara_icn_set0" + _loc4_].visible = true;
+            }
+            else
+            {
+               _loc2_["chara_icn_set0" + _loc4_].visible = false;
+            }
+            _loc4_++;
+         }
+         var _loc5_:int = (m_chara_list_num - 1) % IndexNumRow + 1;
+         _loc3_ = Math.min(_loc3_,8);
+         var _loc6_:* = _loc2_["chara_icn_set0" + _loc3_];
+         var _loc7_:int = 1;
+         while(_loc7_ < 4)
+         {
+            if(_loc7_ <= _loc5_)
+            {
+               _loc6_["nest_charaselect0" + _loc7_].visible = true;
+            }
+            else
+            {
+               _loc6_["nest_charaselect0" + _loc7_].visible = false;
+            }
+            _loc7_++;
+         }
+         var _loc8_:int = m_callback.GetUserDataInt(ReceiveType_PlayerFriNum);
+         var _loc9_:int = m_callback.GetUserDataInt(ReceiveType_PlayerEnmNum);
+         if(_loc8_ == 0 && _loc9_ == 0)
          {
             m_timeline.cha_parameter.nest_ready.visible = false;
             m_timeline.cha_parameter.ready_base.visible = false;
@@ -1275,7 +1307,7 @@ package action_script
          {
             m_timeline.cha_parameter.nest_ready.visible = true;
             m_timeline.cha_parameter.ready_base.visible = true;
-            if(_loc3_ > 0)
+            if(_loc9_ > 0)
             {
                m_timeline.cha_parameter.ready_base.vs.visible = true;
             }
@@ -1284,8 +1316,8 @@ package action_script
                m_timeline.cha_parameter.ready_base.vs.visible = false;
             }
          }
-         var _loc4_:int = m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle);
-         if(_loc4_)
+         var _loc10_:int = m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle);
+         if(_loc10_)
          {
             m_timeline.cha_parameter.icon_1P.play();
             m_timeline.cha_parameter.icon_1P.visible = true;
@@ -1301,35 +1333,35 @@ package action_script
             m_timeline.press2P.stop();
             m_timeline.press2P.visible = false;
          }
-         var _loc5_:MovieClip = getReadyIconMc(0);
-         _loc5_.visible = true;
+         var _loc11_:MovieClip = getReadyIconMc(0);
+         _loc11_.visible = true;
          _loc1_ = 0;
          while(PlayerNumFri > _loc1_)
          {
-            _loc19_ = PlayerIndexFriStart + _loc1_;
-            _loc20_ = getReadyIconMc(_loc19_);
-            if(_loc1_ < _loc2_)
+            _loc25_ = PlayerIndexFriStart + _loc1_;
+            _loc26_ = getReadyIconMc(_loc25_);
+            if(_loc1_ < _loc8_)
             {
-               _loc20_.visible = true;
+               _loc26_.visible = true;
             }
             else
             {
-               _loc20_.visible = false;
+               _loc26_.visible = false;
             }
             _loc1_++;
          }
          _loc1_ = 0;
          while(PlayerNumEnm > _loc1_)
          {
-            _loc21_ = PlayerIndexEnmStart + _loc1_;
-            _loc22_ = getReadyIconMc(_loc21_);
-            if(_loc1_ < _loc3_)
+            _loc27_ = PlayerIndexEnmStart + _loc1_;
+            _loc28_ = getReadyIconMc(_loc27_);
+            if(_loc1_ < _loc9_)
             {
-               _loc22_.visible = true;
+               _loc28_.visible = true;
             }
             else
             {
-               _loc22_.visible = false;
+               _loc28_.visible = false;
             }
             _loc1_++;
          }
@@ -1339,14 +1371,14 @@ package action_script
             m_timeline.cha_parameter.sys_skill_header.sys_skill_header.htmlText = "";
          }
          setSelectChara();
-         var _loc6_:MovieClip = m_timeline.cha_new;
+         var _loc12_:MovieClip = m_timeline.cha_new;
          _loc1_ = 0;
          while(IndexNumCharaNewIcon > _loc1_)
          {
-            _loc23_ = _loc6_["chara_new_" + _loc1_];
+            _loc29_ = _loc12_["chara_new_" + _loc1_];
             if(!checkCharaNewIconVisible(_loc1_))
             {
-               _loc23_.visible = false;
+               _loc29_.visible = false;
             }
             _loc1_++;
          }
@@ -1354,94 +1386,94 @@ package action_script
          _loc1_ = 0;
          while(m_chara_list_num > _loc1_)
          {
-            _loc24_ = getCharaInfo(_loc1_);
-            _loc25_ = null;
-            if(_loc24_ && _loc24_.length > 0)
+            _loc30_ = getCharaInfo(_loc1_);
+            _loc31_ = null;
+            if(_loc30_ && _loc30_.length > 0)
             {
-               _loc26_ = _loc24_[0][VarTypeCode];
-               _loc27_ = m_callback.GetUserDataString(ReceiveType_ImageStrStart + _loc1_);
-               if(_loc26_ != InvalidCode)
+               _loc32_ = _loc30_[0][VarTypeCode];
+               _loc33_ = m_callback.GetUserDataString(ReceiveType_ImageStrStart + _loc1_);
+               if(_loc32_ != InvalidCode)
                {
-                  _loc25_ = new Bitmap(null);
-                  IggyFunctions.setTextureForBitmap(_loc25_,_loc27_);
-                  _loc25_.scaleX = 256 / _loc25_.width;
-                  _loc25_.scaleY = 128 / _loc25_.height;
+                  _loc31_ = new Bitmap(null);
+                  XV2Patcher.setTextureForBitmapWithFallback(_loc31_,_loc33_, "IMG_CHARA01_FOF0");
+                  _loc31_.scaleX = 256 / _loc31_.width;
+                  _loc31_.scaleY = 128 / _loc31_.height;
                }
             }
-            m_chara_face[_loc1_] = _loc25_;
+            m_chara_face[_loc1_] = _loc31_;
             _loc1_++;
          }
          m_chara_face_npc = new Array(PlayerNumFri);
          _loc1_ = 0;
          while(PlayerNumFri > _loc1_)
          {
-            _loc28_ = m_callback.GetUserDataString(ReceiveType_ImageStrNpcStart + _loc1_);
-            _loc29_ = new Bitmap(null);
-            IggyFunctions.setTextureForBitmap(_loc29_,_loc28_);
-            _loc29_.scaleX = 256 / _loc29_.width;
-            _loc29_.scaleY = 128 / _loc29_.height;
-            m_chara_face_npc[_loc1_] = _loc29_;
+            _loc34_ = m_callback.GetUserDataString(ReceiveType_ImageStrNpcStart + _loc1_);
+            _loc35_ = new Bitmap(null);
+            XV2Patcher.setTextureForBitmapWithFallback(_loc35_,_loc34_, "IMG_CHARA01_FOF0");
+            _loc35_.scaleX = 256 / _loc35_.width;
+            _loc35_.scaleY = 128 / _loc35_.height;
+            m_chara_face_npc[_loc1_] = _loc35_;
             _loc1_++;
          }
-         var _loc7_:MovieClip = m_timeline.cha_select_cur;
-         _loc7_.icn_lock.visible = false;
+         var _loc13_:MovieClip = m_timeline.cha_select_cur;
+         _loc13_.icn_lock.visible = false;
          ResetIcons();
-         var _loc8_:int = m_callback.GetUserDataInt(ReceiveType_JoyConSingleFlag);
-         var _loc9_:String = m_callback.GetUserDataString(ReceiveType_KeyStrL2);
-         var _loc10_:String = m_callback.GetUserDataString(ReceiveType_KeyStrR2);
-         var _loc11_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRU);
-         var _loc12_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRD);
-         var _loc13_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRL);
-         var _loc14_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRR);
-         if(_loc8_ == 1)
+         var _loc14_:int = m_callback.GetUserDataInt(ReceiveType_JoyConSingleFlag);
+         var _loc15_:String = m_callback.GetUserDataString(ReceiveType_KeyStrL2);
+         var _loc16_:String = m_callback.GetUserDataString(ReceiveType_KeyStrR2);
+         var _loc17_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRU);
+         var _loc18_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRD);
+         var _loc19_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRL);
+         var _loc20_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRR);
+         if(_loc14_ == 1)
          {
-            _loc9_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleLS);
-            _loc10_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleRS);
-            _loc11_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleU);
-            _loc12_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleD);
-            _loc13_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleL);
-            _loc14_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleR);
+            _loc15_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleLS);
+            _loc16_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleRS);
+            _loc17_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleU);
+            _loc18_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleD);
+            _loc19_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleL);
+            _loc20_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleR);
          }
-         m_timeline.cha_skill.inact_skill.skill01.sys_com01.htmlText = _loc10_;
-         m_timeline.cha_skill.inact_skill.skill01.sys_com02.htmlText = _loc11_;
+         m_timeline.cha_skill.inact_skill.skill01.sys_com01.htmlText = _loc16_;
+         m_timeline.cha_skill.inact_skill.skill01.sys_com02.htmlText = _loc17_;
          m_timeline.cha_skill.inact_skill.skill01.sys_com03.htmlText = "";
          m_timeline.cha_skill.inact_skill.skill01.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill02.sys_com01.htmlText = _loc10_;
-         m_timeline.cha_skill.inact_skill.skill02.sys_com02.htmlText = _loc13_;
+         m_timeline.cha_skill.inact_skill.skill02.sys_com01.htmlText = _loc16_;
+         m_timeline.cha_skill.inact_skill.skill02.sys_com02.htmlText = _loc19_;
          m_timeline.cha_skill.inact_skill.skill02.sys_com03.htmlText = "";
          m_timeline.cha_skill.inact_skill.skill02.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill03.sys_com01.htmlText = _loc10_;
-         m_timeline.cha_skill.inact_skill.skill03.sys_com02.htmlText = _loc14_;
+         m_timeline.cha_skill.inact_skill.skill03.sys_com01.htmlText = _loc16_;
+         m_timeline.cha_skill.inact_skill.skill03.sys_com02.htmlText = _loc20_;
          m_timeline.cha_skill.inact_skill.skill03.sys_com03.htmlText = "";
          m_timeline.cha_skill.inact_skill.skill03.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill04.sys_com01.htmlText = _loc10_;
-         m_timeline.cha_skill.inact_skill.skill04.sys_com02.htmlText = _loc12_;
+         m_timeline.cha_skill.inact_skill.skill04.sys_com01.htmlText = _loc16_;
+         m_timeline.cha_skill.inact_skill.skill04.sys_com02.htmlText = _loc18_;
          m_timeline.cha_skill.inact_skill.skill04.sys_com03.htmlText = "";
          m_timeline.cha_skill.inact_skill.skill04.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill05.sys_com01.htmlText = _loc9_;
-         m_timeline.cha_skill.inact_skill.skill05.sys_com02.htmlText = _loc10_;
-         m_timeline.cha_skill.inact_skill.skill05.sys_com03.htmlText = _loc11_;
-         m_timeline.cha_skill.inact_skill.skill06.sys_com01.htmlText = _loc9_;
-         m_timeline.cha_skill.inact_skill.skill06.sys_com02.htmlText = _loc10_;
-         m_timeline.cha_skill.inact_skill.skill06.sys_com03.htmlText = _loc13_;
-         m_timeline.cha_skill.inact_skill.skill07.sys_com01.htmlText = _loc9_;
-         m_timeline.cha_skill.inact_skill.skill07.sys_com02.htmlText = _loc10_;
-         m_timeline.cha_skill.inact_skill.skill07.sys_com03.htmlText = _loc12_;
-         m_timeline.cha_skill.inact_skill.skill08.sys_com01.htmlText = _loc9_;
-         m_timeline.cha_skill.inact_skill.skill08.sys_com02.htmlText = _loc10_;
-         m_timeline.cha_skill.inact_skill.skill08.sys_com03.htmlText = _loc14_;
-         var _loc15_:String = m_callback.GetUserDataString(ReceiveType_TarismanHeaderStr);
-         m_timeline.cha_skill.inact_skill.skill09.sys_com01.htmlText = _loc15_;
+         m_timeline.cha_skill.inact_skill.skill05.sys_com01.htmlText = _loc15_;
+         m_timeline.cha_skill.inact_skill.skill05.sys_com02.htmlText = _loc16_;
+         m_timeline.cha_skill.inact_skill.skill05.sys_com03.htmlText = _loc17_;
+         m_timeline.cha_skill.inact_skill.skill06.sys_com01.htmlText = _loc15_;
+         m_timeline.cha_skill.inact_skill.skill06.sys_com02.htmlText = _loc16_;
+         m_timeline.cha_skill.inact_skill.skill06.sys_com03.htmlText = _loc19_;
+         m_timeline.cha_skill.inact_skill.skill07.sys_com01.htmlText = _loc15_;
+         m_timeline.cha_skill.inact_skill.skill07.sys_com02.htmlText = _loc16_;
+         m_timeline.cha_skill.inact_skill.skill07.sys_com03.htmlText = _loc18_;
+         m_timeline.cha_skill.inact_skill.skill08.sys_com01.htmlText = _loc15_;
+         m_timeline.cha_skill.inact_skill.skill08.sys_com02.htmlText = _loc16_;
+         m_timeline.cha_skill.inact_skill.skill08.sys_com03.htmlText = _loc20_;
+         var _loc21_:String = m_callback.GetUserDataString(ReceiveType_TarismanHeaderStr);
+         m_timeline.cha_skill.inact_skill.skill09.sys_com01.htmlText = _loc21_;
          m_timeline.cha_parameter.nest_clothes.sys_clothes.htmlText = "";
-         var _loc16_:String = m_callback.GetUserDataString(ReceiveType_KeyStrL1);
-         var _loc17_:String = m_callback.GetUserDataString(ReceiveType_KeyStrR1);
-         if(_loc8_)
+         var _loc22_:String = m_callback.GetUserDataString(ReceiveType_KeyStrL1);
+         var _loc23_:String = m_callback.GetUserDataString(ReceiveType_KeyStrR1);
+         if(_loc14_)
          {
-            _loc16_ = _loc9_;
-            _loc17_ = _loc10_;
+            _loc22_ = _loc15_;
+            _loc23_ = _loc16_;
          }
-         m_timeline.cha_parameter.nest_clothes.sys_l.htmlText = _loc16_;
-         m_timeline.cha_parameter.nest_clothes.sys_r.htmlText = _loc17_;
+         m_timeline.cha_parameter.nest_clothes.sys_l.htmlText = _loc22_;
+         m_timeline.cha_parameter.nest_clothes.sys_r.htmlText = _loc23_;
          _loc1_ = 0;
          while(PlayerMax > _loc1_)
          {
@@ -1451,8 +1483,8 @@ package action_script
             }
             else
             {
-               _loc31_ = m_callback.GetUserDataInt(ReceiveType_PartyNpcNum);
-               if(0 <= _loc1_ - 1 && _loc1_ - 1 < _loc31_)
+               _loc37_ = m_callback.GetUserDataInt(ReceiveType_PartyNpcNum);
+               if(0 <= _loc1_ - 1 && _loc1_ - 1 < _loc37_)
                {
                   setReadyIcon(_loc1_,false,true);
                }
@@ -1461,34 +1493,34 @@ package action_script
                   setReadyIcon(_loc1_,false,false);
                }
             }
-            _loc30_ = getReadyIconMc(_loc1_);
+            _loc36_ = getReadyIconMc(_loc1_);
             if(PlayerIndexOwn == _loc1_)
             {
-               _loc30_.cmn_icn_you.visible = true;
+               _loc36_.cmn_icn_you.visible = true;
             }
             else
             {
-               _loc30_.cmn_icn_you.visible = false;
+               _loc36_.cmn_icn_you.visible = false;
             }
             _loc1_++;
          }
          _loc1_ = 0;
          while(IndexNumCharaNewIcon > _loc1_)
          {
-            _loc32_ = getMcChamysetNewIcon(_loc1_);
-            _loc32_.visible = false;
+            _loc38_ = getMcChamysetNewIcon(_loc1_);
+            _loc38_.visible = false;
             _loc1_++;
          }
          updateVariation();
-         var _loc18_:int = m_callback.GetUserDataInt(ReceiveType_Time);
-         if(_loc18_ <= 0)
+         var _loc24_:int = m_callback.GetUserDataInt(ReceiveType_Time);
+         if(_loc24_ <= 0)
          {
             m_timeline.timer.visible = false;
          }
          else
          {
             m_timeline.timer.visible = true;
-            m_timer.Start(_loc18_,cbFuncEndTimer);
+            m_timer.Start(_loc24_,cbFuncEndTimer);
          }
          if(m_chara_num_column <= IndexNumColumn)
          {
