@@ -1395,7 +1395,7 @@ package action_script
                if(_loc32_ != InvalidCode)
                {
                   _loc31_ = new Bitmap(null);
-                  XV2Patcher.setTextureForBitmapWithFallback(_loc31_,_loc33_, "IMG_CHARA01_FOF0");
+                  XV2Patcher.SetTextureForBitmapWithFallback(_loc31_,_loc33_, "IMG_CHARA01_FOF0");
                   _loc31_.scaleX = 256 / _loc31_.width;
                   _loc31_.scaleY = 128 / _loc31_.height;
                }
@@ -1409,7 +1409,7 @@ package action_script
          {
             _loc34_ = m_callback.GetUserDataString(ReceiveType_ImageStrNpcStart + _loc1_);
             _loc35_ = new Bitmap(null);
-            XV2Patcher.setTextureForBitmapWithFallback(_loc35_,_loc34_, "IMG_CHARA01_FOF0");
+            XV2Patcher.SetTextureForBitmapWithFallback(_loc35_,_loc34_, "IMG_CHARA01_FOF0");
             _loc35_.scaleX = 256 / _loc35_.width;
             _loc35_.scaleY = 128 / _loc35_.height;
             m_chara_face_npc[_loc1_] = _loc35_;
@@ -2513,7 +2513,7 @@ package action_script
             {
                _loc5_ = m_callback.GetUserDataString(ReceiveType_ImageStrStart + param2);
                _loc4_ = new Bitmap(null);
-               IggyFunctions.setTextureForBitmap(_loc4_,_loc5_);
+               XV2Patcher.SetTextureForBitmapWithFallback(_loc4_,_loc5_, "IMG_CHARA01_FOF0");
                _loc4_.scaleX = 256 / _loc4_.width;
                _loc4_.scaleY = 128 / _loc4_.height;
             }
