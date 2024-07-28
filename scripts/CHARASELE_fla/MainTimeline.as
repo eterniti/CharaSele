@@ -3,27 +3,46 @@ package CHARASELE_fla
    import action_script.CharaSele;
    import flash.display.MovieClip;
    
+   /*import _img.chara_arw.png;
+   import _img.chara_csr01.png;
+   import _img.chara_csr02.png;
+   import _img.chara_ef_name01.png;
+   import _img.chara_icon_lock.png;
+   import _img.chara_icon_new.png;
+   import _img.chara_icon_you.png;
+   import _img.chara_img_vs.png;
+   import _img.chara_plt_icon01.png;
+   import _img.chara_plt_icon02.png;
+   import _img.chara_plt_local01.png;
+   import _img.chara_plt_team.png;
+   import _img.chara_plt_type.png;
+   import _img.chara_variation.png;
+   import _img.plt_window02.png;
+   import _img.txt_chara_1p.png;
+   import _img.txt_chara_team.png;
+   import _img.txt_chara_type.png;*/
+   
    public dynamic class MainTimeline extends MovieClip
    {
        
+      
+      public var cha_arrow:MovieClip;
+      
+      public var cha_frame:MovieClip;
+      
+      public var cha_new:MovieClip;
+      
+      public var cha_parameter:MovieClip;
+      
+      public var cha_select:MovieClip;
+      
+      public var cha_select_cur:MovieClip;
       
       public var cha_skill:MovieClip;
       
       public var press2P:MovieClip;
       
-      public var cha_select_cur:MovieClip;
-      
-      public var cha_frame:MovieClip;
-      
-      public var cha_parameter:MovieClip;
-      
       public var timer:MovieClip;
-      
-      public var cha_arrow:MovieClip;
-      
-      public var cha_new:MovieClip;
-      
-      public var cha_select:MovieClip;
       
       public var m_main:CharaSele;
 	  
@@ -46,21 +65,40 @@ package CHARASELE_fla
 	  public var aaa17:mc_ready_nest_fri_16;
 	  public var aaa18:mc_timer_74;
 	  public var aaa19:sys_2Ppress_71;
+	  
+	  /*public var ppp1:_img.chara_arw.png;
+	  public var ppp2:_img.chara_csr01.png;
+	  public var ppp3:_img.chara_csr02.png;
+	  public var ppp4:_img.chara_ef_name01.png;
+	  public var ppp5:_img.chara_icon_lock.png;
+	  public var ppp6:_img.chara_icon_new.png;
+	  public var ppp7:_img.chara_icon_you.png;
+	  public var ppp8:_img.chara_img_vs.png;
+	  public var ppp9:_img.chara_plt_icon01.png;
+	  public var ppp10:_img.chara_plt_icon02.png;
+	  public var ppp11:_img.chara_plt_local01.png;
+	  public var ppp12:_img.chara_plt_team.png;
+	  public var ppp13:_img.chara_plt_type.png;
+	  public var ppp14:_img.chara_variation.png;
+	  public var ppp15:_img.plt_window02.png;
+	  public var ppp16:_img.txt_chara_1p.png;
+	  public var ppp17:_img.txt_chara_team.png;
+	  public var ppp18:_img.txt_chara_type.png;*/
       
       public function MainTimeline()
       {
          super();
-         addFrameScript(0,frame1);
+         addFrameScript(0,this.frame1);
       }
       
       function frame1() : *
       {
-         m_main = null;
-         if(!m_main)
+         this.m_main = null;
+         if(!this.m_main)
          {
-            m_main = new CharaSele();
+            this.m_main = new CharaSele();
          }
-         m_main.Initialize(this);
+         this.m_main.Initialize(this);
          stop();
       }
    }

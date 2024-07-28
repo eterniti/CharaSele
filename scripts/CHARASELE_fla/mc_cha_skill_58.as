@@ -11,7 +11,7 @@ package CHARASELE_fla
       public function mc_cha_skill_58()
       {
          super();
-         addFrameScript(16,frame17,22,frame23);
+         addFrameScript(16,this.frame17,22,this.frame23);
       }
       
       function frame17() : *

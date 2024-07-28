@@ -11,7 +11,7 @@ package CHARASELE_fla
       public function sys_2Ppress_71()
       {
          super();
-         addFrameScript(18,frame19,26,frame27);
+         addFrameScript(18,this.frame19,26,this.frame27);
       }
       
       function frame19() : *

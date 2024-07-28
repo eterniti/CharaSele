@@ -6,16 +6,16 @@ package CHARASELE_fla
    {
        
       
-      public var chara_img:MovieClip;
-      
       public var chara_icn:MovieClip;
+      
+      public var chara_img:MovieClip;
       
       public var chara_mask:MovieClip;
       
       public function mc_chara_btnact_45()
       {
          super();
-         addFrameScript(8,frame9,58,frame59,69,frame70,84,frame85);
+         addFrameScript(8,this.frame9,58,this.frame59,69,this.frame70,84,this.frame85);
       }
       
       function frame9() : *

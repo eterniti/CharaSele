@@ -9,7 +9,7 @@ package CHARASELE_fla
       public function mc_arw_l_65()
       {
          super();
-         addFrameScript(9,frame10);
+         addFrameScript(9,this.frame10);
       }
       
       function frame10() : *

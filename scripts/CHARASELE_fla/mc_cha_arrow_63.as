@@ -6,14 +6,14 @@ package CHARASELE_fla
    {
        
       
-      public var spinbtn_r:MovieClip;
-      
       public var spinbtn_l:MovieClip;
+      
+      public var spinbtn_r:MovieClip;
       
       public function mc_cha_arrow_63()
       {
          super();
-         addFrameScript(23,frame24,29,frame30,35,frame36);
+         addFrameScript(23,this.frame24,29,this.frame30,35,this.frame36);
       }
       
       function frame24() : *

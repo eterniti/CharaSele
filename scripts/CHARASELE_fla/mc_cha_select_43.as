@@ -6,6 +6,14 @@ package CHARASELE_fla
    {
        
       
+      public var chara_icn_set00:MovieClip;
+      
+      public var chara_icn_set01:MovieClip;
+      
+      public var chara_icn_set02:MovieClip;
+      
+      public var chara_icn_set03:MovieClip;
+      
       public var chara_icn_set04:MovieClip;
       
       public var chara_icn_set05:MovieClip;
@@ -16,18 +24,10 @@ package CHARASELE_fla
       
       public var chara_icn_set08:MovieClip;
       
-      public var chara_icn_set00:MovieClip;
-      
-      public var chara_icn_set01:MovieClip;
-      
-      public var chara_icn_set02:MovieClip;
-      
-      public var chara_icn_set03:MovieClip;
-      
       public function mc_cha_select_43()
       {
          super();
-         addFrameScript(23,frame24,29,frame30,35,frame36);
+         addFrameScript(23,this.frame24,29,this.frame30,35,this.frame36);
       }
       
       function frame24() : *

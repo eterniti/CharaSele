@@ -9,7 +9,7 @@ package CHARASELE_fla
       public function _CMN_M_frame_70()
       {
          super();
-         addFrameScript(8,frame9,13,frame14);
+         addFrameScript(8,this.frame9,13,this.frame14);
       }
       
       function frame9() : *

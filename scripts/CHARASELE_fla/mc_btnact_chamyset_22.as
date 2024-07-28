@@ -6,20 +6,20 @@ package CHARASELE_fla
    {
        
       
-      public var btnact_off:MovieClip;
-      
-      public var sys_charamyset:MovieClip;
-      
-      public var btnact_on:MovieClip;
+      public var btnact_ef:MovieClip;
       
       public var btnact_lock:MovieClip;
       
-      public var btnact_ef:MovieClip;
+      public var btnact_off:MovieClip;
+      
+      public var btnact_on:MovieClip;
+      
+      public var sys_charamyset:MovieClip;
       
       public function mc_btnact_chamyset_22()
       {
          super();
-         addFrameScript(8,frame9,58,frame59,66,frame67);
+         addFrameScript(8,this.frame9,58,this.frame59,66,this.frame67);
       }
       
       function frame9() : *

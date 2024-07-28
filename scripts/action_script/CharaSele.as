@@ -29,7 +29,7 @@ package action_script
       
       public static const CustomListMax:int = 512;
       
-      public static const CharacterTableData:int = 14;
+      public static const CharacterTableData:int = 15;
       
       public static const CharacterTableMax:int = 512;
       
@@ -57,7 +57,9 @@ package action_script
       
       public static var VarTypeCustomCostumeEx:int = 11;
       
-      public static var VarTypeNum:int = 12;
+      public static var VarTypeFlag_CGK:int = 12;
+      
+      public static var VarTypeNum:int = 13;
       
       public static var InvalidCode:String = "";
       
@@ -85,17 +87,19 @@ package action_script
       
       public static const ReceiveType_NameOption_GK2:int = 10;
       
-      public static const ReceiveType_NameOption_LvText:int = 11;
+      public static const ReceiveType_NameOption_CGK:int = 11;
       
-      public static const ReceiveType_NameOption_LvNum:int = 12;
+      public static const ReceiveType_NameOption_LvText:int = 12;
       
-      public static const ReceiveType_VariationNameStr:int = 13;
+      public static const ReceiveType_NameOption_LvNum:int = 13;
       
-      public static const ReceiveType_TarismanHeaderStr:int = 14;
+      public static const ReceiveType_VariationNameStr:int = 14;
       
-      public static const ReceiveType_TarismanNameStr:int = 15;
+      public static const ReceiveType_TarismanHeaderStr:int = 15;
       
-      public static const ReceiveType_ImageStrStart:int = 16;
+      public static const ReceiveType_TarismanNameStr:int = 16;
+      
+      public static const ReceiveType_ImageStrStart:int = 17;
       
       public static const ReceiveType_ImageStrEnd:int = ReceiveType_ImageStrStart + CharacterMax - 1;
       
@@ -186,6 +190,8 @@ package action_script
       public static const ReceiveType_AfterTU9Order:int = ReceiveType_AvatarSlotID + 1;
       
       public static const ReceiveType_CustomCostumeEx:int = ReceiveType_AfterTU9Order + 1;
+      
+      public static const ReceiveType_ChouGokuaku:int = ReceiveType_CustomCostumeEx + 1;
       
       public static const ReceiveType_CharacterTableEnd:int = ReceiveType_CharacterTableStart + CharacterTableMax * CharacterTableData;
       
@@ -350,69 +356,69 @@ package action_script
       {
          super();
          trace("[CHARASELE] CharaSele()");
-         m_callback = new Callback(ReceiveType_Num);
-         m_timeline = null;
-         m_timer = new CountDownTimer();
-         m_current_player_index = 0;
-         m_current_select_index = 0;
-         m_select_info = new Array(PlayerMax);
-         m_selected_index_list = new Array(PlayerMax);
+         this.m_callback = new Callback(ReceiveType_Num);
+         this.m_timeline = null;
+         this.m_timer = new CountDownTimer();
+         this.m_current_player_index = 0;
+         this.m_current_select_index = 0;
+         this.m_select_info = new Array(PlayerMax);
+         this.m_selected_index_list = new Array(PlayerMax);
          var i:int = 0;
          var j:int = 0;
          i = 0;
-         while(m_select_info.length > i)
+         while(this.m_select_info.length > i)
          {
-            m_select_info[i] = new Array(SelectInfoTypeNum);
-            m_select_info[i][SelectInfoTypeListIndex] = 0;
-            m_select_info[i][SelectInfoTypeVarIndex] = 0;
+            this.m_select_info[i] = new Array(SelectInfoTypeNum);
+            this.m_select_info[i][SelectInfoTypeListIndex] = 0;
+            this.m_select_info[i][SelectInfoTypeVarIndex] = 0;
             i++;
          }
          i = 0;
-         while(m_selected_index_list.length > i)
+         while(this.m_selected_index_list.length > i)
          {
-            m_selected_index_list[i] = -1;
+            this.m_selected_index_list[i] = -1;
             i++;
          }
-         m_select_row = 0;
-         m_select_column = 0;
-         m_select_column_start = 0;
-         m_select_icon_row = -1;
-         m_select_icon_column = -1;
-         m_select_var = 0;
-         m_flag_skill = false;
-         m_flag_change_disp = true;
-         m_count_change_disp = 0;
-         m_flag_change_player = false;
-         m_flag_change_page = false;
-         m_flag_decide = false;
-         m_flag_exit = false;
-         m_skill_str_width_default = 0;
-         m_skill_str_scalex_default = 1;
-         m_icon_show_wait = new Array(IndexNumCharaVariationNewIcon);
+         this.m_select_row = 0;
+         this.m_select_column = 0;
+         this.m_select_column_start = 0;
+         this.m_select_icon_row = -1;
+         this.m_select_icon_column = -1;
+         this.m_select_var = 0;
+         this.m_flag_skill = false;
+         this.m_flag_change_disp = true;
+         this.m_count_change_disp = 0;
+         this.m_flag_change_player = false;
+         this.m_flag_change_page = false;
+         this.m_flag_decide = false;
+         this.m_flag_exit = false;
+         this.m_skill_str_width_default = 0;
+         this.m_skill_str_scalex_default = 1;
+         this.m_icon_show_wait = new Array(IndexNumCharaVariationNewIcon);
          i = 0;
-         while(i < m_icon_show_wait.length)
+         while(i < this.m_icon_show_wait.length)
          {
-            m_icon_show_wait[i] = 0;
+            this.m_icon_show_wait[i] = 0;
             i++;
          }
-         m_chara_list = null;
-         m_chara_list_num = 0;
-         m_chara_num_column = 0;
+         this.m_chara_list = null;
+         this.m_chara_list_num = 0;
+         this.m_chara_num_column = 0;
          i = 0;
          while(i < CharacterMax)
          {
-            m_callback.AddCallbackSetUserDataInt(ReceiveType_CharaSelectedStart + i,0);
+            this.m_callback.AddCallbackSetUserDataInt(ReceiveType_CharaSelectedStart + i,0);
             i++;
          }
          i = 0;
          while(i < CharaVarIndexNum)
          {
-            m_callback.AddCallbackSetUserDataInt(ReceiveType_CharaVariationStart + i,0);
+            this.m_callback.AddCallbackSetUserDataInt(ReceiveType_CharaVariationStart + i,0);
             i++;
          }
          try
          {
-            ExternalInterface.addCallback("ForcingCancel",pushKeyCancel);
+            ExternalInterface.addCallback("ForcingCancel",this.pushKeyCancel);
             return;
          }
          catch(e:Error)
@@ -424,36 +430,36 @@ package action_script
       
       public function Initialize(param1:MovieClip) : void
       {
-         m_timeline = param1;
-         m_timeline.visible = false;
-         m_timeline.cha_frame.visible = false;
-         m_timeline.cha_skill.visible = false;
-         m_timeline.cha_select.visible = false;
-         m_timeline.cha_parameter.visible = false;
-         m_timeline.cha_arrow.visible = false;
-         m_timeline.cha_select_cur.visible = false;
-         m_timeline.press2P.visible = false;
-         m_timer.Initialize(m_timeline.timer.nest._CMN_M_B_mc_timer,null);
-         m_current_player_index = 0;
-         m_select_row = 0;
-         m_select_column = 0;
-         m_select_column_start = 0;
-         m_select_var = 0;
-         m_select_icon_row = -1;
-         m_select_icon_column = -1;
-         m_flag_skill = false;
-         m_flag_change_disp = true;
-         m_count_change_disp = 0;
-         m_flag_change_player = false;
-         m_flag_change_page = false;
-         m_flag_decide = false;
-         m_skill_str_width_default = m_timeline.cha_skill.inact_skill.skill01.sys_skill.width;
-         m_skill_str_scalex_default = m_timeline.cha_skill.inact_skill.skill01.sys_skill.scaleX;
-         m_pre_time = 99;
-         m_chara_list = null;
-         m_chara_list_num = 0;
-         m_chara_num_column = 0;
-         m_timeline.stage.addEventListener(Event.ENTER_FRAME,waitCharaInfo);
+         this.m_timeline = param1;
+         this.m_timeline.visible = false;
+         this.m_timeline.cha_frame.visible = false;
+         this.m_timeline.cha_skill.visible = false;
+         this.m_timeline.cha_select.visible = false;
+         this.m_timeline.cha_parameter.visible = false;
+         this.m_timeline.cha_arrow.visible = false;
+         this.m_timeline.cha_select_cur.visible = false;
+         this.m_timeline.press2P.visible = false;
+         this.m_timer.Initialize(this.m_timeline.timer.nest._CMN_M_B_mc_timer,null);
+         this.m_current_player_index = 0;
+         this.m_select_row = 0;
+         this.m_select_column = 0;
+         this.m_select_column_start = 0;
+         this.m_select_var = 0;
+         this.m_select_icon_row = -1;
+         this.m_select_icon_column = -1;
+         this.m_flag_skill = false;
+         this.m_flag_change_disp = true;
+         this.m_count_change_disp = 0;
+         this.m_flag_change_player = false;
+         this.m_flag_change_page = false;
+         this.m_flag_decide = false;
+         this.m_skill_str_width_default = this.m_timeline.cha_skill.inact_skill.skill01.sys_skill.width;
+         this.m_skill_str_scalex_default = this.m_timeline.cha_skill.inact_skill.skill01.sys_skill.scaleX;
+         this.m_pre_time = 99;
+         this.m_chara_list = null;
+         this.m_chara_list_num = 0;
+         this.m_chara_num_column = 0;
+         this.m_timeline.stage.addEventListener(Event.ENTER_FRAME,this.waitCharaInfo);
       }
       
       private function waitCharaInfo(param1:Event) : void
@@ -479,70 +485,70 @@ package action_script
          var _loc21_:int = 0;
          var _loc22_:int = 0;
          var _loc23_:int = 0;
-         if(!m_callback)
+         if(!this.m_callback)
          {
             return;
          }
-         if(!m_callback.GetUserDataValidFlag(ReceiveType_DLCUnlockFlag))
+         if(!this.m_callback.GetUserDataValidFlag(ReceiveType_DLCUnlockFlag))
          {
             return;
          }
-         if(!m_callback.GetUserDataValidFlag(ReceiveType_DLCUnlockFlag2))
+         if(!this.m_callback.GetUserDataValidFlag(ReceiveType_DLCUnlockFlag2))
          {
             return;
          }
-         if(!m_callback.GetUserDataValidFlag(ReceiveType_UseCustomList))
+         if(!this.m_callback.GetUserDataValidFlag(ReceiveType_UseCustomList))
          {
             return;
          }
-         var _loc5_:int = m_callback.GetUserDataInt(ReceiveType_UseCustomList);
+         var _loc5_:int = this.m_callback.GetUserDataInt(ReceiveType_UseCustomList);
          if(_loc5_)
          {
-            m_flag_customlist = true;
-            if(!m_callback.GetUserDataValidFlag(ReceiveType_CustomListNum))
+            this.m_flag_customlist = true;
+            if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CustomListNum))
             {
                return;
             }
-            _loc6_ = m_callback.GetUserDataInt(ReceiveType_CustomListNum);
+            _loc6_ = this.m_callback.GetUserDataInt(ReceiveType_CustomListNum);
             _loc2_ = 0;
             while(_loc2_ < _loc6_)
             {
-               if(!m_callback.GetUserDataValidFlag(ReceiveType_CustomList_CID_Start + _loc2_))
+               if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CustomList_CID_Start + _loc2_))
                {
                   return;
                }
-               if(!m_callback.GetUserDataValidFlag(ReceiveType_CustomList_MID_Start + _loc2_))
+               if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CustomList_MID_Start + _loc2_))
                {
                   return;
                }
-               if(!m_callback.GetUserDataValidFlag(ReceiveType_CustomList_PID_Start + _loc2_))
+               if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CustomList_PID_Start + _loc2_))
                {
                   return;
                }
-               if(!m_callback.GetUserDataValidFlag(ReceiveType_CustomList_PartnerJudge_Start + _loc2_))
+               if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CustomList_PartnerJudge_Start + _loc2_))
                {
                   return;
                }
                _loc2_++;
             }
-            _loc7_ = m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag);
-            _loc8_ = m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag2);
-            if(!m_callback.GetUserDataValidFlag(ReceiveType_CostumeNum))
+            _loc7_ = this.m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag);
+            _loc8_ = this.m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag2);
+            if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CostumeNum))
             {
                return;
             }
-            _loc9_ = m_callback.GetUserDataInt(ReceiveType_CostumeNum);
+            _loc9_ = this.m_callback.GetUserDataInt(ReceiveType_CostumeNum);
             _loc10_ = ReceiveType_CharacterTableStart;
             while(_loc10_ < ReceiveType_CharacterTableStart + _loc9_ * CharacterTableData)
             {
-               if(!m_callback.GetUserDataValidFlag(_loc10_))
+               if(!this.m_callback.GetUserDataValidFlag(_loc10_))
                {
                   return;
                }
                _loc10_++;
             }
-            m_chara_list = recieveList(_loc7_,_loc8_);
-            if(!m_callback.GetUserDataValidFlag(ReceiveType_CharacterTableEnd + 1))
+            this.m_chara_list = this.recieveList(_loc7_,_loc8_);
+            if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CharacterTableEnd + 1))
             {
                return;
             }
@@ -550,17 +556,17 @@ package action_script
             _loc2_ = 0;
             while(_loc2_ < _loc6_)
             {
-               _loc13_ = m_callback.GetUserDataString(ReceiveType_CustomList_CID_Start + _loc2_);
-               _loc14_ = m_callback.GetUserDataInt(ReceiveType_CustomList_MID_Start + _loc2_);
-               _loc15_ = m_callback.GetUserDataInt(ReceiveType_CustomList_PID_Start + _loc2_);
-               _loc16_ = m_callback.GetUserDataInt(ReceiveType_CustomList_PartnerJudge_Start + _loc2_);
+               _loc13_ = this.m_callback.GetUserDataString(ReceiveType_CustomList_CID_Start + _loc2_);
+               _loc14_ = this.m_callback.GetUserDataInt(ReceiveType_CustomList_MID_Start + _loc2_);
+               _loc15_ = this.m_callback.GetUserDataInt(ReceiveType_CustomList_PID_Start + _loc2_);
+               _loc16_ = this.m_callback.GetUserDataInt(ReceiveType_CustomList_PartnerJudge_Start + _loc2_);
                _loc11_.push([_loc13_,_loc14_,_loc15_,_loc16_]);
                _loc2_++;
             }
             _loc2_ = 0;
-            while(_loc2_ < m_chara_list.length)
+            while(_loc2_ < this.m_chara_list.length)
             {
-               _loc17_ = m_chara_list[_loc2_];
+               _loc17_ = this.m_chara_list[_loc2_];
                _loc18_ = true;
                _loc3_ = 0;
                while(_loc3_ < _loc17_.length)
@@ -594,47 +600,47 @@ package action_script
                }
                if(_loc18_)
                {
-                  m_chara_list.splice(_loc2_,1);
+                  this.m_chara_list.splice(_loc2_,1);
                   _loc2_--;
                }
                _loc2_++;
             }
-            _loc12_ = 3 - m_chara_list.length % 3;
+            _loc12_ = 3 - this.m_chara_list.length % 3;
             _loc2_ = 0;
             while(_loc12_ > _loc2_)
             {
-               m_chara_list.concat([[["",0,0,0]]]);
+               this.m_chara_list.concat([[["",0,0,0]]]);
                _loc2_++;
             }
          }
          else
          {
-            _loc20_ = m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag);
-            _loc21_ = m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag2);
-            if(!m_callback.GetUserDataValidFlag(ReceiveType_CostumeNum))
+            _loc20_ = this.m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag);
+            _loc21_ = this.m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag2);
+            if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CostumeNum))
             {
                return;
             }
-            _loc22_ = m_callback.GetUserDataInt(ReceiveType_CostumeNum);
+            _loc22_ = this.m_callback.GetUserDataInt(ReceiveType_CostumeNum);
             _loc23_ = ReceiveType_CharacterTableStart;
             while(_loc23_ < ReceiveType_CharacterTableStart + _loc22_ * CharacterTableData)
             {
-               if(!m_callback.GetUserDataValidFlag(_loc23_))
+               if(!this.m_callback.GetUserDataValidFlag(_loc23_))
                {
                   return;
                }
                _loc23_++;
             }
-            m_chara_list = recieveList(_loc20_,_loc21_);
-            if(!m_callback.GetUserDataValidFlag(ReceiveType_CharacterTableEnd + 1))
+            this.m_chara_list = this.recieveList(_loc20_,_loc21_);
+            if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CharacterTableEnd + 1))
             {
                return;
             }
          }
-         m_chara_list_num = m_chara_list.length;
-         m_chara_num_column = (m_chara_list_num - 1) / IndexNumRow + 1;
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,waitCharaInfo);
-         m_timeline.stage.addEventListener(Event.ENTER_FRAME,requestUnlock);
+         this.m_chara_list_num = this.m_chara_list.length;
+         this.m_chara_num_column = (this.m_chara_list_num - 1) / IndexNumRow + 1;
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.waitCharaInfo);
+         this.m_timeline.stage.addEventListener(Event.ENTER_FRAME,this.requestUnlock);
       }
       
       private function recieveList(param1:int, param2:int) : Array
@@ -656,13 +662,14 @@ package action_script
          var _loc22_:int = 0;
          var _loc23_:int = 0;
          var _loc24_:int = 0;
-         var _loc25_:Array = null;
-         var _loc26_:Boolean = false;
-         var _loc27_:int = 0;
+         var _loc25_:int = 0;
+         var _loc26_:Array = null;
+         var _loc27_:Boolean = false;
          var _loc28_:int = 0;
          var _loc29_:int = 0;
+         var _loc30_:int = 0;
          var _loc3_:Array = new Array();
-         var _loc4_:int = m_callback.GetUserDataInt(ReceiveType_CostumeNum);
+         var _loc4_:int = this.m_callback.GetUserDataInt(ReceiveType_CostumeNum);
 		 
 		 //////////
 		 var map_cc:Array = new Array();
@@ -678,20 +685,21 @@ package action_script
             while(true)
             {
                _loc11_ = new Array();
-               _loc12_ = m_callback.GetUserDataString(ReceiveType_CID + _loc5_ * CharacterTableData);
-               _loc13_ = m_callback.GetUserDataInt(ReceiveType_MID + _loc5_ * CharacterTableData);
-               _loc14_ = m_callback.GetUserDataInt(ReceiveType_PID + _loc5_ * CharacterTableData);
-               _loc15_ = m_callback.GetUserDataInt(ReceiveType_UnlockNum + _loc5_ * CharacterTableData);
-               _loc16_ = m_callback.GetUserDataInt(ReceiveType_Gokuaku + _loc5_ * CharacterTableData);
+               _loc12_ = this.m_callback.GetUserDataString(ReceiveType_CID + _loc5_ * CharacterTableData);
+               _loc13_ = this.m_callback.GetUserDataInt(ReceiveType_MID + _loc5_ * CharacterTableData);
+               _loc14_ = this.m_callback.GetUserDataInt(ReceiveType_PID + _loc5_ * CharacterTableData);
+               _loc15_ = this.m_callback.GetUserDataInt(ReceiveType_UnlockNum + _loc5_ * CharacterTableData);
+               _loc16_ = this.m_callback.GetUserDataInt(ReceiveType_Gokuaku + _loc5_ * CharacterTableData);
                _loc17_ = new Array();
-               _loc17_.push(m_callback.GetUserDataInt(ReceiveType_SelectVoice1 + _loc5_ * CharacterTableData));
-               _loc17_.push(m_callback.GetUserDataInt(ReceiveType_SelectVoice2 + _loc5_ * CharacterTableData));
-               _loc18_ = m_callback.GetUserDataInt(ReceiveType_DlcKey + _loc5_ * CharacterTableData);
-               _loc19_ = m_callback.GetUserDataInt(ReceiveType_DlcKey2 + _loc5_ * CharacterTableData);
-               _loc20_ = m_callback.GetUserDataInt(ReceiveType_CustomCostume + _loc5_ * CharacterTableData);
-               _loc21_ = m_callback.GetUserDataInt(ReceiveType_AvatarSlotID + _loc5_ * CharacterTableData);
-               _loc22_ = m_callback.GetUserDataInt(ReceiveType_AfterTU9Order + _loc5_ * CharacterTableData);
-               _loc23_ = m_callback.GetUserDataInt(ReceiveType_CustomCostumeEx + _loc5_ * CharacterTableData);
+               _loc17_.push(this.m_callback.GetUserDataInt(ReceiveType_SelectVoice1 + _loc5_ * CharacterTableData));
+               _loc17_.push(this.m_callback.GetUserDataInt(ReceiveType_SelectVoice2 + _loc5_ * CharacterTableData));
+               _loc18_ = this.m_callback.GetUserDataInt(ReceiveType_DlcKey + _loc5_ * CharacterTableData);
+               _loc19_ = this.m_callback.GetUserDataInt(ReceiveType_DlcKey2 + _loc5_ * CharacterTableData);
+               _loc20_ = this.m_callback.GetUserDataInt(ReceiveType_CustomCostume + _loc5_ * CharacterTableData);
+               _loc21_ = this.m_callback.GetUserDataInt(ReceiveType_AvatarSlotID + _loc5_ * CharacterTableData);
+               _loc22_ = this.m_callback.GetUserDataInt(ReceiveType_AfterTU9Order + _loc5_ * CharacterTableData);
+               _loc23_ = this.m_callback.GetUserDataInt(ReceiveType_CustomCostumeEx + _loc5_ * CharacterTableData);
+               _loc24_ = this.m_callback.GetUserDataInt(ReceiveType_ChouGokuaku + _loc5_ * CharacterTableData);
                _loc11_.push(_loc12_);
                _loc11_.push(_loc13_);
                _loc11_.push(_loc14_);
@@ -704,6 +712,7 @@ package action_script
                _loc11_.push(_loc21_);
                _loc11_.push(_loc22_);
                _loc11_.push(_loc23_);
+               _loc11_.push(_loc24_);
                _loc10_.push(_loc11_);
 			   
 			   
@@ -739,8 +748,8 @@ package action_script
 			  
 			   //////////
 			   
-               _loc24_ = m_callback.GetUserDataInt(ReceiveType_CostumeID + (_loc5_ + 1) * CharacterTableData);
-               if(_loc24_ == 0)
+               _loc25_ = this.m_callback.GetUserDataInt(ReceiveType_CostumeID + (_loc5_ + 1) * CharacterTableData);
+               if(_loc25_ == 0)
                {
                   break;
                }
@@ -785,7 +794,7 @@ package action_script
 				var costume:String = SlotsString.substring(i,pos);
 				var fields:Array = costume.split(",");
 				
-				if (fields.length != 9)
+				if (fields.length != 10)
 				{
 					trace("Invalid number of elements: " + fields.length);
 					return null;
@@ -802,8 +811,8 @@ package action_script
 				_loc11_.push(0); // Custom costume flag
 				_loc11_.push(main_cac_index); // Avatar ID (new in 1.10)
 				_loc11_.push(-1); // After TU9 Order, whatever this shit is. It was added in 1.14, let's set it to -1...
-				_loc11_.push(0); // Custom costume ex				
-				//trace(fields[0] + ":" + _loc11_[6])
+				_loc11_.push(0); // Custom costume ex
+				_loc11_.push(int(fields[9])); // Flag CGK2 (1.22)
 								
 				i = pos+1;
 				_loc10_.push(_loc11_);
@@ -866,47 +875,48 @@ package action_script
 		 
 		 //////////	
 		 
+		 
          var _loc6_:int = 0;
          var _loc7_:int = 0;
          _loc5_ = 0;
          while(_loc5_ < _loc3_.length)
          {
-            _loc25_ = _loc3_[_loc5_];
-            _loc26_ = true;
-            _loc27_ = 0;
-            while(_loc27_ < _loc25_.length)
+            _loc26_ = _loc3_[_loc5_];
+            _loc27_ = true;
+            _loc28_ = 0;
+            while(_loc28_ < _loc26_.length)
             {
-               if((param1 & _loc25_[_loc27_][VarTypeDlcKeyFlag]) == 0 && (param2 & _loc25_[_loc27_][VarTypeDlcKeyFlag2]) == 0)
+               if((param1 & _loc26_[_loc28_][VarTypeDlcKeyFlag]) == 0 && (param2 & _loc26_[_loc28_][VarTypeDlcKeyFlag2]) == 0)
                {
-                  trace("delete chara:" + _loc5_ + "," + _loc27_);
-                  _loc25_.splice(_loc27_,1);
-                  _loc27_--;
+                  trace("delete chara:" + _loc5_ + "," + _loc28_ + "," + _loc26_[_loc28_][VarTypeCode]);
+                  _loc26_.splice(_loc28_,1);
+                  _loc28_--;
                }
                else
                {
-                  _loc26_ = false;
+                  _loc27_ = false;
                }
-               _loc27_++;
+               _loc28_++;
             }
-            if(_loc26_)
+            if(_loc27_)
             {
                _loc3_.splice(_loc5_,1);
                _loc5_--;
             }
             else
             {
-               _loc28_ = _loc7_;
-               _loc29_ = _loc25_[0][VarTypeAfterTU9Order];
-               if(_loc29_ == -1)
+               _loc29_ = _loc7_;
+               _loc30_ = _loc26_[0][VarTypeAfterTU9Order];
+               if(_loc30_ == -1)
                {
-                  _loc28_ = _loc7_;
+                  _loc29_ = _loc7_;
                }
                else
                {
-                  _loc28_ = _loc29_ + 122;
+                  _loc29_ = _loc30_ + 122;
                   _loc7_--;
                }
-               CharaListShiftCount.push(_loc28_);
+               CharaListShiftCount.push(_loc29_);
             }
             _loc5_++;
             _loc7_++;
@@ -940,26 +950,26 @@ package action_script
          while(CharacterMax > _loc2_)
          {
             _loc4_ = false;
-            _loc5_ = getCharaInfo(_loc2_);
+            _loc5_ = this.getCharaInfo(_loc2_);
             if(!_loc5_)
             {
                _loc3_ = 0;
                while(CharaVarIndexNum > _loc3_)
                {
-                  SetUserDataInt(ReceiveType_UnlockVarStart + _loc2_ * CharaVarIndexNum + _loc3_,0);
+                  this.SetUserDataInt(ReceiveType_UnlockVarStart + _loc2_ * CharaVarIndexNum + _loc3_,0);
                   _loc3_++;
                }
-               SetUserDataString(ReceiveType_ImageStrStart + _loc2_,"");
+               this.SetUserDataString(ReceiveType_ImageStrStart + _loc2_,"");
             }
             else if(_loc5_.length <= _loc3_)
             {
                _loc3_ = 0;
                while(CharaVarIndexNum > _loc3_)
                {
-                  SetUserDataInt(ReceiveType_UnlockVarStart + _loc2_ * CharaVarIndexNum + _loc3_,0);
+                  this.SetUserDataInt(ReceiveType_UnlockVarStart + _loc2_ * CharaVarIndexNum + _loc3_,0);
                   _loc3_++;
                }
-               SetUserDataString(ReceiveType_ImageStrStart + _loc2_,"");
+               this.SetUserDataString(ReceiveType_ImageStrStart + _loc2_,"");
             }
             else
             {
@@ -970,7 +980,7 @@ package action_script
                   _loc7_ = _loc2_ * CharaVarIndexNum + _loc3_;
                   if(_loc5_.length <= _loc3_)
                   {
-                     SetUserDataInt(ReceiveType_UnlockVarStart + _loc7_,0);
+                     this.SetUserDataInt(ReceiveType_UnlockVarStart + _loc7_,0);
                   }
                   else
                   {
@@ -978,27 +988,27 @@ package action_script
                      _loc9_ = _loc8_[VarTypeCode];
                      if(_loc9_ == InvalidCode)
                      {
-                        SetUserDataInt(ReceiveType_UnlockVarStart + _loc7_,0);
+                        this.SetUserDataInt(ReceiveType_UnlockVarStart + _loc7_,0);
                      }
                      else
                      {
                         _loc10_ = _loc8_[VarTypeMid];
                         _loc4_ = true;
-                        if(!m_callback.GetUserDataValidFlag(ReceiveType_UnlockVarStart + _loc7_))
+                        if(!this.m_callback.GetUserDataValidFlag(ReceiveType_UnlockVarStart + _loc7_))
                         {
                            _loc11_ = _loc8_[VarTypeUnlockIndex];
                            _loc12_ = _loc8_[VarTypeAvatarSlotID];
                            _loc13_ = _loc8_[VarTypeCustomCostume];
                            _loc14_ = _loc3_;
-                           m_callback.CallbackUserData("user",SendType_AvatarSlotID,_loc12_);
-                           m_callback.CallbackUserDataString("user",SendType_SelectCode,_loc9_);
-                           m_callback.CallbackUserData("user",SendType_SelectUnlockIndex,_loc11_);
-                           m_callback.CallbackUserData("user",SendType_SelectVariation,_loc14_);
-                           m_callback.CallbackUserData("user",SendType_SelectCustomFlag,_loc13_);
-                           m_callback.CallbackUserData("user",SendType_SelectMid,_loc10_);
-                           m_callback.CallbackUserData("user",SendType_RequestUnlock,_loc7_);
-                           m_callback.CallbackUserData("user",SendType_RequestImageStr,_loc2_);
-                           m_callback.CallbackUserData("user",SendType_RequestNewInfo,CharaListShiftCount[_loc2_]);
+                           this.m_callback.CallbackUserData("user",SendType_AvatarSlotID,_loc12_);
+                           this.m_callback.CallbackUserDataString("user",SendType_SelectCode,_loc9_);
+                           this.m_callback.CallbackUserData("user",SendType_SelectUnlockIndex,_loc11_);
+                           this.m_callback.CallbackUserData("user",SendType_SelectVariation,_loc14_);
+                           this.m_callback.CallbackUserData("user",SendType_SelectCustomFlag,_loc13_);
+                           this.m_callback.CallbackUserData("user",SendType_SelectMid,_loc10_);
+                           this.m_callback.CallbackUserData("user",SendType_RequestUnlock,_loc7_);
+                           this.m_callback.CallbackUserData("user",SendType_RequestImageStr,_loc2_);
+                           this.m_callback.CallbackUserData("user",SendType_RequestNewInfo,CharaListShiftCount[_loc2_]);
                         }
                      }
                   }
@@ -1006,16 +1016,16 @@ package action_script
                }
                if(!_loc4_)
                {
-                  SetUserDataString(ReceiveType_ImageStrStart + _loc2_,"");
+                  this.SetUserDataString(ReceiveType_ImageStrStart + _loc2_,"");
                }
             }
             _loc2_++;
          }
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,requestUnlock);
-         m_timeline.stage.addEventListener(Event.ENTER_FRAME,waitUnlock);
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.requestUnlock);
+         this.m_timeline.stage.addEventListener(Event.ENTER_FRAME,this.waitUnlock);
       }
 	  
-	  //////////
+	   //////////
 	  // Decompiler failed with this function (produced bad result), so here it is manually decompiled from version 1.11
 	  // If the function doesn't change in the future, just carry it over the next version
 	  //////////
@@ -1078,8 +1088,7 @@ package action_script
 	  }
       
       ////////// Original auto decompiled function (fail)
-	  /*
-	  private function waitUnlock(param1:Event) : void
+	  /*private function waitUnlock(param1:Event) : void
       {
          var _loc5_:int = 0;
          var _loc6_:int = 0;
@@ -1090,16 +1099,16 @@ package action_script
          loop0:
          while(true)
          {
-            if(m_select_info.length <= _loc3_)
+            if(this.m_select_info.length <= _loc3_)
             {
-               m_current_player_index = PlayerIndexOwn;
-               var _loc4_:* = m_select_info[m_current_player_index][SelectInfoTypeListIndex];
-               m_select_row = calcIconIndexRow(_loc4_);
-               m_select_column = calcIconIndexColumn(_loc4_);
-               m_select_var = m_select_info[m_current_player_index][SelectInfoTypeVarIndex];
-               sendCharaInfo(m_current_player_index);
-               m_timeline.stage.removeEventListener(Event.ENTER_FRAME,waitUnlock);
-               m_timeline.stage.addEventListener(Event.ENTER_FRAME,waitStart);
+               this.m_current_player_index = PlayerIndexOwn;
+               var _loc4_:* = this.m_select_info[this.m_current_player_index][SelectInfoTypeListIndex];
+               this.m_select_row = this.calcIconIndexRow(_loc4_);
+               this.m_select_column = this.calcIconIndexColumn(_loc4_);
+               this.m_select_var = this.m_select_info[this.m_current_player_index][SelectInfoTypeVarIndex];
+               this.sendCharaInfo(this.m_current_player_index);
+               this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.waitUnlock);
+               this.m_timeline.stage.addEventListener(Event.ENTER_FRAME,this.waitStart);
                return;
             }
             _loc5_ = -1;
@@ -1110,12 +1119,12 @@ package action_script
                {
                   _loc6_ = PlayerIndexOwn + _loc2_;
                   _loc6_ = _loc6_ % CharacterMax;
-                  if(!m_callback.GetUserDataValidFlag(ReceiveType_FlagSelectAvatar))
+                  if(!this.m_callback.GetUserDataValidFlag(ReceiveType_FlagSelectAvatar))
                   {
                      break;
                   }
-                  _loc7_ = m_callback.GetUserDataInt(ReceiveType_FlagSelectAvatar);
-                  if(m_flag_customlist)
+                  _loc7_ = this.m_callback.GetUserDataInt(ReceiveType_FlagSelectAvatar);
+                  if(this.m_flag_customlist)
                   {
                      _loc7_ = 1;
                      _loc5_ = 0;
@@ -1124,13 +1133,13 @@ package action_script
                   {
                      if(!_loc7_)
                      {
-                        if(checkAvatar(_loc6_))
+                        if(this.checkAvatar(_loc6_))
                         {
                            continue;
                         }
                      }
                   }
-                  if(!checkUnlockChara(_loc6_))
+                  if(!this.checkUnlockChara(_loc6_))
                   {
                      continue;
                   }
@@ -1140,11 +1149,11 @@ package action_script
                {
                   break loop0;
                }
-               m_select_row = calcIconIndexRow(_loc5_);
-               m_select_column = calcIconIndexColumn(_loc5_);
-               m_current_player_index = _loc3_;
-               m_select_var = 0;
-               setSelectChara();
+               this.m_select_row = this.calcIconIndexRow(_loc5_);
+               this.m_select_column = this.calcIconIndexColumn(_loc5_);
+               this.m_current_player_index = _loc3_;
+               this.m_select_var = 0;
+               this.setSelectChara();
                _loc3_++;
                continue loop0;
             }
@@ -1158,86 +1167,86 @@ package action_script
          _loc2_ = 0;
          while(ReceiveType_WaitLoadNum > _loc2_)
          {
-            if(!m_callback.GetUserDataValidFlag(_loc2_))
+            if(!this.m_callback.GetUserDataValidFlag(_loc2_))
             {
                return;
             }
             _loc2_++;
          }
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,waitStart);
-         startMain();
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.waitStart);
+         this.startMain();
       }
       
       private function ResetIcons() : void
       {
-         var _loc1_:String = m_callback.GetUserDataString(ReceiveType_KeyStrL2);
-         var _loc2_:String = m_callback.GetUserDataString(ReceiveType_KeyStrR2);
-         var _loc3_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRU);
-         var _loc4_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRD);
-         var _loc5_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRL);
-         var _loc6_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRR);
-         isKeyboardControllerActive = _loc1_.indexOf("src=\"kb") > 0;
-         m_timeline.cha_skill.inact_skill.skill01.sys_com01.htmlText = _loc2_;
-         m_timeline.cha_skill.inact_skill.skill01.sys_com02.htmlText = _loc3_;
-         m_timeline.cha_skill.inact_skill.skill01.sys_com03.htmlText = "";
-         m_timeline.cha_skill.inact_skill.skill01.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill02.sys_com01.htmlText = _loc2_;
-         m_timeline.cha_skill.inact_skill.skill02.sys_com02.htmlText = _loc5_;
-         m_timeline.cha_skill.inact_skill.skill02.sys_com03.htmlText = "";
-         m_timeline.cha_skill.inact_skill.skill02.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill03.sys_com01.htmlText = _loc2_;
-         m_timeline.cha_skill.inact_skill.skill03.sys_com02.htmlText = _loc6_;
-         m_timeline.cha_skill.inact_skill.skill03.sys_com03.htmlText = "";
-         m_timeline.cha_skill.inact_skill.skill03.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill04.sys_com01.htmlText = _loc2_;
-         m_timeline.cha_skill.inact_skill.skill04.sys_com02.htmlText = _loc4_;
-         m_timeline.cha_skill.inact_skill.skill04.sys_com03.htmlText = "";
-         m_timeline.cha_skill.inact_skill.skill04.sys_01.visible = false;
-         if(isKeyboardControllerActive)
+         var _loc1_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrL2);
+         var _loc2_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrR2);
+         var _loc3_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrRU);
+         var _loc4_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrRD);
+         var _loc5_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrRL);
+         var _loc6_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrRR);
+         this.isKeyboardControllerActive = _loc1_.indexOf("src=\"kb") > 0;
+         this.m_timeline.cha_skill.inact_skill.skill01.sys_com01.htmlText = _loc2_;
+         this.m_timeline.cha_skill.inact_skill.skill01.sys_com02.htmlText = _loc3_;
+         this.m_timeline.cha_skill.inact_skill.skill01.sys_com03.htmlText = "";
+         this.m_timeline.cha_skill.inact_skill.skill01.sys_01.visible = false;
+         this.m_timeline.cha_skill.inact_skill.skill02.sys_com01.htmlText = _loc2_;
+         this.m_timeline.cha_skill.inact_skill.skill02.sys_com02.htmlText = _loc5_;
+         this.m_timeline.cha_skill.inact_skill.skill02.sys_com03.htmlText = "";
+         this.m_timeline.cha_skill.inact_skill.skill02.sys_01.visible = false;
+         this.m_timeline.cha_skill.inact_skill.skill03.sys_com01.htmlText = _loc2_;
+         this.m_timeline.cha_skill.inact_skill.skill03.sys_com02.htmlText = _loc6_;
+         this.m_timeline.cha_skill.inact_skill.skill03.sys_com03.htmlText = "";
+         this.m_timeline.cha_skill.inact_skill.skill03.sys_01.visible = false;
+         this.m_timeline.cha_skill.inact_skill.skill04.sys_com01.htmlText = _loc2_;
+         this.m_timeline.cha_skill.inact_skill.skill04.sys_com02.htmlText = _loc4_;
+         this.m_timeline.cha_skill.inact_skill.skill04.sys_com03.htmlText = "";
+         this.m_timeline.cha_skill.inact_skill.skill04.sys_01.visible = false;
+         if(this.isKeyboardControllerActive)
          {
-            m_timeline.cha_skill.inact_skill.skill05.sys_com01.htmlText = _loc1_;
-            m_timeline.cha_skill.inact_skill.skill05.sys_com02.htmlText = _loc3_;
-            m_timeline.cha_skill.inact_skill.skill05.sys_com03.htmlText = "";
-            m_timeline.cha_skill.inact_skill.skill05.sys_01.visible = false;
-            m_timeline.cha_skill.inact_skill.skill06.sys_com01.htmlText = _loc1_;
-            m_timeline.cha_skill.inact_skill.skill06.sys_com02.htmlText = _loc5_;
-            m_timeline.cha_skill.inact_skill.skill06.sys_com03.htmlText = "";
-            m_timeline.cha_skill.inact_skill.skill06.sys_01.visible = false;
-            m_timeline.cha_skill.inact_skill.skill07.sys_com01.htmlText = _loc1_;
-            m_timeline.cha_skill.inact_skill.skill07.sys_com02.htmlText = _loc4_;
-            m_timeline.cha_skill.inact_skill.skill07.sys_com03.htmlText = "";
-            m_timeline.cha_skill.inact_skill.skill07.sys_01.visible = false;
-            m_timeline.cha_skill.inact_skill.skill08.sys_com01.htmlText = _loc1_;
-            m_timeline.cha_skill.inact_skill.skill08.sys_com02.htmlText = _loc6_;
-            m_timeline.cha_skill.inact_skill.skill08.sys_com03.htmlText = "";
-            m_timeline.cha_skill.inact_skill.skill08.sys_01.visible = false;
+            this.m_timeline.cha_skill.inact_skill.skill05.sys_com01.htmlText = _loc1_;
+            this.m_timeline.cha_skill.inact_skill.skill05.sys_com02.htmlText = _loc3_;
+            this.m_timeline.cha_skill.inact_skill.skill05.sys_com03.htmlText = "";
+            this.m_timeline.cha_skill.inact_skill.skill05.sys_01.visible = false;
+            this.m_timeline.cha_skill.inact_skill.skill06.sys_com01.htmlText = _loc1_;
+            this.m_timeline.cha_skill.inact_skill.skill06.sys_com02.htmlText = _loc5_;
+            this.m_timeline.cha_skill.inact_skill.skill06.sys_com03.htmlText = "";
+            this.m_timeline.cha_skill.inact_skill.skill06.sys_01.visible = false;
+            this.m_timeline.cha_skill.inact_skill.skill07.sys_com01.htmlText = _loc1_;
+            this.m_timeline.cha_skill.inact_skill.skill07.sys_com02.htmlText = _loc4_;
+            this.m_timeline.cha_skill.inact_skill.skill07.sys_com03.htmlText = "";
+            this.m_timeline.cha_skill.inact_skill.skill07.sys_01.visible = false;
+            this.m_timeline.cha_skill.inact_skill.skill08.sys_com01.htmlText = _loc1_;
+            this.m_timeline.cha_skill.inact_skill.skill08.sys_com02.htmlText = _loc6_;
+            this.m_timeline.cha_skill.inact_skill.skill08.sys_com03.htmlText = "";
+            this.m_timeline.cha_skill.inact_skill.skill08.sys_01.visible = false;
          }
          else
          {
-            m_timeline.cha_skill.inact_skill.skill05.sys_com01.htmlText = _loc1_;
-            m_timeline.cha_skill.inact_skill.skill05.sys_com02.htmlText = _loc2_;
-            m_timeline.cha_skill.inact_skill.skill05.sys_com03.htmlText = _loc3_;
-            m_timeline.cha_skill.inact_skill.skill05.sys_01.visible = true;
-            m_timeline.cha_skill.inact_skill.skill06.sys_com01.htmlText = _loc1_;
-            m_timeline.cha_skill.inact_skill.skill06.sys_com02.htmlText = _loc2_;
-            m_timeline.cha_skill.inact_skill.skill06.sys_com03.htmlText = _loc5_;
-            m_timeline.cha_skill.inact_skill.skill06.sys_01.visible = true;
-            m_timeline.cha_skill.inact_skill.skill07.sys_com01.htmlText = _loc1_;
-            m_timeline.cha_skill.inact_skill.skill07.sys_com02.htmlText = _loc2_;
-            m_timeline.cha_skill.inact_skill.skill07.sys_com03.htmlText = _loc4_;
-            m_timeline.cha_skill.inact_skill.skill07.sys_01.visible = true;
-            m_timeline.cha_skill.inact_skill.skill08.sys_com01.htmlText = _loc1_;
-            m_timeline.cha_skill.inact_skill.skill08.sys_com02.htmlText = _loc2_;
-            m_timeline.cha_skill.inact_skill.skill08.sys_com03.htmlText = _loc6_;
-            m_timeline.cha_skill.inact_skill.skill08.sys_01.visible = true;
+            this.m_timeline.cha_skill.inact_skill.skill05.sys_com01.htmlText = _loc1_;
+            this.m_timeline.cha_skill.inact_skill.skill05.sys_com02.htmlText = _loc2_;
+            this.m_timeline.cha_skill.inact_skill.skill05.sys_com03.htmlText = _loc3_;
+            this.m_timeline.cha_skill.inact_skill.skill05.sys_01.visible = true;
+            this.m_timeline.cha_skill.inact_skill.skill06.sys_com01.htmlText = _loc1_;
+            this.m_timeline.cha_skill.inact_skill.skill06.sys_com02.htmlText = _loc2_;
+            this.m_timeline.cha_skill.inact_skill.skill06.sys_com03.htmlText = _loc5_;
+            this.m_timeline.cha_skill.inact_skill.skill06.sys_01.visible = true;
+            this.m_timeline.cha_skill.inact_skill.skill07.sys_com01.htmlText = _loc1_;
+            this.m_timeline.cha_skill.inact_skill.skill07.sys_com02.htmlText = _loc2_;
+            this.m_timeline.cha_skill.inact_skill.skill07.sys_com03.htmlText = _loc4_;
+            this.m_timeline.cha_skill.inact_skill.skill07.sys_01.visible = true;
+            this.m_timeline.cha_skill.inact_skill.skill08.sys_com01.htmlText = _loc1_;
+            this.m_timeline.cha_skill.inact_skill.skill08.sys_com02.htmlText = _loc2_;
+            this.m_timeline.cha_skill.inact_skill.skill08.sys_com03.htmlText = _loc6_;
+            this.m_timeline.cha_skill.inact_skill.skill08.sys_01.visible = true;
          }
-         var _loc7_:String = m_callback.GetUserDataString(ReceiveType_TarismanHeaderStr);
-         m_timeline.cha_skill.inact_skill.skill09.sys_com01.htmlText = _loc7_;
-         m_timeline.cha_parameter.nest_clothes.sys_clothes.htmlText = "";
-         var _loc8_:String = m_callback.GetUserDataString(ReceiveType_KeyStrL1);
-         m_timeline.cha_parameter.nest_clothes.sys_l.htmlText = _loc8_;
-         var _loc9_:String = m_callback.GetUserDataString(ReceiveType_KeyStrR1);
-         m_timeline.cha_parameter.nest_clothes.sys_r.htmlText = _loc9_;
+         var _loc7_:String = this.m_callback.GetUserDataString(ReceiveType_TarismanHeaderStr);
+         this.m_timeline.cha_skill.inact_skill.skill09.sys_com01.htmlText = _loc7_;
+         this.m_timeline.cha_parameter.nest_clothes.sys_clothes.htmlText = "";
+         var _loc8_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrL1);
+         this.m_timeline.cha_parameter.nest_clothes.sys_l.htmlText = _loc8_;
+         var _loc9_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrR1);
+         this.m_timeline.cha_parameter.nest_clothes.sys_r.htmlText = _loc9_;
       }
       
       private function startMain() : void
@@ -1257,15 +1266,15 @@ package action_script
          var _loc37_:int = 0;
          var _loc38_:MovieClip = null;
          var _loc1_:int = 0;
-         m_timeline.visible = true;
-         m_timeline.cha_frame.cmn_CMN_M_frame.visible = true;
-         m_timeline.cha_skill.visible = false;
-         m_timeline.cha_select.visible = true;
-         m_timeline.cha_parameter.visible = true;
-         m_timeline.cha_arrow.visible = true;
-         var _loc2_:* = m_timeline.cha_select;
+         this.m_timeline.visible = true;
+         this.m_timeline.cha_frame.cmn_CMN_M_frame.visible = true;
+         this.m_timeline.cha_skill.visible = false;
+         this.m_timeline.cha_select.visible = true;
+         this.m_timeline.cha_parameter.visible = true;
+         this.m_timeline.cha_arrow.visible = true;
+         var _loc2_:* = this.m_timeline.cha_select;
          _loc2_.chara_icn_set00.visible = false;
-         var _loc3_:int = (m_chara_list_num - 1) / IndexNumRow + 1;
+         var _loc3_:int = (this.m_chara_list_num - 1) / IndexNumRow + 1;
          var _loc4_:int = 1;
          while(_loc4_ < 9)
          {
@@ -1279,7 +1288,7 @@ package action_script
             }
             _loc4_++;
          }
-         var _loc5_:int = (m_chara_list_num - 1) % IndexNumRow + 1;
+         var _loc5_:int = (this.m_chara_list_num - 1) % IndexNumRow + 1;
          _loc3_ = Math.min(_loc3_,8);
          var _loc6_:* = _loc2_["chara_icn_set0" + _loc3_];
          var _loc7_:int = 1;
@@ -1295,51 +1304,51 @@ package action_script
             }
             _loc7_++;
          }
-         var _loc8_:int = m_callback.GetUserDataInt(ReceiveType_PlayerFriNum);
-         var _loc9_:int = m_callback.GetUserDataInt(ReceiveType_PlayerEnmNum);
+         var _loc8_:int = this.m_callback.GetUserDataInt(ReceiveType_PlayerFriNum);
+         var _loc9_:int = this.m_callback.GetUserDataInt(ReceiveType_PlayerEnmNum);
          if(_loc8_ == 0 && _loc9_ == 0)
          {
-            m_timeline.cha_parameter.nest_ready.visible = false;
-            m_timeline.cha_parameter.ready_base.visible = false;
-            m_timeline.cha_parameter.ready_base.vs.visible = false;
+            this.m_timeline.cha_parameter.nest_ready.visible = false;
+            this.m_timeline.cha_parameter.ready_base.visible = false;
+            this.m_timeline.cha_parameter.ready_base.vs.visible = false;
          }
          else
          {
-            m_timeline.cha_parameter.nest_ready.visible = true;
-            m_timeline.cha_parameter.ready_base.visible = true;
+            this.m_timeline.cha_parameter.nest_ready.visible = true;
+            this.m_timeline.cha_parameter.ready_base.visible = true;
             if(_loc9_ > 0)
             {
-               m_timeline.cha_parameter.ready_base.vs.visible = true;
+               this.m_timeline.cha_parameter.ready_base.vs.visible = true;
             }
             else
             {
-               m_timeline.cha_parameter.ready_base.vs.visible = false;
+               this.m_timeline.cha_parameter.ready_base.vs.visible = false;
             }
          }
-         var _loc10_:int = m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle);
+         var _loc10_:int = this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle);
          if(_loc10_)
          {
-            m_timeline.cha_parameter.icon_1P.play();
-            m_timeline.cha_parameter.icon_1P.visible = true;
-            m_timeline.cha_parameter.icon_2P.play();
-            m_timeline.cha_parameter.icon_2P.visible = false;
+            this.m_timeline.cha_parameter.icon_1P.play();
+            this.m_timeline.cha_parameter.icon_1P.visible = true;
+            this.m_timeline.cha_parameter.icon_2P.play();
+            this.m_timeline.cha_parameter.icon_2P.visible = false;
          }
          else
          {
-            m_timeline.cha_parameter.icon_1P.stop();
-            m_timeline.cha_parameter.icon_1P.visible = false;
-            m_timeline.cha_parameter.icon_2P.stop();
-            m_timeline.cha_parameter.icon_2P.visible = false;
-            m_timeline.press2P.stop();
-            m_timeline.press2P.visible = false;
+            this.m_timeline.cha_parameter.icon_1P.stop();
+            this.m_timeline.cha_parameter.icon_1P.visible = false;
+            this.m_timeline.cha_parameter.icon_2P.stop();
+            this.m_timeline.cha_parameter.icon_2P.visible = false;
+            this.m_timeline.press2P.stop();
+            this.m_timeline.press2P.visible = false;
          }
-         var _loc11_:MovieClip = getReadyIconMc(0);
+         var _loc11_:MovieClip = this.getReadyIconMc(0);
          _loc11_.visible = true;
          _loc1_ = 0;
          while(PlayerNumFri > _loc1_)
          {
             _loc25_ = PlayerIndexFriStart + _loc1_;
-            _loc26_ = getReadyIconMc(_loc25_);
+            _loc26_ = this.getReadyIconMc(_loc25_);
             if(_loc1_ < _loc8_)
             {
                _loc26_.visible = true;
@@ -1354,7 +1363,7 @@ package action_script
          while(PlayerNumEnm > _loc1_)
          {
             _loc27_ = PlayerIndexEnmStart + _loc1_;
-            _loc28_ = getReadyIconMc(_loc27_);
+            _loc28_ = this.getReadyIconMc(_loc27_);
             if(_loc1_ < _loc9_)
             {
                _loc28_.visible = true;
@@ -1365,135 +1374,135 @@ package action_script
             }
             _loc1_++;
          }
-         m_timeline.cha_parameter.sys_charaName.sys_charaName.htmlText = "";
-         if(m_timeline.cha_parameter.sys_skill_header)
+         this.m_timeline.cha_parameter.sys_charaName.sys_charaName.htmlText = "";
+         if(this.m_timeline.cha_parameter.sys_skill_header)
          {
-            m_timeline.cha_parameter.sys_skill_header.sys_skill_header.htmlText = "";
+            this.m_timeline.cha_parameter.sys_skill_header.sys_skill_header.htmlText = "";
          }
-         setSelectChara();
-         var _loc12_:MovieClip = m_timeline.cha_new;
+         this.setSelectChara();
+         var _loc12_:MovieClip = this.m_timeline.cha_new;
          _loc1_ = 0;
          while(IndexNumCharaNewIcon > _loc1_)
          {
             _loc29_ = _loc12_["chara_new_" + _loc1_];
-            if(!checkCharaNewIconVisible(_loc1_))
+            if(!this.checkCharaNewIconVisible(_loc1_))
             {
                _loc29_.visible = false;
             }
             _loc1_++;
          }
-         m_chara_face = new Array(m_chara_list_num);
+         this.m_chara_face = new Array(this.m_chara_list_num);
          _loc1_ = 0;
-         while(m_chara_list_num > _loc1_)
+         while(this.m_chara_list_num > _loc1_)
          {
-            _loc30_ = getCharaInfo(_loc1_);
+            _loc30_ = this.getCharaInfo(_loc1_);
             _loc31_ = null;
             if(_loc30_ && _loc30_.length > 0)
             {
                _loc32_ = _loc30_[0][VarTypeCode];
-               _loc33_ = m_callback.GetUserDataString(ReceiveType_ImageStrStart + _loc1_);
+               _loc33_ = this.m_callback.GetUserDataString(ReceiveType_ImageStrStart + _loc1_);
                if(_loc32_ != InvalidCode)
                {
                   _loc31_ = new Bitmap(null);
-                  XV2Patcher.SetTextureForBitmapWithFallback(_loc31_,_loc33_, "IMG_CHARA01_FOF0");
+                  IggyFunctions.setTextureForBitmap(_loc31_,_loc33_);
                   _loc31_.scaleX = 256 / _loc31_.width;
                   _loc31_.scaleY = 128 / _loc31_.height;
                }
             }
-            m_chara_face[_loc1_] = _loc31_;
+            this.m_chara_face[_loc1_] = _loc31_;
             _loc1_++;
          }
-         m_chara_face_npc = new Array(PlayerNumFri);
+         this.m_chara_face_npc = new Array(PlayerNumFri);
          _loc1_ = 0;
          while(PlayerNumFri > _loc1_)
          {
-            _loc34_ = m_callback.GetUserDataString(ReceiveType_ImageStrNpcStart + _loc1_);
+            _loc34_ = this.m_callback.GetUserDataString(ReceiveType_ImageStrNpcStart + _loc1_);
             _loc35_ = new Bitmap(null);
-            XV2Patcher.SetTextureForBitmapWithFallback(_loc35_,_loc34_, "IMG_CHARA01_FOF0");
+            IggyFunctions.setTextureForBitmap(_loc35_,_loc34_);
             _loc35_.scaleX = 256 / _loc35_.width;
             _loc35_.scaleY = 128 / _loc35_.height;
-            m_chara_face_npc[_loc1_] = _loc35_;
+            this.m_chara_face_npc[_loc1_] = _loc35_;
             _loc1_++;
          }
-         var _loc13_:MovieClip = m_timeline.cha_select_cur;
+         var _loc13_:MovieClip = this.m_timeline.cha_select_cur;
          _loc13_.icn_lock.visible = false;
-         ResetIcons();
-         var _loc14_:int = m_callback.GetUserDataInt(ReceiveType_JoyConSingleFlag);
-         var _loc15_:String = m_callback.GetUserDataString(ReceiveType_KeyStrL2);
-         var _loc16_:String = m_callback.GetUserDataString(ReceiveType_KeyStrR2);
-         var _loc17_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRU);
-         var _loc18_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRD);
-         var _loc19_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRL);
-         var _loc20_:String = m_callback.GetUserDataString(ReceiveType_KeyStrRR);
+         this.ResetIcons();
+         var _loc14_:int = this.m_callback.GetUserDataInt(ReceiveType_JoyConSingleFlag);
+         var _loc15_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrL2);
+         var _loc16_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrR2);
+         var _loc17_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrRU);
+         var _loc18_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrRD);
+         var _loc19_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrRL);
+         var _loc20_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrRR);
          if(_loc14_ == 1)
          {
-            _loc15_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleLS);
-            _loc16_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleRS);
-            _loc17_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleU);
-            _loc18_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleD);
-            _loc19_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleL);
-            _loc20_ = m_callback.GetUserDataString(ReceiveType_KeyStrSingleR);
+            _loc15_ = this.m_callback.GetUserDataString(ReceiveType_KeyStrSingleLS);
+            _loc16_ = this.m_callback.GetUserDataString(ReceiveType_KeyStrSingleRS);
+            _loc17_ = this.m_callback.GetUserDataString(ReceiveType_KeyStrSingleU);
+            _loc18_ = this.m_callback.GetUserDataString(ReceiveType_KeyStrSingleD);
+            _loc19_ = this.m_callback.GetUserDataString(ReceiveType_KeyStrSingleL);
+            _loc20_ = this.m_callback.GetUserDataString(ReceiveType_KeyStrSingleR);
          }
-         m_timeline.cha_skill.inact_skill.skill01.sys_com01.htmlText = _loc16_;
-         m_timeline.cha_skill.inact_skill.skill01.sys_com02.htmlText = _loc17_;
-         m_timeline.cha_skill.inact_skill.skill01.sys_com03.htmlText = "";
-         m_timeline.cha_skill.inact_skill.skill01.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill02.sys_com01.htmlText = _loc16_;
-         m_timeline.cha_skill.inact_skill.skill02.sys_com02.htmlText = _loc19_;
-         m_timeline.cha_skill.inact_skill.skill02.sys_com03.htmlText = "";
-         m_timeline.cha_skill.inact_skill.skill02.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill03.sys_com01.htmlText = _loc16_;
-         m_timeline.cha_skill.inact_skill.skill03.sys_com02.htmlText = _loc20_;
-         m_timeline.cha_skill.inact_skill.skill03.sys_com03.htmlText = "";
-         m_timeline.cha_skill.inact_skill.skill03.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill04.sys_com01.htmlText = _loc16_;
-         m_timeline.cha_skill.inact_skill.skill04.sys_com02.htmlText = _loc18_;
-         m_timeline.cha_skill.inact_skill.skill04.sys_com03.htmlText = "";
-         m_timeline.cha_skill.inact_skill.skill04.sys_01.visible = false;
-         m_timeline.cha_skill.inact_skill.skill05.sys_com01.htmlText = _loc15_;
-         m_timeline.cha_skill.inact_skill.skill05.sys_com02.htmlText = _loc16_;
-         m_timeline.cha_skill.inact_skill.skill05.sys_com03.htmlText = _loc17_;
-         m_timeline.cha_skill.inact_skill.skill06.sys_com01.htmlText = _loc15_;
-         m_timeline.cha_skill.inact_skill.skill06.sys_com02.htmlText = _loc16_;
-         m_timeline.cha_skill.inact_skill.skill06.sys_com03.htmlText = _loc19_;
-         m_timeline.cha_skill.inact_skill.skill07.sys_com01.htmlText = _loc15_;
-         m_timeline.cha_skill.inact_skill.skill07.sys_com02.htmlText = _loc16_;
-         m_timeline.cha_skill.inact_skill.skill07.sys_com03.htmlText = _loc18_;
-         m_timeline.cha_skill.inact_skill.skill08.sys_com01.htmlText = _loc15_;
-         m_timeline.cha_skill.inact_skill.skill08.sys_com02.htmlText = _loc16_;
-         m_timeline.cha_skill.inact_skill.skill08.sys_com03.htmlText = _loc20_;
-         var _loc21_:String = m_callback.GetUserDataString(ReceiveType_TarismanHeaderStr);
-         m_timeline.cha_skill.inact_skill.skill09.sys_com01.htmlText = _loc21_;
-         m_timeline.cha_parameter.nest_clothes.sys_clothes.htmlText = "";
-         var _loc22_:String = m_callback.GetUserDataString(ReceiveType_KeyStrL1);
-         var _loc23_:String = m_callback.GetUserDataString(ReceiveType_KeyStrR1);
+         this.m_timeline.cha_skill.inact_skill.skill01.sys_com01.htmlText = _loc16_;
+         this.m_timeline.cha_skill.inact_skill.skill01.sys_com02.htmlText = _loc17_;
+         this.m_timeline.cha_skill.inact_skill.skill01.sys_com03.htmlText = "";
+         this.m_timeline.cha_skill.inact_skill.skill01.sys_01.visible = false;
+         this.m_timeline.cha_skill.inact_skill.skill02.sys_com01.htmlText = _loc16_;
+         this.m_timeline.cha_skill.inact_skill.skill02.sys_com02.htmlText = _loc19_;
+         this.m_timeline.cha_skill.inact_skill.skill02.sys_com03.htmlText = "";
+         this.m_timeline.cha_skill.inact_skill.skill02.sys_01.visible = false;
+         this.m_timeline.cha_skill.inact_skill.skill03.sys_com01.htmlText = _loc16_;
+         this.m_timeline.cha_skill.inact_skill.skill03.sys_com02.htmlText = _loc20_;
+         this.m_timeline.cha_skill.inact_skill.skill03.sys_com03.htmlText = "";
+         this.m_timeline.cha_skill.inact_skill.skill03.sys_01.visible = false;
+         this.m_timeline.cha_skill.inact_skill.skill04.sys_com01.htmlText = _loc16_;
+         this.m_timeline.cha_skill.inact_skill.skill04.sys_com02.htmlText = _loc18_;
+         this.m_timeline.cha_skill.inact_skill.skill04.sys_com03.htmlText = "";
+         this.m_timeline.cha_skill.inact_skill.skill04.sys_01.visible = false;
+         this.m_timeline.cha_skill.inact_skill.skill05.sys_com01.htmlText = _loc15_;
+         this.m_timeline.cha_skill.inact_skill.skill05.sys_com02.htmlText = _loc16_;
+         this.m_timeline.cha_skill.inact_skill.skill05.sys_com03.htmlText = _loc17_;
+         this.m_timeline.cha_skill.inact_skill.skill06.sys_com01.htmlText = _loc15_;
+         this.m_timeline.cha_skill.inact_skill.skill06.sys_com02.htmlText = _loc16_;
+         this.m_timeline.cha_skill.inact_skill.skill06.sys_com03.htmlText = _loc19_;
+         this.m_timeline.cha_skill.inact_skill.skill07.sys_com01.htmlText = _loc15_;
+         this.m_timeline.cha_skill.inact_skill.skill07.sys_com02.htmlText = _loc16_;
+         this.m_timeline.cha_skill.inact_skill.skill07.sys_com03.htmlText = _loc18_;
+         this.m_timeline.cha_skill.inact_skill.skill08.sys_com01.htmlText = _loc15_;
+         this.m_timeline.cha_skill.inact_skill.skill08.sys_com02.htmlText = _loc16_;
+         this.m_timeline.cha_skill.inact_skill.skill08.sys_com03.htmlText = _loc20_;
+         var _loc21_:String = this.m_callback.GetUserDataString(ReceiveType_TarismanHeaderStr);
+         this.m_timeline.cha_skill.inact_skill.skill09.sys_com01.htmlText = _loc21_;
+         this.m_timeline.cha_parameter.nest_clothes.sys_clothes.htmlText = "";
+         var _loc22_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrL1);
+         var _loc23_:String = this.m_callback.GetUserDataString(ReceiveType_KeyStrR1);
          if(_loc14_)
          {
             _loc22_ = _loc15_;
             _loc23_ = _loc16_;
          }
-         m_timeline.cha_parameter.nest_clothes.sys_l.htmlText = _loc22_;
-         m_timeline.cha_parameter.nest_clothes.sys_r.htmlText = _loc23_;
+         this.m_timeline.cha_parameter.nest_clothes.sys_l.htmlText = _loc22_;
+         this.m_timeline.cha_parameter.nest_clothes.sys_r.htmlText = _loc23_;
          _loc1_ = 0;
          while(PlayerMax > _loc1_)
          {
-            if(_loc1_ == m_current_player_index)
+            if(_loc1_ == this.m_current_player_index)
             {
-               setReadyIcon(_loc1_,true,false);
+               this.setReadyIcon(_loc1_,true,false);
             }
             else
             {
-               _loc37_ = m_callback.GetUserDataInt(ReceiveType_PartyNpcNum);
+               _loc37_ = this.m_callback.GetUserDataInt(ReceiveType_PartyNpcNum);
                if(0 <= _loc1_ - 1 && _loc1_ - 1 < _loc37_)
                {
-                  setReadyIcon(_loc1_,false,true);
+                  this.setReadyIcon(_loc1_,false,true);
                }
                else
                {
-                  setReadyIcon(_loc1_,false,false);
+                  this.setReadyIcon(_loc1_,false,false);
                }
             }
-            _loc36_ = getReadyIconMc(_loc1_);
+            _loc36_ = this.getReadyIconMc(_loc1_);
             if(PlayerIndexOwn == _loc1_)
             {
                _loc36_.cmn_icn_you.visible = true;
@@ -1507,45 +1516,45 @@ package action_script
          _loc1_ = 0;
          while(IndexNumCharaNewIcon > _loc1_)
          {
-            _loc38_ = getMcChamysetNewIcon(_loc1_);
+            _loc38_ = this.getMcChamysetNewIcon(_loc1_);
             _loc38_.visible = false;
             _loc1_++;
          }
-         updateVariation();
-         var _loc24_:int = m_callback.GetUserDataInt(ReceiveType_Time);
+         this.updateVariation();
+         var _loc24_:int = this.m_callback.GetUserDataInt(ReceiveType_Time);
          if(_loc24_ <= 0)
          {
-            m_timeline.timer.visible = false;
+            this.m_timeline.timer.visible = false;
          }
          else
          {
-            m_timeline.timer.visible = true;
-            m_timer.Start(_loc24_,cbFuncEndTimer);
+            this.m_timeline.timer.visible = true;
+            this.m_timer.Start(_loc24_,this.cbFuncEndTimer);
          }
-         if(m_chara_num_column <= IndexNumColumn)
+         if(this.m_chara_num_column <= IndexNumColumn)
          {
-            m_timeline.cha_arrow.visible = false;
+            this.m_timeline.cha_arrow.visible = false;
          }
          trace(" ***** BGM OPTION ENABLE");
-         m_callback.CallbackUserData("user",SendType_EnableOptionBGM,1);
-         m_timeline.cha_select.gotoAndPlay("start");
-         m_timeline.cha_parameter.gotoAndPlay("start");
-         m_timeline.cha_frame.cmn_CMN_M_frame.gotoAndPlay("start");
-         m_timeline.cha_arrow.gotoAndPlay("start");
-         m_timeline.stage.addEventListener(Event.ENTER_FRAME,waitMain);
+         this.m_callback.CallbackUserData("user",SendType_EnableOptionBGM,1);
+         this.m_timeline.cha_select.gotoAndPlay("start");
+         this.m_timeline.cha_parameter.gotoAndPlay("start");
+         this.m_timeline.cha_frame.cmn_CMN_M_frame.gotoAndPlay("start");
+         this.m_timeline.cha_arrow.gotoAndPlay("start");
+         this.m_timeline.stage.addEventListener(Event.ENTER_FRAME,this.waitMain);
       }
       
       private function waitMain(param1:Event) : void
       {
-         if(m_timeline.cha_parameter.currentFrame != Utility.GetLabelEndFrame(m_timeline.cha_parameter,"start"))
+         if(this.m_timeline.cha_parameter.currentFrame != Utility.GetLabelEndFrame(this.m_timeline.cha_parameter,"start"))
          {
             return;
          }
-         setSelectChara();
-         updateVariation();
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,waitMain);
-         m_timeline.stage.addEventListener(KeyboardEvent.KEY_DOWN,checkKey);
-         m_timeline.stage.addEventListener(Event.ENTER_FRAME,main);
+         this.setSelectChara();
+         this.updateVariation();
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.waitMain);
+         this.m_timeline.stage.addEventListener(KeyboardEvent.KEY_DOWN,this.checkKey);
+         this.m_timeline.stage.addEventListener(Event.ENTER_FRAME,this.main);
       }
       
       private function main(param1:Event) : void
@@ -1557,290 +1566,296 @@ package action_script
          var _loc16_:int = 0;
          var _loc17_:int = 0;
          var _loc2_:int = 0;
-         var _loc3_:int = m_select_info[m_current_player_index][SelectInfoTypeListIndex];
-         var _loc4_:Array = getCharaInfo(_loc3_);
-         var _loc5_:int = m_callback.GetUserDataInt(ReceiveType_Time);
+         var _loc3_:int = this.m_select_info[this.m_current_player_index][SelectInfoTypeListIndex];
+         var _loc4_:Array = this.getCharaInfo(_loc3_);
+         var _loc5_:int = this.m_callback.GetUserDataInt(ReceiveType_Time);
          if(_loc5_ > 0)
          {
-            if(m_timer)
+            if(this.m_timer)
             {
-               _loc12_ = m_timer.GetTime();
-               if(m_pre_time != _loc12_)
+               _loc12_ = this.m_timer.GetTime();
+               if(this.m_pre_time != _loc12_)
                {
                   if(_loc12_ < 10)
                   {
                      _loc13_ = 8;
-                     m_callback.CallbackUserData("user",SendType_RequestCountDownSe,_loc13_);
+                     this.m_callback.CallbackUserData("user",SendType_RequestCountDownSe,_loc13_);
                   }
-                  m_pre_time = _loc12_;
+                  this.m_pre_time = _loc12_;
                }
                if(_loc12_ <= _loc5_)
                {
-                  m_timeline.timer.nest._CMN_M_B_mc_timer.visible = true;
+                  this.m_timeline.timer.nest._CMN_M_B_mc_timer.visible = true;
                }
                else
                {
-                  m_timeline.timer.nest._CMN_M_B_mc_timer.visible = false;
+                  this.m_timeline.timer.nest._CMN_M_B_mc_timer.visible = false;
                }
             }
          }
-         updateLocalBattle();
-         if(m_flag_change_player || m_flag_change_page)
+         this.updateLocalBattle();
+         if(this.m_flag_change_player || this.m_flag_change_page)
          {
-            if(m_count_change_disp == 0)
+            if(this.m_count_change_disp == 0)
             {
-               m_flag_change_disp = true;
+               this.m_flag_change_disp = true;
             }
          }
-         if(m_flag_change_disp)
+         if(this.m_flag_change_disp)
          {
-            if(!m_flag_change_player && !m_flag_change_page)
+            if(!this.m_flag_change_player && !this.m_flag_change_page)
             {
-               m_count_change_disp = 5;
-               m_flag_change_disp = false;
+               this.m_count_change_disp = 6;
+               this.m_flag_change_disp = false;
+               _loc2_ = 0;
+               while(_loc2_ < this.m_icon_show_wait.length)
+               {
+                  this.m_icon_show_wait[_loc2_] = 0;
+                  _loc2_++;
+               }
             }
-            else if(m_count_change_disp == 0)
+            else if(this.m_count_change_disp == 0)
             {
-               updateDisply();
-               m_count_change_disp--;
+               this.updateDisply();
+               this.m_count_change_disp--;
             }
             else
             {
-               updateCharaIconUnit(m_select_icon_column,m_select_icon_row);
+               this.updateCharaIconUnit(this.m_select_icon_column,this.m_select_icon_row);
             }
          }
-         if(m_count_change_disp == 4 || m_count_change_disp == 1)
+         if(this.m_count_change_disp == 5 || this.m_count_change_disp == 3 || this.m_count_change_disp == 1)
          {
-            updateDisply();
+            this.updateDisply();
          }
-         if(m_count_change_disp > 0)
+         if(this.m_count_change_disp > 0)
          {
-            m_count_change_disp--;
+            this.m_count_change_disp--;
          }
-         if(m_flag_change_page)
+         if(this.m_flag_change_page)
          {
-            if(m_timeline.cha_select.chara_icn_set01.currentLabel == "push_l_end" || m_timeline.cha_select.chara_icn_set01.currentLabel == "push_r_end")
+            if(this.m_timeline.cha_select.chara_icn_set01.currentLabel == "push_l_end" || this.m_timeline.cha_select.chara_icn_set01.currentLabel == "push_r_end")
             {
-               m_flag_change_page = false;
-               m_timeline.cha_select.chara_icn_set01.gotoAndPlay(0);
+               this.m_flag_change_page = false;
+               this.m_timeline.cha_select.chara_icn_set01.gotoAndPlay(0);
             }
          }
-         var _loc6_:MovieClip = m_timeline.cha_select;
-         var _loc7_:MovieClip = _loc6_["chara_icn_set0" + (m_select_icon_column + 1)];
-         var _loc8_:MovieClip = _loc7_["nest_charaselect0" + (m_select_icon_row + 1)];
-         if(!m_flag_change_player)
+         var _loc6_:MovieClip = this.m_timeline.cha_select;
+         var _loc7_:MovieClip = _loc6_["chara_icn_set0" + (this.m_select_icon_column + 1)];
+         var _loc8_:MovieClip = _loc7_["nest_charaselect0" + (this.m_select_icon_row + 1)];
+         if(!this.m_flag_change_player)
          {
             return;
          }
-         m_timeline.stage.removeEventListener(KeyboardEvent.KEY_DOWN,checkKey);
+         this.m_timeline.stage.removeEventListener(KeyboardEvent.KEY_DOWN,this.checkKey);
          var _loc9_:int = 0;
-         if(m_flag_decide)
+         if(this.m_flag_decide)
          {
-            _loc9_ = m_current_select_index - 1;
-            if(0 <= _loc9_ && _loc9_ < m_selected_index_list.length)
+            _loc9_ = this.m_current_select_index - 1;
+            if(0 <= _loc9_ && _loc9_ < this.m_selected_index_list.length)
             {
-               m_selected_index_list[_loc9_] = _loc3_;
+               this.m_selected_index_list[_loc9_] = _loc3_;
             }
          }
          else
          {
-            _loc9_ = m_current_select_index;
-            if(0 <= _loc9_ && _loc9_ < m_selected_index_list.length)
+            _loc9_ = this.m_current_select_index;
+            if(0 <= _loc9_ && _loc9_ < this.m_selected_index_list.length)
             {
-               m_selected_index_list[_loc9_] = -1;
+               this.m_selected_index_list[_loc9_] = -1;
             }
          }
-         if(m_flag_decide)
+         if(this.m_flag_decide)
          {
-            if(m_timeline.cha_parameter.currentLabel == "start" || m_timeline.cha_parameter.currentLabel == "wait")
+            if(this.m_timeline.cha_parameter.currentLabel == "start" || this.m_timeline.cha_parameter.currentLabel == "wait")
             {
-               m_timeline.cha_parameter.gotoAndPlay("push");
+               this.m_timeline.cha_parameter.gotoAndPlay("push");
                if(_loc4_)
                {
-                  _loc14_ = _loc4_[m_select_var][VarTypeVoiceIdList];
+                  _loc14_ = _loc4_[this.m_select_var][VarTypeVoiceIdList];
                   _loc15_ = Math.floor(Math.random() * _loc14_.length);
                   _loc16_ = _loc14_[_loc15_];
-                  m_callback.CallbackUserData("user",SendType_RequestPlayVoice,_loc16_);
+                  this.m_callback.CallbackUserData("user",SendType_RequestPlayVoice,_loc16_);
                }
                trace(" ----- BGM OPTION DISABLE");
-               m_callback.CallbackUserData("user",SendType_EnableOptionBGM,0);
+               this.m_callback.CallbackUserData("user",SendType_EnableOptionBGM,0);
             }
-            if(m_timeline.cha_parameter.currentFrame < Utility.GetLabelEndFrame(m_timeline.cha_parameter,"push"))
+            if(this.m_timeline.cha_parameter.currentFrame < Utility.GetLabelEndFrame(this.m_timeline.cha_parameter,"push"))
             {
                return;
             }
          }
-         if(m_timeline.cha_parameter.currentLabel == "end_comp")
+         if(this.m_timeline.cha_parameter.currentLabel == "end_comp")
          {
-            m_timeline.cha_parameter.nest_clothes.visible = false;
-            if(m_flag_exit)
+            this.m_timeline.cha_parameter.nest_clothes.visible = false;
+            if(this.m_flag_exit)
             {
-               end();
+               this.end();
                return;
             }
-            changeCurrentPlayer(m_flag_decide);
-            updatePage();
-            setSelectChara();
-            sendCharaInfo(m_current_player_index);
-            m_flag_decide = false;
-            m_flag_change_player = false;
+            this.changeCurrentPlayer(this.m_flag_decide);
+            this.updatePage();
+            this.setSelectChara();
+            this.sendCharaInfo(this.m_current_player_index);
+            this.m_flag_decide = false;
+            this.m_flag_change_player = false;
             var _loc10_:Boolean = false;
-            if(m_current_player_index < 0 || PlayerMax <= m_current_player_index)
+            if(this.m_current_player_index < 0 || PlayerMax <= this.m_current_player_index)
             {
                _loc10_ = true;
             }
             if(_loc10_)
             {
-               end();
+               this.end();
                return;
             }
-            var _loc11_:int = m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle);
+            var _loc11_:int = this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle);
             if(!_loc11_)
             {
                if(_loc5_ > 0)
                {
-                  m_timer.Start(_loc5_ + 1,cbFuncEndTimer);
-                  m_timeline.timer.nest._CMN_M_B_mc_timer.visible = false;
+                  this.m_timer.Start(_loc5_ + 1,this.cbFuncEndTimer);
+                  this.m_timeline.timer.nest._CMN_M_B_mc_timer.visible = false;
                }
             }
-            m_timeline.cha_parameter.gotoAndPlay("start");
-            m_timeline.cha_parameter.nest_clothes.visible = true;
-            m_timeline.stage.addEventListener(KeyboardEvent.KEY_DOWN,checkKey);
+            this.m_timeline.cha_parameter.gotoAndPlay("start");
+            this.m_timeline.cha_parameter.nest_clothes.visible = true;
+            this.m_timeline.stage.addEventListener(KeyboardEvent.KEY_DOWN,this.checkKey);
             trace(" ***** BGM OPTION ENABLE");
-            m_callback.CallbackUserData("user",SendType_EnableOptionBGM,1);
+            this.m_callback.CallbackUserData("user",SendType_EnableOptionBGM,1);
             return;
          }
-         if(m_timeline.cha_parameter.currentLabel == "end")
+         if(this.m_timeline.cha_parameter.currentLabel == "end")
          {
             return;
          }
          trace(" ----- BGM OPTION DISABLE");
-         m_callback.CallbackUserData("user",SendType_EnableOptionBGM,0);
-         m_timeline.cha_parameter.gotoAndPlay("end");
-         if(!m_flag_exit)
+         this.m_callback.CallbackUserData("user",SendType_EnableOptionBGM,0);
+         this.m_timeline.cha_parameter.gotoAndPlay("end");
+         if(!this.m_flag_exit)
          {
             _loc17_ = -1;
-            if(m_timer)
+            if(this.m_timer)
             {
-               _loc17_ = m_timer.GetTime();
+               _loc17_ = this.m_timer.GetTime();
             }
-            m_callback.CallbackUserData("user",SendType_RequestDecide,_loc17_);
+            this.m_callback.CallbackUserData("user",SendType_RequestDecide,_loc17_);
          }
       }
       
       private function end() : void
       {
-         m_timeline.cha_select.gotoAndPlay("end");
-         m_timeline.cha_arrow.gotoAndPlay("end");
-         if(m_timeline.cha_skill.currentFrame <= Utility.GetLabelEndFrame(m_timeline.cha_skill,"wait"))
+         this.m_timeline.cha_select.gotoAndPlay("end");
+         this.m_timeline.cha_arrow.gotoAndPlay("end");
+         if(this.m_timeline.cha_skill.currentFrame <= Utility.GetLabelEndFrame(this.m_timeline.cha_skill,"wait"))
          {
-            m_timeline.cha_skill.gotoAndPlay("end");
+            this.m_timeline.cha_skill.gotoAndPlay("end");
          }
-         m_timeline.cha_frame.cmn_CMN_M_frame.gotoAndPlay("end");
-         m_timeline.cha_select_cur.visible = false;
-         m_timer.End();
-         m_timeline.timer.gotoAndPlay("end");
-         var _loc1_:int = m_callback.GetUserDataInt(ReceiveType_Time);
+         this.m_timeline.cha_frame.cmn_CMN_M_frame.gotoAndPlay("end");
+         this.m_timeline.cha_select_cur.visible = false;
+         this.m_timer.End();
+         this.m_timeline.timer.gotoAndPlay("end");
+         var _loc1_:int = this.m_callback.GetUserDataInt(ReceiveType_Time);
          if(_loc1_ > 0)
          {
-            m_timer.Stop();
+            this.m_timer.Stop();
          }
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,main);
-         m_timeline.stage.removeEventListener(KeyboardEvent.KEY_DOWN,checkKey);
-         if(m_current_player_index < 0)
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.main);
+         this.m_timeline.stage.removeEventListener(KeyboardEvent.KEY_DOWN,this.checkKey);
+         if(this.m_current_player_index < 0)
          {
-            m_callback.CallbackCancel();
+            this.m_callback.CallbackCancel();
          }
          else
          {
-            m_callback.CallbackDecide(1);
+            this.m_callback.CallbackDecide(1);
          }
-         m_timeline.stage.addEventListener(Event.ENTER_FRAME,waitEnd);
+         this.m_timeline.stage.addEventListener(Event.ENTER_FRAME,this.waitEnd);
       }
       
       private function waitEnd(param1:Event) : void
       {
-         if(m_timeline.cha_select.currentFrame != Utility.GetLabelEndFrame(m_timeline.cha_select,"end"))
+         if(this.m_timeline.cha_select.currentFrame != Utility.GetLabelEndFrame(this.m_timeline.cha_select,"end"))
          {
             return;
          }
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,waitEnd);
-         m_callback.CallbackExit();
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.waitEnd);
+         this.m_callback.CallbackExit();
       }
       
       private function cbFuncEndTimer() : void
       {
-         pushKeyDecide();
+         this.pushKeyDecide();
       }
       
       private function updateLocalBattle() : void
       {
-         var _loc1_:int = m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle);
+         var _loc1_:int = this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle);
          if(!_loc1_)
          {
             return;
          }
-         var _loc2_:int = m_callback.GetUserDataInt(ReceiveType_Time);
-         var _loc3_:int = m_callback.GetUserDataInt(ReceiveType_Flag2pController);
+         var _loc2_:int = this.m_callback.GetUserDataInt(ReceiveType_Time);
+         var _loc3_:int = this.m_callback.GetUserDataInt(ReceiveType_Flag2pController);
          if(_loc3_)
          {
-            if(m_timeline.press2P.currentLabel != "end" && m_timeline.press2P.currentLabel != "end_comp")
+            if(this.m_timeline.press2P.currentLabel != "end" && this.m_timeline.press2P.currentLabel != "end_comp")
             {
-               m_timeline.press2P.gotoAndPlay("end");
+               this.m_timeline.press2P.gotoAndPlay("end");
                if(_loc2_ >= 0)
                {
-                  if(m_current_player_index != 0)
+                  if(this.m_current_player_index != 0)
                   {
-                     if(m_timer)
+                     if(this.m_timer)
                      {
-                        m_timer.Start(_loc2_ + 1,cbFuncEndTimer);
-                        m_timeline.timer.nest._CMN_M_B_mc_timer.visible = false;
+                        this.m_timer.Start(_loc2_ + 1,this.cbFuncEndTimer);
+                        this.m_timeline.timer.nest._CMN_M_B_mc_timer.visible = false;
                      }
                   }
                }
             }
          }
-         else if(m_timeline.press2P.currentLabel != "start" && m_timeline.press2P.currentLabel != "wait")
+         else if(this.m_timeline.press2P.currentLabel != "start" && this.m_timeline.press2P.currentLabel != "wait")
          {
-            m_timeline.press2P.gotoAndPlay("start");
-            m_timeline.press2P.nest.sys.sys.htmlText = m_callback.GetUserDataString(ReceiveType_Str2pController);
+            this.m_timeline.press2P.gotoAndPlay("start");
+            this.m_timeline.press2P.nest.sys.sys.htmlText = this.m_callback.GetUserDataString(ReceiveType_Str2pController);
          }
-         switch(m_current_player_index)
+         switch(this.m_current_player_index)
          {
             case 0:
-               if(!m_timeline.cha_parameter.icon_1P.visible)
+               if(!this.m_timeline.cha_parameter.icon_1P.visible)
                {
-                  m_timeline.cha_parameter.icon_1P.gotoAndPlay("start");
+                  this.m_timeline.cha_parameter.icon_1P.gotoAndPlay("start");
                }
-               m_timeline.cha_parameter.icon_1P.visible = true;
-               m_timeline.cha_parameter.icon_2P.visible = false;
+               this.m_timeline.cha_parameter.icon_1P.visible = true;
+               this.m_timeline.cha_parameter.icon_2P.visible = false;
                break;
             case 3:
-               m_timeline.cha_parameter.icon_1P.visible = false;
-               if(!m_timeline.cha_parameter.icon_2P.visible)
+               this.m_timeline.cha_parameter.icon_1P.visible = false;
+               if(!this.m_timeline.cha_parameter.icon_2P.visible)
                {
-                  m_timeline.cha_parameter.icon_2P.gotoAndPlay("start");
+                  this.m_timeline.cha_parameter.icon_2P.gotoAndPlay("start");
                   if(_loc2_ >= 0)
                   {
-                     if(m_timer)
+                     if(this.m_timer)
                      {
                         if(_loc3_)
                         {
-                           m_timer.Start(_loc2_ + 1,cbFuncEndTimer);
-                           m_timeline.timer.nest._CMN_M_B_mc_timer.visible = false;
+                           this.m_timer.Start(_loc2_ + 1,this.cbFuncEndTimer);
+                           this.m_timeline.timer.nest._CMN_M_B_mc_timer.visible = false;
                         }
                         else
                         {
-                           m_timer.Stop();
+                           this.m_timer.Stop();
                         }
                      }
                   }
                }
-               m_timeline.cha_parameter.icon_2P.visible = true;
+               this.m_timeline.cha_parameter.icon_2P.visible = true;
                break;
             default:
-               m_timeline.cha_parameter.icon_1P.visible = false;
-               m_timeline.cha_parameter.icon_2P.visible = false;
+               this.m_timeline.cha_parameter.icon_1P.visible = false;
+               this.m_timeline.cha_parameter.icon_2P.visible = false;
          }
       }
       
@@ -1850,15 +1865,15 @@ package action_script
          {
             return null;
          }
-         if(m_chara_list_num <= param1)
+         if(this.m_chara_list_num <= param1)
          {
             return null;
          }
-         if(m_chara_list[param1][0] < 0)
+         if(this.m_chara_list[param1][0] < 0)
          {
             return null;
          }
-         return m_chara_list[param1];
+         return this.m_chara_list[param1];
       }
       
       public function GetSelectVarInfo(param1:int) : Array
@@ -1867,13 +1882,13 @@ package action_script
          {
             return null;
          }
-         var _loc2_:int = m_select_info[param1][SelectInfoTypeListIndex];
-         var _loc3_:Array = getCharaInfo(_loc2_);
+         var _loc2_:int = this.m_select_info[param1][SelectInfoTypeListIndex];
+         var _loc3_:Array = this.getCharaInfo(_loc2_);
          if(!_loc3_)
          {
             return null;
          }
-         var _loc4_:int = m_select_info[param1][SelectInfoTypeVarIndex];
+         var _loc4_:int = this.m_select_info[param1][SelectInfoTypeVarIndex];
          _loc4_ = _loc4_ + _loc3_.length;
          _loc4_ = _loc4_ % _loc3_.length;
          return _loc3_[_loc4_];
@@ -1881,7 +1896,7 @@ package action_script
       
       private function getReadyIconMc(param1:int) : MovieClip
       {
-         var _loc2_:int = m_callback.GetUserDataInt(ReceiveType_PlayerFriNum);
+         var _loc2_:int = this.m_callback.GetUserDataInt(ReceiveType_PlayerFriNum);
          var _loc3_:int = 0;
          if(_loc2_ < param1)
          {
@@ -1891,7 +1906,7 @@ package action_script
          {
             _loc3_ = _loc2_ - param1;
          }
-         var _loc4_:MovieClip = m_timeline.cha_parameter.nest_ready["btnact_rb0" + (_loc3_ + 1)];
+         var _loc4_:MovieClip = this.m_timeline.cha_parameter.nest_ready["btnact_rb0" + (_loc3_ + 1)];
          return _loc4_;
       }
       
@@ -1902,7 +1917,7 @@ package action_script
       
       private function calcIconIndexRow(param1:int) : int
       {
-         if(param1 < 0 || m_chara_list_num <= param1)
+         if(param1 < 0 || this.m_chara_list_num <= param1)
          {
             return -1;
          }
@@ -1911,7 +1926,7 @@ package action_script
       
       private function calcIconIndexColumn(param1:int) : int
       {
-         if(param1 < 0 || m_chara_list_num <= param1)
+         if(param1 < 0 || this.m_chara_list_num <= param1)
          {
             return -1;
          }
@@ -1925,7 +1940,7 @@ package action_script
          _loc2_ = 0;
          while(CharaVarIndexNum > _loc2_)
          {
-            if(checkUnlockVar(param1,_loc2_))
+            if(this.checkUnlockVar(param1,_loc2_))
             {
                _loc3_++;
             }
@@ -1940,41 +1955,35 @@ package action_script
          var _loc4_:int = 0;
          var _loc5_:int = 0;
          var _loc9_:MovieClip = null;
-         var _loc10_:MovieClip = null;
          var _loc1_:Boolean = false;
          var _loc2_:Boolean = false;
-         if(m_select_column < m_select_column_start)
+         if(this.m_select_column < this.m_select_column_start)
          {
-            m_select_column_start = m_select_column;
+            this.m_select_column_start = this.m_select_column;
             _loc1_ = true;
             _loc2_ = true;
          }
-         else if(m_select_column_start + IndexNumColumn <= m_select_column)
+         else if(this.m_select_column_start + IndexNumColumn <= this.m_select_column)
          {
-            m_select_column_start = m_select_column - IndexNumColumn + 1;
+            this.m_select_column_start = this.m_select_column - IndexNumColumn + 1;
             _loc1_ = true;
          }
          if(!_loc1_)
          {
-            _loc9_ = getMcChamysetNewIcon(_loc3_);
-            if(_loc9_)
-            {
-               _loc9_.visible = false;
-            }
             return;
          }
-         m_flag_change_page = true;
-         var _loc6_:MovieClip = m_timeline.cha_select;
-         var _loc7_:MovieClip = m_timeline.cha_new;
+         this.m_flag_change_page = true;
+         var _loc6_:MovieClip = this.m_timeline.cha_select;
+         var _loc7_:MovieClip = this.m_timeline.cha_new;
          var _loc8_:MovieClip = null;
          _loc4_ = -1;
          while(IndexNumColumn + 1 > _loc4_)
          {
-            _loc10_ = _loc6_["chara_icn_set0" + (_loc4_ + 1)];
+            _loc9_ = _loc6_["chara_icn_set0" + (_loc4_ + 1)];
             if(_loc2_)
             {
-               _loc10_.gotoAndPlay("push_l");
-               m_timeline.cha_arrow.spinbtn_l.cmn_CMN_M_B_mc_spinbtn_l.gotoAndPlay("push");
+               _loc9_.gotoAndPlay("push_l");
+               this.m_timeline.cha_arrow.spinbtn_l.cmn_CMN_M_B_mc_spinbtn_l.gotoAndPlay("push");
                _loc5_ = 0;
                while(IndexNumCharaNewIcon > _loc5_)
                {
@@ -1985,8 +1994,8 @@ package action_script
             }
             else
             {
-               _loc10_.gotoAndPlay("push_r");
-               m_timeline.cha_arrow.spinbtn_r.cmn_CMN_M_B_mc_spinbtn_r.gotoAndPlay("push");
+               _loc9_.gotoAndPlay("push_r");
+               this.m_timeline.cha_arrow.spinbtn_r.cmn_CMN_M_B_mc_spinbtn_r.gotoAndPlay("push");
                _loc5_ = 0;
                while(IndexNumCharaNewIcon > _loc5_)
                {
@@ -2008,51 +2017,51 @@ package action_script
          {
             if(param1)
             {
-               if(m_select_column == 0 && m_select_row == 0)
+               if(this.m_select_column == 0 && this.m_select_row == 0)
                {
                   break;
                }
-               m_select_column--;
-               if(m_select_column < 0)
+               this.m_select_column--;
+               if(this.m_select_column < 0)
                {
-                  m_select_column = m_chara_num_column - 1;
-                  m_select_row--;
-                  m_select_row = m_select_row + IndexNumRow;
-                  m_select_row = m_select_row % IndexNumRow;
+                  this.m_select_column = this.m_chara_num_column - 1;
+                  this.m_select_row--;
+                  this.m_select_row = this.m_select_row + IndexNumRow;
+                  this.m_select_row = this.m_select_row % IndexNumRow;
                }
             }
             else
             {
-               m_select_column++;
-               if(m_chara_num_column <= m_select_column)
+               this.m_select_column++;
+               if(this.m_chara_num_column <= this.m_select_column)
                {
-                  m_select_column = 0;
-                  m_select_row++;
-                  m_select_row = m_select_row + IndexNumRow;
-                  m_select_row = m_select_row % IndexNumRow;
+                  this.m_select_column = 0;
+                  this.m_select_row++;
+                  this.m_select_row = this.m_select_row + IndexNumRow;
+                  this.m_select_row = this.m_select_row % IndexNumRow;
                }
             }
-            _loc2_ = calcCharaListIndex(m_select_row,m_select_column);
-            _loc3_ = m_callback.GetUserDataInt(ReceiveType_FlagSelectAvatar);
+            _loc2_ = this.calcCharaListIndex(this.m_select_row,this.m_select_column);
+            _loc3_ = this.m_callback.GetUserDataInt(ReceiveType_FlagSelectAvatar);
             if(!_loc3_)
             {
-               if(checkAvatar(_loc2_))
+               if(this.checkAvatar(_loc2_))
                {
-                  if(checkSelectedAvatar(_loc2_))
+                  if(this.checkSelectedAvatar(_loc2_))
                   {
                      continue;
                   }
                }
             }
-            _loc4_ = checkUnlockChara(_loc2_);
+            _loc4_ = this.checkUnlockChara(_loc2_);
             if(!_loc4_)
             {
                continue;
             }
-            m_select_var = 0;
+            this.m_select_var = 0;
             return;
          }
-         changeUD(true);
+         this.changeUD(true);
       }
       
       private function changeUD(param1:Boolean) : void
@@ -2064,53 +2073,53 @@ package action_script
          {
             if(param1)
             {
-               m_select_row--;
-               if(m_select_row < 0)
+               this.m_select_row--;
+               if(this.m_select_row < 0)
                {
-                  m_select_row = IndexNumRow - 1;
-                  m_select_column--;
-                  m_select_column = m_select_column + m_chara_num_column;
-                  m_select_column = m_select_column % m_chara_num_column;
+                  this.m_select_row = IndexNumRow - 1;
+                  this.m_select_column--;
+                  this.m_select_column = this.m_select_column + this.m_chara_num_column;
+                  this.m_select_column = this.m_select_column % this.m_chara_num_column;
                }
             }
             else
             {
-               m_select_row++;
-               if(IndexNumRow <= m_select_row)
+               this.m_select_row++;
+               if(IndexNumRow <= this.m_select_row)
                {
-                  m_select_row = 0;
-                  m_select_column++;
-                  m_select_column = m_select_column + m_chara_num_column;
-                  m_select_column = m_select_column % m_chara_num_column;
+                  this.m_select_row = 0;
+                  this.m_select_column++;
+                  this.m_select_column = this.m_select_column + this.m_chara_num_column;
+                  this.m_select_column = this.m_select_column % this.m_chara_num_column;
                }
             }
-            _loc2_ = calcCharaListIndex(m_select_row,m_select_column);
-            _loc3_ = m_callback.GetUserDataInt(ReceiveType_FlagSelectAvatar);
+            _loc2_ = this.calcCharaListIndex(this.m_select_row,this.m_select_column);
+            _loc3_ = this.m_callback.GetUserDataInt(ReceiveType_FlagSelectAvatar);
             if(!_loc3_)
             {
-               if(checkAvatar(_loc2_))
+               if(this.checkAvatar(_loc2_))
                {
-                  if(checkSelectedAvatar(_loc2_))
+                  if(this.checkSelectedAvatar(_loc2_))
                   {
                      continue;
                   }
                }
             }
-            _loc4_ = checkUnlockChara(_loc2_);
+            _loc4_ = this.checkUnlockChara(_loc2_);
             if(!_loc4_)
             {
                continue;
             }
             break;
          }
-         m_select_var = 0;
+         this.m_select_var = 0;
       }
       
       private function changeVar(param1:Boolean) : void
       {
          var _loc4_:Boolean = false;
-         var _loc2_:int = calcCharaListIndex(m_select_row,m_select_column);
-         var _loc3_:Array = getCharaInfo(_loc2_);
+         var _loc2_:int = this.calcCharaListIndex(this.m_select_row,this.m_select_column);
+         var _loc3_:Array = this.getCharaInfo(_loc2_);
          if(!_loc3_)
          {
             return;
@@ -2119,15 +2128,15 @@ package action_script
          {
             if(param1)
             {
-               m_select_var--;
+               this.m_select_var--;
             }
             else
             {
-               m_select_var++;
+               this.m_select_var++;
             }
-            m_select_var = m_select_var + _loc3_.length;
-            m_select_var = m_select_var % _loc3_.length;
-            _loc4_ = checkUnlockVar(_loc2_,m_select_var);
+            this.m_select_var = this.m_select_var + _loc3_.length;
+            this.m_select_var = this.m_select_var % _loc3_.length;
+            _loc4_ = this.checkUnlockVar(_loc2_,this.m_select_var);
             if(!_loc4_)
             {
                continue;
@@ -2166,10 +2175,10 @@ package action_script
          {
             return;
          }
-         var _loc4_:MovieClip = getReadyIconMc(param1);
+         var _loc4_:MovieClip = this.getReadyIconMc(param1);
          if(param3)
          {
-            _loc5_ = checkPlayerTeamType(param1);
+            _loc5_ = this.checkPlayerTeamType(param1);
             _loc6_ = false;
             _loc7_ = param1 - 1;
             switch(_loc5_)
@@ -2179,8 +2188,8 @@ package action_script
                   break;
                case PlayerTeamTypeFri:
                   _loc4_.gotoAndStop("blue_team");
-                  _loc8_ = m_callback.GetUserDataInt(ReceiveType_PlayerFriNum);
-                  _loc9_ = m_callback.GetUserDataInt(ReceiveType_PartyNpcNum);
+                  _loc8_ = this.m_callback.GetUserDataInt(ReceiveType_PlayerFriNum);
+                  _loc9_ = this.m_callback.GetUserDataInt(ReceiveType_PartyNpcNum);
                   if(0 <= _loc7_ && _loc7_ < _loc9_)
                   {
                      _loc6_ = true;
@@ -2192,12 +2201,12 @@ package action_script
             _loc4_.sys_ready.text = "OK";
             if(_loc6_)
             {
-               setImageFriendNpc(_loc4_.icn_chara_lit.chara_img,_loc7_);
+               this.setImageFriendNpc(_loc4_.icn_chara_lit.chara_img,_loc7_);
             }
             else
             {
-               _loc10_ = calcCharaListIndex(m_select_row,m_select_column);
-               setImage(_loc4_.icn_chara_lit.chara_img,_loc10_,true);
+               _loc10_ = this.calcCharaListIndex(this.m_select_row,this.m_select_column);
+               this.setImage(_loc4_.icn_chara_lit.chara_img,_loc10_,true);
             }
          }
          else
@@ -2224,26 +2233,26 @@ package action_script
          var _loc9_:int = 0;
          var _loc10_:int = 0;
          var _loc2_:int = 0;
-         setReadyIcon(m_current_player_index,false,param1);
-         var _loc3_:int = m_callback.GetUserDataInt(ReceiveType_PlayerFriNum);
-         var _loc4_:int = m_callback.GetUserDataInt(ReceiveType_PlayerEnmNum);
+         this.setReadyIcon(this.m_current_player_index,false,param1);
+         var _loc3_:int = this.m_callback.GetUserDataInt(ReceiveType_PlayerFriNum);
+         var _loc4_:int = this.m_callback.GetUserDataInt(ReceiveType_PlayerEnmNum);
          do
          {
             if(param1)
             {
-               m_current_player_index++;
+               this.m_current_player_index++;
             }
             else
             {
-               m_current_player_index--;
+               this.m_current_player_index--;
             }
             _loc5_ = false;
-            _loc6_ = checkPlayerTeamType(m_current_player_index);
+            _loc6_ = this.checkPlayerTeamType(this.m_current_player_index);
             switch(_loc6_)
             {
                case PlayerTeamTypeFri:
-                  _loc7_ = m_current_player_index - PlayerIndexFriStart;
-                  _loc8_ = m_callback.GetUserDataInt(ReceiveType_PartyNpcNum);
+                  _loc7_ = this.m_current_player_index - PlayerIndexFriStart;
+                  _loc8_ = this.m_callback.GetUserDataInt(ReceiveType_PartyNpcNum);
                   if(_loc8_ > _loc7_)
                   {
                      _loc5_ = false;
@@ -2254,7 +2263,7 @@ package action_script
                   }
                   break;
                case PlayerTeamTypeEnm:
-                  _loc9_ = m_current_player_index - PlayerIndexEnmStart;
+                  _loc9_ = this.m_current_player_index - PlayerIndexEnmStart;
                   if(_loc4_ > _loc9_)
                   {
                      _loc5_ = true;
@@ -2267,16 +2276,16 @@ package action_script
          }
          while(!_loc5_);
          
-         setReadyIcon(m_current_player_index,true,false);
-         if(0 <= m_current_player_index && m_current_player_index < PlayerMax)
+         this.setReadyIcon(this.m_current_player_index,true,false);
+         if(0 <= this.m_current_player_index && this.m_current_player_index < PlayerMax)
          {
-            _loc10_ = m_select_info[m_current_player_index][SelectInfoTypeListIndex];
-            m_select_row = calcIconIndexRow(_loc10_);
-            m_select_column = calcIconIndexColumn(_loc10_);
-            m_select_var = m_select_info[m_current_player_index][SelectInfoTypeVarIndex];
-            if(checkAvatar(_loc10_) && checkSelectedAvatar(_loc10_))
+            _loc10_ = this.m_select_info[this.m_current_player_index][SelectInfoTypeListIndex];
+            this.m_select_row = this.calcIconIndexRow(_loc10_);
+            this.m_select_column = this.calcIconIndexColumn(_loc10_);
+            this.m_select_var = this.m_select_info[this.m_current_player_index][SelectInfoTypeVarIndex];
+            if(this.checkAvatar(_loc10_) && this.checkSelectedAvatar(_loc10_))
             {
-               changeUD(false);
+               this.changeUD(false);
             }
          }
       }
@@ -2295,12 +2304,12 @@ package action_script
          var _loc20_:int = 0;
          var _loc21_:int = 0;
          var _loc22_:int = 0;
-         if(m_current_player_index < 0 || PlayerMax <= m_current_player_index)
+         if(this.m_current_player_index < 0 || PlayerMax <= this.m_current_player_index)
          {
             return;
          }
-         var _loc3_:int = calcCharaListIndex(m_select_row,m_select_column);
-         var _loc4_:Array = getCharaInfo(_loc3_);
+         var _loc3_:int = this.calcCharaListIndex(this.m_select_row,this.m_select_column);
+         var _loc4_:Array = this.getCharaInfo(_loc3_);
          var _loc5_:int = -1;
          if(_loc4_)
          {
@@ -2308,28 +2317,28 @@ package action_script
             _loc1_ = 0;
             while(_loc5_ > _loc1_)
             {
-               _loc13_ = m_select_var + _loc1_;
+               _loc13_ = this.m_select_var + _loc1_;
                _loc13_ = _loc13_ % _loc5_;
-               if(!checkUnlockVar(_loc3_,_loc13_))
+               if(!this.checkUnlockVar(_loc3_,_loc13_))
                {
                   _loc1_++;
                   continue;
                }
-               m_select_var = _loc13_;
+               this.m_select_var = _loc13_;
                break;
             }
          }
-         var _loc6_:int = m_select_row;
-         var _loc7_:int = m_select_column - m_select_column_start;
-         var _loc8_:MovieClip = m_timeline.cha_select;
+         var _loc6_:int = this.m_select_row;
+         var _loc7_:int = this.m_select_column - this.m_select_column_start;
+         var _loc8_:MovieClip = this.m_timeline.cha_select;
          var _loc9_:MovieClip = _loc8_["chara_icn_set0" + (_loc7_ + 1)];
          var _loc10_:MovieClip = _loc9_["nest_charaselect0" + (_loc6_ + 1)];
-         m_select_icon_row = _loc6_;
-         m_select_icon_column = _loc7_;
+         this.m_select_icon_row = _loc6_;
+         this.m_select_icon_column = _loc7_;
          _loc1_ = 0;
          while(IndexNumCharaNewIcon > _loc1_)
          {
-            _loc14_ = getMcChamysetNewIcon(_loc1_);
+            _loc14_ = this.getMcChamysetNewIcon(_loc1_);
             if(_loc14_)
             {
                _loc14_.visible = false;
@@ -2339,17 +2348,17 @@ package action_script
          _loc1_ = 0;
          while(CharaVarIndexNum > _loc1_)
          {
-            _loc15_ = getMcChamyset(_loc1_);
-            _loc16_ = getMcChamysetNewIcon(_loc1_);
+            _loc15_ = this.getMcChamyset(_loc1_);
+            _loc16_ = this.getMcChamysetNewIcon(_loc1_);
             if(_loc15_)
             {
-               _loc17_ = checkUnlockVar(_loc3_,_loc1_);
+               _loc17_ = this.checkUnlockVar(_loc3_,_loc1_);
                _loc15_.btnact_off.visible = true;
                if(_loc1_ < _loc5_)
                {
                   if(_loc17_)
                   {
-                     if(_loc1_ == m_select_var)
+                     if(_loc1_ == this.m_select_var)
                      {
                         if(_loc15_.currentLabel != "on")
                         {
@@ -2443,16 +2452,16 @@ package action_script
             }
             _loc1_++;
          }
-         var _loc11_:int = getVarIndexNum(_loc3_);
+         var _loc11_:int = this.getVarIndexNum(_loc3_);
          var _loc12_:* = false;
          if(_loc11_ > 1)
          {
             _loc12_ = true;
          }
-         m_timeline.cha_parameter.nest_clothes.sys_r.visible = _loc12_;
-         m_timeline.cha_parameter.nest_clothes.sys_l.visible = _loc12_;
-         m_select_info[m_current_player_index][SelectInfoTypeListIndex] = _loc3_;
-         m_select_info[m_current_player_index][SelectInfoTypeVarIndex] = m_select_var;
+         this.m_timeline.cha_parameter.nest_clothes.sys_r.visible = _loc12_;
+         this.m_timeline.cha_parameter.nest_clothes.sys_l.visible = _loc12_;
+         this.m_select_info[this.m_current_player_index][SelectInfoTypeListIndex] = _loc3_;
+         this.m_select_info[this.m_current_player_index][SelectInfoTypeVarIndex] = this.m_select_var;
       }
       
       public function sendCharaInfo(param1:int) : void
@@ -2465,29 +2474,29 @@ package action_script
          {
             return;
          }
-         var _loc2_:Array = GetSelectVarInfo(param1);
+         var _loc2_:Array = this.GetSelectVarInfo(param1);
          if(!_loc2_)
          {
-            SetUserDataString(CharaSele.ReceiveType_CharaNameStr,"???");
+            this.SetUserDataString(CharaSele.ReceiveType_CharaNameStr,"???");
             return;
          }
          var _loc3_:String = _loc2_[VarTypeCode];
-         var _loc4_:int = m_select_info[param1][SelectInfoTypeVarIndex];
+         var _loc4_:int = this.m_select_info[param1][SelectInfoTypeVarIndex];
          var _loc5_:int = _loc2_[VarTypeMid];
          var _loc6_:int = _loc2_[VarTypeModelPreset];
-         var _loc7_:int = calcCharaListIndex(m_select_row,m_select_column);
+         var _loc7_:int = this.calcCharaListIndex(this.m_select_row,this.m_select_column);
          var _loc8_:int = _loc2_[VarTypeCustomCostume];
          var _loc9_:int = _loc2_[VarTypeAvatarSlotID];
-         m_callback.CallbackUserData("user",SendType_CurrentPlayerIndex,param1);
-         m_callback.CallbackUserData("user",SendType_AvatarSlotID,_loc9_);
-         m_callback.CallbackUserDataString("user",SendType_SelectCode,_loc3_);
-         m_callback.CallbackUserData("user",SendType_SelectVariation,_loc4_);
-         m_callback.CallbackUserData("user",SendType_SelectCustomFlag,_loc8_);
-         m_callback.CallbackUserData("user",SendType_SelectMid,_loc5_);
-         m_callback.CallbackUserData("user",SendType_SelectModelPreset,_loc6_);
-         m_callback.CallbackUserData("user",SendType_RequestCharaInfo,0);
-         m_callback.CallbackUserData("user",SendType_SelectListIndex,CharaListShiftCount[_loc7_]);
-         m_callback.SetUserDataValidFlag(ReceiveType_CharaNameStr,false);
+         this.m_callback.CallbackUserData("user",SendType_CurrentPlayerIndex,param1);
+         this.m_callback.CallbackUserData("user",SendType_AvatarSlotID,_loc9_);
+         this.m_callback.CallbackUserDataString("user",SendType_SelectCode,_loc3_);
+         this.m_callback.CallbackUserData("user",SendType_SelectVariation,_loc4_);
+         this.m_callback.CallbackUserData("user",SendType_SelectCustomFlag,_loc8_);
+         this.m_callback.CallbackUserData("user",SendType_SelectMid,_loc5_);
+         this.m_callback.CallbackUserData("user",SendType_SelectModelPreset,_loc6_);
+         this.m_callback.CallbackUserData("user",SendType_RequestCharaInfo,0);
+         this.m_callback.CallbackUserData("user",SendType_SelectListIndex,CharaListShiftCount[_loc7_]);
+         this.m_callback.SetUserDataValidFlag(ReceiveType_CharaNameStr,false);
       }
       
       private function setImage(param1:MovieClip, param2:int, param3:Boolean) : void
@@ -2502,18 +2511,18 @@ package action_script
          {
             param1.removeChildAt(0);
          }
-         if(!checkUnlockChara(param2))
+         if(!this.checkUnlockChara(param2))
          {
             return;
          }
-         if(m_chara_face[param2])
+         if(this.m_chara_face[param2])
          {
-            _loc4_ = m_chara_face[param2];
+            _loc4_ = this.m_chara_face[param2];
             if(param3)
             {
-               _loc5_ = m_callback.GetUserDataString(ReceiveType_ImageStrStart + param2);
+               _loc5_ = this.m_callback.GetUserDataString(ReceiveType_ImageStrStart + param2);
                _loc4_ = new Bitmap(null);
-               XV2Patcher.SetTextureForBitmapWithFallback(_loc4_,_loc5_, "IMG_CHARA01_FOF0");
+               IggyFunctions.setTextureForBitmap(_loc4_,_loc5_);
                _loc4_.scaleX = 256 / _loc4_.width;
                _loc4_.scaleY = 128 / _loc4_.height;
             }
@@ -2536,9 +2545,9 @@ package action_script
          {
             param1.removeChildAt(0);
          }
-         if(m_chara_face_npc[param2])
+         if(this.m_chara_face_npc[param2])
          {
-            _loc3_ = m_chara_face_npc[param2];
+            _loc3_ = this.m_chara_face_npc[param2];
             param1.addChild(_loc3_);
          }
       }
@@ -2549,41 +2558,41 @@ package action_script
          var _loc10_:Array = null;
          var _loc11_:int = 0;
          var _loc12_:int = 0;
-         var _loc3_:MovieClip = m_timeline.cha_select;
-         var _loc4_:MovieClip = m_timeline.cha_new;
+         var _loc3_:MovieClip = this.m_timeline.cha_select;
+         var _loc4_:MovieClip = this.m_timeline.cha_new;
          var _loc5_:MovieClip = _loc3_["chara_icn_set0" + (param1 + 1)];
          var _loc6_:MovieClip = _loc5_["nest_charaselect0" + (param2 + 1)];
          if(!_loc6_)
          {
             return;
          }
-         var _loc7_:int = calcCharaListIndex(param2,param1 + m_select_column_start);
+         var _loc7_:int = this.calcCharaListIndex(param2,param1 + this.m_select_column_start);
          var _loc8_:MovieClip = _loc4_["chara_new_" + ((param1 + 1) * 3 + param2)];
-         setImage(_loc6_.chara_img,_loc7_,false);
-         if(checkNoChara(_loc7_))
+         this.setImage(_loc6_.chara_img,_loc7_,false);
+         if(this.checkNoChara(_loc7_))
          {
             _loc6_.visible = false;
             _loc8_.visible = false;
          }
-         else if(checkUnlockChara(_loc7_))
+         else if(this.checkUnlockChara(_loc7_))
          {
             _loc6_.visible = true;
-            _loc8_.visible = checkCharaNewIconVisible(_loc7_);
-            _loc9_ = m_timeline.cha_select_cur;
-            _loc10_ = getCharaInfo(_loc7_);
+            _loc8_.visible = this.checkCharaNewIconVisible(_loc7_);
+            _loc9_ = this.m_timeline.cha_select_cur;
+            _loc10_ = this.getCharaInfo(_loc7_);
             _loc11_ = _loc10_[VarTypeAvatarSlotID];
-            _loc12_ = m_callback.GetUserDataInt(ReceiveType_FlagSelectAvatar);
-            if(!_loc12_ && m_current_player_index != PlayerIndexOwn && checkAvatar(_loc7_) && checkSelectedAvatar(_loc7_))
+            _loc12_ = this.m_callback.GetUserDataInt(ReceiveType_FlagSelectAvatar);
+            if(!_loc12_ && this.m_current_player_index != PlayerIndexOwn && this.checkAvatar(_loc7_) && this.checkSelectedAvatar(_loc7_))
             {
                if(_loc6_.currentLabel != "grayout")
                {
                   _loc6_.gotoAndStop("grayout");
                }
-               if(checkSelectedAvatar(_loc7_))
+               if(this.checkSelectedAvatar(_loc7_))
                {
-                  if(m_select_column - m_select_column_start == param1 && m_select_row == param2)
+                  if(this.m_select_column - this.m_select_column_start == param1 && this.m_select_row == param2)
                   {
-                     setImage(_loc9_.chara_sel.chara_img,_loc7_,false);
+                     this.setImage(_loc9_.chara_sel.chara_img,_loc7_,false);
                   }
                }
             }
@@ -2593,13 +2602,13 @@ package action_script
                {
                   _loc6_.gotoAndStop("off");
                }
-               if(m_select_icon_column == param1 && m_select_icon_row == param2)
+               if(this.m_select_icon_column == param1 && this.m_select_icon_row == param2)
                {
                   _loc9_.visible = true;
                   _loc9_.x = _loc3_.x + _loc5_.x + _loc6_.x;
                   _loc9_.y = _loc3_.y + _loc5_.y + _loc6_.y;
-                  setImage(_loc9_.chara_sel.chara_img,_loc7_,false);
-                  if(m_flag_decide)
+                  this.setImage(_loc9_.chara_sel.chara_img,_loc7_,false);
+                  if(this.m_flag_decide)
                   {
                      if(_loc9_.currentLabel != "push")
                      {
@@ -2628,20 +2637,20 @@ package action_script
       {
          var _loc1_:int = 0;
          var _loc2_:int = 0;
-         var _loc3_:MovieClip = m_timeline.cha_select;
+         var _loc3_:MovieClip = this.m_timeline.cha_select;
          _loc2_ = -1;
          while(IndexNumColumn + 1 > _loc2_)
          {
             _loc1_ = 0;
             while(IndexNumRow > _loc1_)
             {
-               updateCharaIconUnit(_loc2_,_loc1_);
+               this.updateCharaIconUnit(_loc2_,_loc1_);
                _loc1_++;
             }
             _loc2_++;
          }
          var _loc4_:MovieClip = _loc3_["chara_icn_set00"];
-         if(m_select_column_start <= 0)
+         if(this.m_select_column_start <= 0)
          {
             _loc4_.visible = false;
          }
@@ -2650,7 +2659,7 @@ package action_script
             _loc4_.visible = true;
          }
          var _loc5_:MovieClip = _loc3_["chara_icn_set0" + (IndexNumColumn + 1)];
-         if(m_chara_num_column <= m_select_column_start + IndexNumColumn)
+         if(this.m_chara_num_column <= this.m_select_column_start + IndexNumColumn)
          {
             _loc5_.visible = false;
          }
@@ -2669,9 +2678,9 @@ package action_script
          var _loc7_:Number = NaN;
          var _loc8_:Number = NaN;
          var _loc1_:int = 0;
-         ResetIcons();
-         var _loc2_:MovieClip = m_timeline.cha_skill;
-         if(m_flag_skill)
+         this.ResetIcons();
+         var _loc2_:MovieClip = this.m_timeline.cha_skill;
+         if(this.m_flag_skill)
          {
             if(_loc2_.currentFrame > Utility.GetLabelEndFrame(_loc2_,"wait"))
             {
@@ -2681,28 +2690,28 @@ package action_script
             _loc1_ = 0;
             while(SkillMax > _loc1_)
             {
-               _loc6_ = m_callback.GetUserDataString(ReceiveType_SkillNameStrStart + _loc1_);
-               _loc2_.inact_skill["skill0" + (_loc1_ + 1)].sys_skill.scaleX = m_skill_str_scalex_default;
+               _loc6_ = this.m_callback.GetUserDataString(ReceiveType_SkillNameStrStart + _loc1_);
+               _loc2_.inact_skill["skill0" + (_loc1_ + 1)].sys_skill.scaleX = this.m_skill_str_scalex_default;
                _loc2_.inact_skill["skill0" + (_loc1_ + 1)].sys_skill.autoSize = "left";
                _loc2_.inact_skill["skill0" + (_loc1_ + 1)].sys_skill.htmlText = _loc6_;
                _loc7_ = _loc2_.inact_skill["skill0" + (_loc1_ + 1)].sys_skill.width;
-               _loc8_ = m_skill_str_scalex_default;
-               if(m_skill_str_width_default < _loc7_)
+               _loc8_ = this.m_skill_str_scalex_default;
+               if(this.m_skill_str_width_default < _loc7_)
                {
-                  _loc8_ = m_skill_str_width_default / _loc7_;
+                  _loc8_ = this.m_skill_str_width_default / _loc7_;
                }
                _loc2_.inact_skill["skill0" + (_loc1_ + 1)].sys_skill.scaleX = _loc8_;
                _loc1_++;
             }
-            _loc3_ = m_callback.GetUserDataString(ReceiveType_TarismanNameStr);
-            _loc2_.inact_skill.skill09.sys_skill.scaleX = m_skill_str_scalex_default;
+            _loc3_ = this.m_callback.GetUserDataString(ReceiveType_TarismanNameStr);
+            _loc2_.inact_skill.skill09.sys_skill.scaleX = this.m_skill_str_scalex_default;
             _loc2_.inact_skill.skill09.sys_skill.autoSize = "left";
             _loc2_.inact_skill.skill09.sys_skill.htmlText = _loc3_;
             _loc4_ = _loc2_.inact_skill.skill09.sys_skill.width;
-            _loc5_ = m_skill_str_scalex_default;
-            if(m_skill_str_width_default < _loc4_)
+            _loc5_ = this.m_skill_str_scalex_default;
+            if(this.m_skill_str_width_default < _loc4_)
             {
-               _loc5_ = m_skill_str_width_default / _loc4_;
+               _loc5_ = this.m_skill_str_width_default / _loc4_;
             }
             _loc2_.inact_skill.skill09.sys_skill.scaleX = _loc5_ - 0.15;
             _loc2_.inact_skill.skill09.sys_skill.scaleY = 1;
@@ -2719,34 +2728,34 @@ package action_script
          var _loc3_:MovieClip = null;
          var _loc4_:Boolean = false;
          var _loc5_:Boolean = false;
-         var _loc1_:int = calcCharaListIndex(m_select_row,m_select_column);
-         if(checkNoChara(_loc1_))
+         var _loc1_:int = this.calcCharaListIndex(this.m_select_row,this.m_select_column);
+         if(this.checkNoChara(_loc1_))
          {
             _loc1_ = 0;
          }
          _loc2_ = 0;
          while(IndexNumCharaVariationNewIcon > _loc2_)
          {
-            _loc3_ = getMcVariationNewIcon(_loc2_);
-            _loc4_ = checkUnlockVar(_loc1_,_loc2_);
+            _loc3_ = this.getMcVariationNewIcon(_loc2_);
+            _loc4_ = this.checkUnlockVar(_loc1_,_loc2_);
             if(_loc4_)
             {
-               _loc5_ = checkVariationNewIconVisible(_loc1_,_loc2_);
+               _loc5_ = this.checkVariationNewIconVisible(_loc1_,_loc2_);
                if(_loc3_.visible != _loc5_)
                {
-                  if(m_icon_show_wait[_loc2_] < 2)
+                  if(this.m_icon_show_wait[_loc2_] < 1)
                   {
-                     m_icon_show_wait[_loc2_] = m_icon_show_wait[_loc2_] + 1;
+                     this.m_icon_show_wait[_loc2_] = this.m_icon_show_wait[_loc2_] + 1;
                   }
                   else
                   {
-                     m_icon_show_wait[_loc2_] = 0;
+                     this.m_icon_show_wait[_loc2_] = 0;
                      _loc3_.visible = _loc5_;
                   }
                }
                else
                {
-                  m_icon_show_wait[_loc2_] = 0;
+                  this.m_icon_show_wait[_loc2_] = 0;
                }
             }
             else
@@ -2760,30 +2769,34 @@ package action_script
       private function updateDisply() : *
       {
          var _loc7_:* = undefined;
-         var _loc1_:int = m_select_info[m_current_player_index][SelectInfoTypeListIndex];
-         var _loc2_:Array = getCharaInfo(_loc1_);
-         updateCharaIcon();
-         var _loc3_:* = m_callback.GetUserDataString(ReceiveType_CharaNameStr);
+         var _loc1_:int = this.m_select_info[this.m_current_player_index][SelectInfoTypeListIndex];
+         var _loc2_:Array = this.getCharaInfo(_loc1_);
+         this.updateCharaIcon();
+         var _loc3_:* = this.m_callback.GetUserDataString(ReceiveType_CharaNameStr);
          var _loc4_:String = "";
-         if(_loc2_[m_select_var][VarTypeFlag_GK2] == true)
+         if(_loc2_[this.m_select_var][VarTypeFlag_GK2] == true)
          {
-            _loc4_ = m_callback.GetUserDataString(ReceiveType_NameOption_GK2);
+            _loc4_ = this.m_callback.GetUserDataString(ReceiveType_NameOption_GK2);
+         }
+         else if(_loc2_[this.m_select_var][VarTypeFlag_CGK] == true)
+         {
+            _loc4_ = this.m_callback.GetUserDataString(ReceiveType_NameOption_CGK);
          }
          _loc3_ = _loc3_ + _loc4_;
-         var _loc5_:int = m_callback.GetUserDataInt(ReceiveType_NameOption_LvNum);
+         var _loc5_:int = this.m_callback.GetUserDataInt(ReceiveType_NameOption_LvNum);
          if(_loc5_ != -1)
          {
-            _loc7_ = m_callback.GetUserDataString(ReceiveType_NameOption_LvText);
+            _loc7_ = this.m_callback.GetUserDataString(ReceiveType_NameOption_LvText);
             _loc3_ = _loc3_ + " (";
             _loc3_ = _loc3_ + _loc7_;
             _loc3_ = _loc3_ + _loc5_.toString();
             _loc3_ = _loc3_ + ")";
          }
-         m_timeline.cha_parameter.sys_charaName.sys_charaName.htmlText = _loc3_;
-         var _loc6_:String = m_callback.GetUserDataString(ReceiveType_VariationNameStr);
-         m_timeline.cha_parameter.nest_clothes.sys_charavari_name.sys_charavari_name.htmlText = _loc6_;
-         updateSkill();
-         updateVariation();
+         Utility.SetAutoSizedhtmlText(this.m_timeline.cha_parameter.sys_charaName.sys_charaName,_loc3_);
+         var _loc6_:String = this.m_callback.GetUserDataString(ReceiveType_VariationNameStr);
+         this.m_timeline.cha_parameter.nest_clothes.sys_charavari_name.sys_charavari_name.htmlText = _loc6_;
+         this.updateSkill();
+         this.updateVariation();
       }
       
       private function getMcChamyset(param1:int) : MovieClip
@@ -2791,11 +2804,11 @@ package action_script
          var _loc2_:MovieClip = null;
          if(param1 < 9)
          {
-            _loc2_ = m_timeline.cha_parameter.nest_clothes["btnact_chamyset_0" + (param1 + 1)];
+            _loc2_ = this.m_timeline.cha_parameter.nest_clothes["btnact_chamyset_0" + (param1 + 1)];
          }
          else
          {
-            _loc2_ = m_timeline.cha_parameter.nest_clothes["btnact_chamyset_" + (param1 + 1)];
+            _loc2_ = this.m_timeline.cha_parameter.nest_clothes["btnact_chamyset_" + (param1 + 1)];
          }
          return _loc2_;
       }
@@ -2803,20 +2816,20 @@ package action_script
       private function getMcChamysetNewIcon(param1:int) : MovieClip
       {
          var _loc2_:MovieClip = null;
-         _loc2_ = m_timeline.cha_new["chara_new_" + param1];
+         _loc2_ = this.m_timeline.cha_new["chara_new_" + param1];
          return _loc2_;
       }
       
       private function getMcVariationNewIcon(param1:int) : MovieClip
       {
          var _loc2_:MovieClip = null;
-         _loc2_ = m_timeline.cha_parameter.nest_clothes["charavari_new_" + param1];
+         _loc2_ = this.m_timeline.cha_parameter.nest_clothes["charavari_new_" + param1];
          return _loc2_;
       }
       
       private function checkUnlockVar(param1:int, param2:int) : Boolean
       {
-         if(param1 < 0 || m_chara_list_num <= param1)
+         if(param1 < 0 || this.m_chara_list_num <= param1)
          {
             return false;
          }
@@ -2825,12 +2838,12 @@ package action_script
             return false;
          }
          var _loc3_:int = param1 * CharaVarIndexNum + param2;
-         return Boolean(m_callback.GetUserDataInt(ReceiveType_UnlockVarStart + _loc3_));
+         return Boolean(this.m_callback.GetUserDataInt(ReceiveType_UnlockVarStart + _loc3_));
       }
       
       private function checkUnlockChara(param1:*) : Boolean
       {
-         if(param1 < 0 || m_chara_list_num <= param1)
+         if(param1 < 0 || this.m_chara_list_num <= param1)
          {
             return false;
          }
@@ -2838,7 +2851,7 @@ package action_script
          _loc2_ = 0;
          while(CharaVarIndexNum > _loc2_)
          {
-            if(checkUnlockVar(param1,_loc2_))
+            if(this.checkUnlockVar(param1,_loc2_))
             {
                return true;
             }
@@ -2849,7 +2862,7 @@ package action_script
       
       private function checkAvatar(param1:int) : Boolean
       {
-         var _loc2_:Array = getCharaInfo(param1);
+         var _loc2_:Array = this.getCharaInfo(param1);
          if(!_loc2_)
          {
             return false;
@@ -2868,7 +2881,7 @@ package action_script
       
       private function checkNoChara(param1:int) : Boolean
       {
-         var _loc2_:Array = getCharaInfo(param1);
+         var _loc2_:Array = this.getCharaInfo(param1);
          if(!_loc2_)
          {
             return true;
@@ -2887,11 +2900,11 @@ package action_script
       
       private function checkCharaNewIconVisible(param1:int) : Boolean
       {
-         if(checkNoChara(param1))
+         if(this.checkNoChara(param1))
          {
             return false;
          }
-         if(checkAvatar(param1))
+         if(this.checkAvatar(param1))
          {
             return false;
          }
@@ -2900,25 +2913,25 @@ package action_script
             return false;
          }
          var _loc2_:int = CharaListShiftCount[param1];
-         return m_callback.GetUserDataInt(ReceiveType_CharaSelectedStart + _loc2_) == 0;
+         return this.m_callback.GetUserDataInt(ReceiveType_CharaSelectedStart + _loc2_) == 0;
       }
       
       private function checkVariationNewIconVisible(param1:int, param2:int) : Boolean
       {
-         if(checkNoChara(param1))
+         if(this.checkNoChara(param1))
          {
             return false;
          }
-         if(checkAvatar(param1))
+         if(this.checkAvatar(param1))
          {
             return false;
          }
-         var _loc3_:Array = getCharaInfo(param1);
+         var _loc3_:Array = this.getCharaInfo(param1);
          if(param2 >= _loc3_.length)
          {
             return false;
          }
-         return m_callback.GetUserDataInt(ReceiveType_CharaVariationStart + param2) == 0;
+         return this.m_callback.GetUserDataInt(ReceiveType_CharaVariationStart + param2) == 0;
       }
       
       private function checkSelectedAvatar(param1:int) : Boolean
@@ -2928,9 +2941,9 @@ package action_script
             return false;
          }
          var _loc2_:int = 0;
-         while(_loc2_ < m_selected_index_list.length)
+         while(_loc2_ < this.m_selected_index_list.length)
          {
-            if(m_selected_index_list[_loc2_] == param1)
+            if(this.m_selected_index_list[_loc2_] == param1)
             {
                return true;
             }
@@ -2941,116 +2954,116 @@ package action_script
       
       private function pushLeft() : void
       {
-         if(m_current_player_index != PlayerIndexOwn && m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
          {
             return;
          }
-         changeLR(true);
-         updatePage();
-         setSelectChara();
-         sendCharaInfo(m_current_player_index);
-         m_callback.CallbackSe(m_callback.SeTypeCarsol);
+         this.changeLR(true);
+         this.updatePage();
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
       }
       
       private function pushRight() : void
       {
-         if(m_current_player_index != PlayerIndexOwn && m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
          {
             return;
          }
-         changeLR(false);
-         updatePage();
-         setSelectChara();
-         sendCharaInfo(m_current_player_index);
-         m_callback.CallbackSe(m_callback.SeTypeCarsol);
+         this.changeLR(false);
+         this.updatePage();
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
       }
       
       private function pushUp() : void
       {
-         if(m_current_player_index != PlayerIndexOwn && m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
          {
             return;
          }
-         changeUD(true);
-         updatePage();
-         setSelectChara();
-         sendCharaInfo(m_current_player_index);
-         m_callback.CallbackSe(m_callback.SeTypeCarsol);
+         this.changeUD(true);
+         this.updatePage();
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
       }
       
       private function pushDown() : void
       {
-         if(m_current_player_index != PlayerIndexOwn && m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
          {
             return;
          }
-         changeUD(false);
-         updatePage();
-         setSelectChara();
-         sendCharaInfo(m_current_player_index);
-         m_callback.CallbackSe(m_callback.SeTypeCarsol);
+         this.changeUD(false);
+         this.updatePage();
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
       }
       
       private function pushKeyL() : void
       {
-         if(m_current_player_index != PlayerIndexOwn && m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
          {
             return;
          }
-         changeVar(true);
-         setSelectChara();
-         sendCharaInfo(m_current_player_index);
-         m_callback.CallbackSe(m_callback.SeTypeCarsol);
+         this.changeVar(true);
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
       }
       
       private function pushKeyR() : void
       {
-         if(m_current_player_index != PlayerIndexOwn && m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
          {
             return;
          }
-         changeVar(false);
-         setSelectChara();
-         sendCharaInfo(m_current_player_index);
-         m_callback.CallbackSe(m_callback.SeTypeCarsol);
+         this.changeVar(false);
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
       }
       
       private function pushKeySkill() : void
       {
-         if(m_current_player_index != PlayerIndexOwn && m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
          {
             return;
          }
-         if(m_flag_skill)
+         if(this.m_flag_skill)
          {
-            m_flag_skill = false;
-            m_callback.CallbackUserData("user",SendType_RequestSetFlagSkill,0);
+            this.m_flag_skill = false;
+            this.m_callback.CallbackUserData("user",SendType_RequestSetFlagSkill,0);
          }
          else
          {
-            m_flag_skill = true;
-            m_callback.CallbackUserData("user",SendType_RequestSetFlagSkill,1);
+            this.m_flag_skill = true;
+            this.m_callback.CallbackUserData("user",SendType_RequestSetFlagSkill,1);
          }
       }
       
       private function pushKeyRandom() : void
       {
-         if(m_current_player_index != PlayerIndexOwn && m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
          {
             return;
          }
          var _loc1_:int = 0;
          var _loc2_:int = 0;
          _loc1_ = 0;
-         while(m_chara_list_num > _loc1_)
+         while(this.m_chara_list_num > _loc1_)
          {
-            if(checkUnlockChara(_loc1_))
+            if(this.checkUnlockChara(_loc1_))
             {
                _loc2_++;
             }
             _loc1_++;
          }
-         if(m_current_player_index != PlayerIndexOwn)
+         if(this.m_current_player_index != PlayerIndexOwn)
          {
             _loc2_--;
          }
@@ -3062,12 +3075,12 @@ package action_script
          _loc1_ = 0;
          while(_loc3_ > _loc1_)
          {
-            changeUD(false);
-            updatePage();
+            this.changeUD(false);
+            this.updatePage();
             _loc1_++;
          }
-         var _loc4_:int = calcCharaListIndex(m_select_row,m_select_column);
-         var _loc5_:int = getVarIndexNum(_loc4_);
+         var _loc4_:int = this.calcCharaListIndex(this.m_select_row,this.m_select_column);
+         var _loc5_:int = this.getVarIndexNum(_loc4_);
          var _loc6_:int = 0;
          if(_loc5_ > 1)
          {
@@ -3076,126 +3089,126 @@ package action_script
          _loc1_ = 0;
          while(_loc6_ > _loc1_)
          {
-            changeVar(false);
+            this.changeVar(false);
             _loc1_++;
          }
-         setSelectChara();
-         sendCharaInfo(m_current_player_index);
-         m_callback.CallbackSe(m_callback.SeTypeCarsol);
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
       }
       
       private function pushKeyDecide() : void
       {
-         if(m_flag_change_player)
+         if(this.m_flag_change_player)
          {
             return;
          }
-         if(m_current_player_index != PlayerIndexOwn && m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
          {
             return;
          }
-         m_current_select_index++;
-         m_flag_change_player = true;
-         m_flag_decide = true;
-         m_callback.CallbackSe(m_callback.SeTypeDecide);
+         this.m_current_select_index++;
+         this.m_flag_change_player = true;
+         this.m_flag_decide = true;
+         this.m_callback.CallbackSe(this.m_callback.SeTypeDecide);
       }
       
       private function pushKeyCancel() : void
       {
          var _loc2_:int = 0;
-         if(m_flag_change_player)
+         if(this.m_flag_change_player)
          {
             return;
          }
-         var _loc1_:int = m_callback.GetUserDataInt(ReceiveType_FlagUseCancel);
+         var _loc1_:int = this.m_callback.GetUserDataInt(ReceiveType_FlagUseCancel);
          if(!_loc1_)
          {
-            _loc2_ = m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle);
+            _loc2_ = this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle);
             if(_loc2_)
             {
                return;
             }
-            if(m_current_player_index <= PlayerIndexOwn)
+            if(this.m_current_player_index <= PlayerIndexOwn)
             {
                return;
             }
          }
-         m_current_select_index--;
-         m_flag_change_player = true;
-         m_flag_decide = false;
-         m_callback.CallbackSe(m_callback.SeTypeCancel);
+         this.m_current_select_index--;
+         this.m_flag_change_player = true;
+         this.m_flag_decide = false;
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCancel);
       }
       
       private function pushStart() : void
       {
-         var _loc1_:int = m_callback.GetUserDataInt(ReceiveType_PlayerEnmNum);
+         var _loc1_:int = this.m_callback.GetUserDataInt(ReceiveType_PlayerEnmNum);
          if(_loc1_ > 0)
          {
             return;
          }
-         if(m_current_player_index == PlayerIndexOwn)
+         if(this.m_current_player_index == PlayerIndexOwn)
          {
             return;
          }
-         m_flag_change_player = true;
-         m_flag_decide = false;
-         m_flag_exit = true;
-         m_callback.CallbackSe(m_callback.SeTypeCarsol);
+         this.m_flag_change_player = true;
+         this.m_flag_decide = false;
+         this.m_flag_exit = true;
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
       }
       
       private function checkKey(param1:KeyboardEvent) : void
       {
          trace("[CHARASELE] checkKey " + param1.keyCode);
          trace("hello");
-         if(m_flag_decide)
+         if(this.m_flag_decide)
          {
             return;
          }
-         if(m_flag_change_disp || m_count_change_disp > 0)
+         if(this.m_flag_change_disp || this.m_count_change_disp > 0)
          {
             return;
          }
          switch(param1.keyCode)
          {
             case Keyboard.ENTER:
-               pushKeyDecide();
-               m_flag_change_disp = true;
+               this.pushKeyDecide();
+               this.m_flag_change_disp = true;
                break;
             case Keyboard.ESCAPE:
-               pushKeyCancel();
-               m_flag_change_disp = true;
+               this.pushKeyCancel();
+               this.m_flag_change_disp = true;
                break;
             case Keyboard.LEFT:
-               pushLeft();
-               m_flag_change_disp = true;
+               this.pushLeft();
+               this.m_flag_change_disp = true;
                break;
             case Keyboard.RIGHT:
-               pushRight();
-               m_flag_change_disp = true;
+               this.pushRight();
+               this.m_flag_change_disp = true;
                break;
             case Keyboard.UP:
-               pushUp();
-               m_flag_change_disp = true;
+               this.pushUp();
+               this.m_flag_change_disp = true;
                break;
             case Keyboard.DOWN:
-               pushDown();
-               m_flag_change_disp = true;
+               this.pushDown();
+               this.m_flag_change_disp = true;
                break;
             case Keyboard.DELETE:
-               pushKeyL();
-               m_flag_change_disp = true;
+               this.pushKeyL();
+               this.m_flag_change_disp = true;
                break;
             case Keyboard.PAGE_DOWN:
-               pushKeyR();
-               m_flag_change_disp = true;
+               this.pushKeyR();
+               this.m_flag_change_disp = true;
                break;
             case 88:
-               pushKeySkill();
-               m_flag_change_disp = true;
+               this.pushKeySkill();
+               this.m_flag_change_disp = true;
                break;
             case 89:
             case Keyboard.END:
-               ////////// Fix to zoom bug
+                ////////// Fix to zoom bug
 			   if (isKeyboardControllerActive || param1.keyCode == 89)
 			   {
 					pushKeyRandom();
@@ -3205,55 +3218,55 @@ package action_script
                break;
             case Keyboard.SPACE:
             case 83:
-               pushStart();
-               m_flag_change_disp = true;
+               this.pushStart();
+               this.m_flag_change_disp = true;
          }
       }
       
       public function SetUserDataInt(param1:int, param2:int) : *
       {
-         m_callback.AddCallbackSetUserDataInt(param1,param2);
+         this.m_callback.AddCallbackSetUserDataInt(param1,param2);
       }
       
       public function SetUserDataString(param1:int, param2:String) : *
       {
-         m_callback.AddCallbackSetUserDataString(param1,param2);
+         this.m_callback.AddCallbackSetUserDataString(param1,param2);
       }
       
       public function TestDestroy() : void
       {
-         m_callback = null;
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,requestUnlock);
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,waitUnlock);
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,waitStart);
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,waitMain);
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,main);
-         m_timeline.stage.removeEventListener(Event.ENTER_FRAME,waitEnd);
-         m_timeline.stage.removeEventListener(KeyboardEvent.KEY_DOWN,checkKey);
-         m_timeline.visible = false;
-         m_timeline = null;
-         m_timer.Destroy();
-         m_timer = null;
+         this.m_callback = null;
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.requestUnlock);
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.waitUnlock);
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.waitStart);
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.waitMain);
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.main);
+         this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.waitEnd);
+         this.m_timeline.stage.removeEventListener(KeyboardEvent.KEY_DOWN,this.checkKey);
+         this.m_timeline.visible = false;
+         this.m_timeline = null;
+         this.m_timer.Destroy();
+         this.m_timer = null;
       }
       
       public function TestCheckChangeSelect() : Boolean
       {
-         return !m_callback.GetUserDataValidFlag(ReceiveType_CharaNameStr);
+         return !this.m_callback.GetUserDataValidFlag(ReceiveType_CharaNameStr);
       }
       
       public function TestGetCharaList() : Array
       {
-         return m_chara_list;
+         return this.m_chara_list;
       }
       
       public function TestGetCharaVarInfo() : Array
       {
-         return GetSelectVarInfo(m_current_player_index);
+         return this.GetSelectVarInfo(this.m_current_player_index);
       }
       
       public function TestGetCurrentPlayerIndex() : int
       {
-         return m_current_player_index;
+         return this.m_current_player_index;
       }
    }
 }
