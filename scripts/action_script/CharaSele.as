@@ -2008,7 +2008,7 @@ package action_script
          }
       }
       
-      private function changeLR(param1:Boolean) : void
+      private function changeLR(param1:Boolean, jumpPage:Boolean) : void
       {
          var _loc2_:int = 0;
          var _loc3_:int = 0;
@@ -2021,7 +2021,16 @@ package action_script
                {
                   break;
                }
-               this.m_select_column--;
+
+               if (jumpPage) 
+               {
+                  this.m_select_column -= 7;
+               }
+               else
+               {
+                  this.m_select_column--;
+               }
+
                if(this.m_select_column < 0)
                {
                   this.m_select_column = this.m_chara_num_column - 1;
@@ -2032,7 +2041,15 @@ package action_script
             }
             else
             {
-               this.m_select_column++;
+               if (jumpPage) 
+               {
+                  this.m_select_column += 7;
+               }
+               else
+               {
+                  this.m_select_column++;
+               }
+
                if(this.m_chara_num_column <= this.m_select_column)
                {
                   this.m_select_column = 0;
@@ -2958,7 +2975,7 @@ package action_script
          {
             return;
          }
-         this.changeLR(true);
+         this.changeLR(true, false);
          this.updatePage();
          this.setSelectChara();
          this.sendCharaInfo(this.m_current_player_index);
@@ -2971,7 +2988,7 @@ package action_script
          {
             return;
          }
-         this.changeLR(false);
+         this.changeLR(false, false);
          this.updatePage();
          this.setSelectChara();
          this.sendCharaInfo(this.m_current_player_index);
@@ -2998,6 +3015,32 @@ package action_script
             return;
          }
          this.changeUD(false);
+         this.updatePage();
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
+      }
+      
+      private function pushKeyPrevPage() : void
+      {
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         {
+            return;
+         }
+         this.changeLR(true, true);
+         this.updatePage();
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
+      }
+      
+      private function pushKeyNextPage() : void
+      {
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         {
+            return;
+         }
+         this.changeLR(false, true);
          this.updatePage();
          this.setSelectChara();
          this.sendCharaInfo(this.m_current_player_index);
@@ -3192,6 +3235,14 @@ package action_script
                break;
             case Keyboard.DOWN:
                this.pushDown();
+               this.m_flag_change_disp = true;
+               break;
+            case 33: // RT/R2/Page Up
+               this.pushKeyNextPage();
+               this.m_flag_change_disp = true;
+               break;
+            case 45: // LT/L2/Insert
+               this.pushKeyPrevPage();
                this.m_flag_change_disp = true;
                break;
             case Keyboard.DELETE:
