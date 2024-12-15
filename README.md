@@ -6,4 +6,4 @@ Compile instructions: <br>
 - An existing CHARASELE.iggy from the game must be placed on the base directory. It should be from the same version that the "currently based" version listed at the bottom of this readme. <br>
 - Just run compile.bat, the .iggy file you placed will be updated in place with the code. The .bat will also try to automatically copy it to the location of a default DBXV2 installation. You may want to modify the path in compile.bat if you have your game in a different location. <br>
 
-Currently based on game version: 1.22.1 (SHA256: 423EE48ABEC5A3834DDD74208F723F55D9A8C4101F5F2B1112F0486D3C96CBDB)
+Currently based on game version: 1.23 (SHA256: AAA8421F2CA784FB47B69F857AF8C8EED76161EB590886E2ABB73C2DD8729DED)
