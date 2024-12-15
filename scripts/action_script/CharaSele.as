@@ -23,7 +23,7 @@ package action_script
       public static const CharaVarIndexNum:int = 32;
       
       //////////
-	  //public static const CharacterMax:int = 256;
+	  //public static const CharacterMax:int = 256;;
 	  public static const CharacterMax:int = 850;
 	  //////////
       
