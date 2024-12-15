@@ -29,7 +29,7 @@ package action_script
       
       public static const CustomListMax:int = 512;
       
-      public static const CharacterTableData:int = 15;
+      public static const CharacterTableData:int = 17;
       
       public static const CharacterTableMax:int = 512;
       
@@ -59,7 +59,11 @@ package action_script
       
       public static var VarTypeFlag_CGK:int = 12;
       
-      public static var VarTypeNum:int = 13;
+      public static var VarTypeCharaSingleUnlockFlag:int = 13;
+      
+      public static var VarTypeCharaSingleUnlockFlag2:int = 14;
+      
+      public static var VarTypeNum:int = 15;
       
       public static var InvalidCode:String = "";
       
@@ -155,7 +159,11 @@ package action_script
       
       public static const ReceiveType_DLCUnlockFlag2:int = ReceiveType_DLCUnlockFlag + 1;
       
-      public static const ReceiveType_JoyConSingleFlag:int = ReceiveType_DLCUnlockFlag2 + 1;
+      public static const ReceiveType_CharaSingleUnlock:int = ReceiveType_DLCUnlockFlag2 + 1;
+      
+      public static const ReceiveType_CharaSingleUnlock2:int = ReceiveType_CharaSingleUnlock + 1;
+      
+      public static const ReceiveType_JoyConSingleFlag:int = ReceiveType_CharaSingleUnlock2 + 1;
       
       public static const ReceiveType_WaitLoadNum:int = ReceiveType_JoyConSingleFlag;
       
@@ -192,6 +200,10 @@ package action_script
       public static const ReceiveType_CustomCostumeEx:int = ReceiveType_AfterTU9Order + 1;
       
       public static const ReceiveType_ChouGokuaku:int = ReceiveType_CustomCostumeEx + 1;
+      
+      public static const ReceiveType_CharaSingleUnlockKey:int = ReceiveType_ChouGokuaku + 1;
+      
+      public static const ReceiveType_CharaSingleUnlockKey2:int = ReceiveType_CharaSingleUnlockKey + 1;
       
       public static const ReceiveType_CharacterTableEnd:int = ReceiveType_CharacterTableStart + CharacterTableMax * CharacterTableData;
       
@@ -419,6 +431,7 @@ package action_script
          try
          {
             ExternalInterface.addCallback("ForcingCancel",this.pushKeyCancel);
+            ExternalInterface.addCallback("RefreshIcons",this.ResetIcons);
             return;
          }
          catch(e:Error)
@@ -472,19 +485,23 @@ package action_script
          var _loc8_:int = 0;
          var _loc9_:int = 0;
          var _loc10_:int = 0;
-         var _loc11_:Array = null;
+         var _loc11_:int = 0;
          var _loc12_:int = 0;
-         var _loc13_:String = null;
+         var _loc13_:Array = null;
          var _loc14_:int = 0;
-         var _loc15_:int = 0;
+         var _loc15_:String = null;
          var _loc16_:int = 0;
-         var _loc17_:Array = null;
-         var _loc18_:Boolean = false;
-         var _loc19_:Boolean = false;
-         var _loc20_:int = 0;
-         var _loc21_:int = 0;
+         var _loc17_:int = 0;
+         var _loc18_:int = 0;
+         var _loc19_:Array = null;
+         var _loc20_:Boolean = false;
+         var _loc21_:Boolean = false;
          var _loc22_:int = 0;
          var _loc23_:int = 0;
+         var _loc24_:int = 0;
+         var _loc25_:int = 0;
+         var _loc26_:int = 0;
+         var _loc27_:int = 0;
          if(!this.m_callback)
          {
             return;
@@ -533,81 +550,83 @@ package action_script
             }
             _loc7_ = this.m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag);
             _loc8_ = this.m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag2);
+            _loc9_ = this.m_callback.GetUserDataInt(ReceiveType_CharaSingleUnlock);
+            _loc10_ = this.m_callback.GetUserDataInt(ReceiveType_CharaSingleUnlock2);
             if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CostumeNum))
             {
                return;
             }
-            _loc9_ = this.m_callback.GetUserDataInt(ReceiveType_CostumeNum);
-            _loc10_ = ReceiveType_CharacterTableStart;
-            while(_loc10_ < ReceiveType_CharacterTableStart + _loc9_ * CharacterTableData)
+            _loc11_ = this.m_callback.GetUserDataInt(ReceiveType_CostumeNum);
+            _loc12_ = ReceiveType_CharacterTableStart;
+            while(_loc12_ < ReceiveType_CharacterTableStart + _loc11_ * CharacterTableData)
             {
-               if(!this.m_callback.GetUserDataValidFlag(_loc10_))
+               if(!this.m_callback.GetUserDataValidFlag(_loc12_))
                {
                   return;
                }
-               _loc10_++;
+               _loc12_++;
             }
-            this.m_chara_list = this.recieveList(_loc7_,_loc8_);
+            this.m_chara_list = this.recieveList(_loc7_,_loc8_,_loc9_,_loc10_);
             if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CharacterTableEnd + 1))
             {
                return;
             }
-            _loc11_ = new Array();
+            _loc13_ = new Array();
             _loc2_ = 0;
             while(_loc2_ < _loc6_)
             {
-               _loc13_ = this.m_callback.GetUserDataString(ReceiveType_CustomList_CID_Start + _loc2_);
-               _loc14_ = this.m_callback.GetUserDataInt(ReceiveType_CustomList_MID_Start + _loc2_);
-               _loc15_ = this.m_callback.GetUserDataInt(ReceiveType_CustomList_PID_Start + _loc2_);
-               _loc16_ = this.m_callback.GetUserDataInt(ReceiveType_CustomList_PartnerJudge_Start + _loc2_);
-               _loc11_.push([_loc13_,_loc14_,_loc15_,_loc16_]);
+               _loc15_ = this.m_callback.GetUserDataString(ReceiveType_CustomList_CID_Start + _loc2_);
+               _loc16_ = this.m_callback.GetUserDataInt(ReceiveType_CustomList_MID_Start + _loc2_);
+               _loc17_ = this.m_callback.GetUserDataInt(ReceiveType_CustomList_PID_Start + _loc2_);
+               _loc18_ = this.m_callback.GetUserDataInt(ReceiveType_CustomList_PartnerJudge_Start + _loc2_);
+               _loc13_.push([_loc15_,_loc16_,_loc17_,_loc18_]);
                _loc2_++;
             }
             _loc2_ = 0;
             while(_loc2_ < this.m_chara_list.length)
             {
-               _loc17_ = this.m_chara_list[_loc2_];
-               _loc18_ = true;
+               _loc19_ = this.m_chara_list[_loc2_];
+               _loc20_ = true;
                _loc3_ = 0;
-               while(_loc3_ < _loc17_.length)
+               while(_loc3_ < _loc19_.length)
                {
-                  _loc19_ = true;
+                  _loc21_ = true;
                   _loc4_ = 0;
-                  while(_loc4_ < _loc11_.length)
+                  while(_loc4_ < _loc13_.length)
                   {
-                     if(_loc17_[_loc3_][0] == _loc11_[_loc4_][0])
+                     if(_loc19_[_loc3_][0] == _loc13_[_loc4_][0])
                      {
-                        if(_loc11_[_loc4_][1] == -1 || _loc17_[_loc3_][1] == _loc11_[_loc4_][1])
+                        if(_loc13_[_loc4_][1] == -1 || _loc19_[_loc3_][1] == _loc13_[_loc4_][1])
                         {
-                           if(_loc11_[_loc4_][2] == -1 || _loc17_[_loc3_][2] == _loc11_[_loc4_][2])
+                           if(_loc13_[_loc4_][2] == -1 || _loc19_[_loc3_][2] == _loc13_[_loc4_][2])
                            {
-                              if(!(_loc11_[_loc4_][3] != 1 && _loc17_[_loc3_][VarTypeCustomCostume]))
+                              if(!(_loc13_[_loc4_][3] != 1 && _loc19_[_loc3_][VarTypeCustomCostume]))
                               {
-                                 _loc19_ = false;
-                                 _loc18_ = false;
+                                 _loc21_ = false;
+                                 _loc20_ = false;
                               }
                            }
                         }
                      }
                      _loc4_++;
                   }
-                  if(_loc19_)
+                  if(_loc21_)
                   {
-                     _loc17_.splice(_loc3_,1);
+                     _loc19_.splice(_loc3_,1);
                      _loc3_--;
                   }
                   _loc3_++;
                }
-               if(_loc18_)
+               if(_loc20_)
                {
                   this.m_chara_list.splice(_loc2_,1);
                   _loc2_--;
                }
                _loc2_++;
             }
-            _loc12_ = 3 - this.m_chara_list.length % 3;
+            _loc14_ = 3 - this.m_chara_list.length % 3;
             _loc2_ = 0;
-            while(_loc12_ > _loc2_)
+            while(_loc14_ > _loc2_)
             {
                this.m_chara_list.concat([[["",0,0,0]]]);
                _loc2_++;
@@ -615,23 +634,25 @@ package action_script
          }
          else
          {
-            _loc20_ = this.m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag);
-            _loc21_ = this.m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag2);
+            _loc22_ = this.m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag);
+            _loc23_ = this.m_callback.GetUserDataInt(ReceiveType_DLCUnlockFlag2);
+            _loc24_ = this.m_callback.GetUserDataInt(ReceiveType_CharaSingleUnlock);
+            _loc25_ = this.m_callback.GetUserDataInt(ReceiveType_CharaSingleUnlock2);
             if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CostumeNum))
             {
                return;
             }
-            _loc22_ = this.m_callback.GetUserDataInt(ReceiveType_CostumeNum);
-            _loc23_ = ReceiveType_CharacterTableStart;
-            while(_loc23_ < ReceiveType_CharacterTableStart + _loc22_ * CharacterTableData)
+            _loc26_ = this.m_callback.GetUserDataInt(ReceiveType_CostumeNum);
+            _loc27_ = ReceiveType_CharacterTableStart;
+            while(_loc27_ < ReceiveType_CharacterTableStart + _loc26_ * CharacterTableData)
             {
-               if(!this.m_callback.GetUserDataValidFlag(_loc23_))
+               if(!this.m_callback.GetUserDataValidFlag(_loc27_))
                {
                   return;
                }
-               _loc23_++;
+               _loc27_++;
             }
-            this.m_chara_list = this.recieveList(_loc20_,_loc21_);
+            this.m_chara_list = this.recieveList(_loc22_,_loc23_,_loc24_,_loc25_);
             if(!this.m_callback.GetUserDataValidFlag(ReceiveType_CharacterTableEnd + 1))
             {
                return;
@@ -643,33 +664,35 @@ package action_script
          this.m_timeline.stage.addEventListener(Event.ENTER_FRAME,this.requestUnlock);
       }
       
-      private function recieveList(param1:int, param2:int) : Array
+      private function recieveList(param1:int, param2:int, param3:int, param4:int) : Array
       {
-         var _loc5_:int = 0;
-         var _loc9_:int = 0;
-         var _loc10_:Array = null;
-         var _loc11_:Array = null;
-         var _loc12_:String = null;
-         var _loc13_:int = 0;
-         var _loc14_:int = 0;
+         var _loc7_:int = 0;
+         var _loc11_:int = 0;
+         var _loc12_:Array = null;
+         var _loc13_:Array = null;
+         var _loc14_:String = null;
          var _loc15_:int = 0;
          var _loc16_:int = 0;
-         var _loc17_:Array = null;
+         var _loc17_:int = 0;
          var _loc18_:int = 0;
-         var _loc19_:int = 0;
+         var _loc19_:Array = null;
          var _loc20_:int = 0;
          var _loc21_:int = 0;
          var _loc22_:int = 0;
          var _loc23_:int = 0;
          var _loc24_:int = 0;
          var _loc25_:int = 0;
-         var _loc26_:Array = null;
-         var _loc27_:Boolean = false;
+         var _loc26_:int = 0;
+         var _loc27_:int = 0;
          var _loc28_:int = 0;
          var _loc29_:int = 0;
-         var _loc30_:int = 0;
-         var _loc3_:Array = new Array();
-         var _loc4_:int = this.m_callback.GetUserDataInt(ReceiveType_CostumeNum);
+         var _loc30_:Array = null;
+         var _loc31_:Boolean = false;
+         var _loc32_:int = 0;
+         var _loc33_:int = 0;
+         var _loc34_:int = 0;
+         var _loc5_:Array = new Array();
+         var _loc6_:int = this.m_callback.GetUserDataInt(ReceiveType_CostumeNum);
 		 
 		 //////////
 		 var map_cc:Array = new Array();
@@ -678,56 +701,60 @@ package action_script
 		 var other_cacs:Array = new Array(); // Added in 1.10
 		 //////////
 		 
-         _loc5_ = 0;
-         while(_loc5_ < _loc4_)
+         _loc7_ = 0;
+         while(_loc7_ < _loc6_)
          {
-            _loc10_ = new Array();
+            _loc12_ = new Array();
             while(true)
             {
-               _loc11_ = new Array();
-               _loc12_ = this.m_callback.GetUserDataString(ReceiveType_CID + _loc5_ * CharacterTableData);
-               _loc13_ = this.m_callback.GetUserDataInt(ReceiveType_MID + _loc5_ * CharacterTableData);
-               _loc14_ = this.m_callback.GetUserDataInt(ReceiveType_PID + _loc5_ * CharacterTableData);
-               _loc15_ = this.m_callback.GetUserDataInt(ReceiveType_UnlockNum + _loc5_ * CharacterTableData);
-               _loc16_ = this.m_callback.GetUserDataInt(ReceiveType_Gokuaku + _loc5_ * CharacterTableData);
-               _loc17_ = new Array();
-               _loc17_.push(this.m_callback.GetUserDataInt(ReceiveType_SelectVoice1 + _loc5_ * CharacterTableData));
-               _loc17_.push(this.m_callback.GetUserDataInt(ReceiveType_SelectVoice2 + _loc5_ * CharacterTableData));
-               _loc18_ = this.m_callback.GetUserDataInt(ReceiveType_DlcKey + _loc5_ * CharacterTableData);
-               _loc19_ = this.m_callback.GetUserDataInt(ReceiveType_DlcKey2 + _loc5_ * CharacterTableData);
-               _loc20_ = this.m_callback.GetUserDataInt(ReceiveType_CustomCostume + _loc5_ * CharacterTableData);
-               _loc21_ = this.m_callback.GetUserDataInt(ReceiveType_AvatarSlotID + _loc5_ * CharacterTableData);
-               _loc22_ = this.m_callback.GetUserDataInt(ReceiveType_AfterTU9Order + _loc5_ * CharacterTableData);
-               _loc23_ = this.m_callback.GetUserDataInt(ReceiveType_CustomCostumeEx + _loc5_ * CharacterTableData);
-               _loc24_ = this.m_callback.GetUserDataInt(ReceiveType_ChouGokuaku + _loc5_ * CharacterTableData);
-               _loc11_.push(_loc12_);
-               _loc11_.push(_loc13_);
-               _loc11_.push(_loc14_);
-               _loc11_.push(_loc15_);
-               _loc11_.push(_loc16_);
-               _loc11_.push(_loc17_);
-               _loc11_.push(_loc18_);
-               _loc11_.push(_loc19_);
-               _loc11_.push(_loc20_);
-               _loc11_.push(_loc21_);
-               _loc11_.push(_loc22_);
-               _loc11_.push(_loc23_);
-               _loc11_.push(_loc24_);
-               _loc10_.push(_loc11_);
+               _loc13_ = new Array();
+               _loc14_ = this.m_callback.GetUserDataString(ReceiveType_CID + _loc7_ * CharacterTableData);
+               _loc15_ = this.m_callback.GetUserDataInt(ReceiveType_MID + _loc7_ * CharacterTableData);
+               _loc16_ = this.m_callback.GetUserDataInt(ReceiveType_PID + _loc7_ * CharacterTableData);
+               _loc17_ = this.m_callback.GetUserDataInt(ReceiveType_UnlockNum + _loc7_ * CharacterTableData);
+               _loc18_ = this.m_callback.GetUserDataInt(ReceiveType_Gokuaku + _loc7_ * CharacterTableData);
+               _loc19_ = new Array();
+               _loc19_.push(this.m_callback.GetUserDataInt(ReceiveType_SelectVoice1 + _loc7_ * CharacterTableData));
+               _loc19_.push(this.m_callback.GetUserDataInt(ReceiveType_SelectVoice2 + _loc7_ * CharacterTableData));
+               _loc20_ = this.m_callback.GetUserDataInt(ReceiveType_DlcKey + _loc7_ * CharacterTableData);
+               _loc21_ = this.m_callback.GetUserDataInt(ReceiveType_DlcKey2 + _loc7_ * CharacterTableData);
+               _loc22_ = this.m_callback.GetUserDataInt(ReceiveType_CustomCostume + _loc7_ * CharacterTableData);
+               _loc23_ = this.m_callback.GetUserDataInt(ReceiveType_AvatarSlotID + _loc7_ * CharacterTableData);
+               _loc24_ = this.m_callback.GetUserDataInt(ReceiveType_AfterTU9Order + _loc7_ * CharacterTableData);
+               _loc25_ = this.m_callback.GetUserDataInt(ReceiveType_CustomCostumeEx + _loc7_ * CharacterTableData);
+               _loc26_ = this.m_callback.GetUserDataInt(ReceiveType_ChouGokuaku + _loc7_ * CharacterTableData);
+               _loc27_ = this.m_callback.GetUserDataInt(ReceiveType_CharaSingleUnlockKey + _loc7_ * CharacterTableData);
+               _loc28_ = this.m_callback.GetUserDataInt(ReceiveType_CharaSingleUnlockKey2 + _loc7_ * CharacterTableData);
+               _loc13_.push(_loc14_);
+               _loc13_.push(_loc15_);
+               _loc13_.push(_loc16_);
+               _loc13_.push(_loc17_);
+               _loc13_.push(_loc18_);
+               _loc13_.push(_loc19_);
+               _loc13_.push(_loc20_);
+               _loc13_.push(_loc21_);
+               _loc13_.push(_loc22_);
+               _loc13_.push(_loc23_);
+               _loc13_.push(_loc24_);
+               _loc13_.push(_loc25_);
+               _loc13_.push(_loc26_);
+               _loc13_.push(_loc27_);
+               _loc13_.push(_loc28_);
+               _loc12_.push(_loc13_);
 			   
 			   
 			   //////////			  
 			   
 			   if (main_cac_index < 0) // 1.10
 			   {
-			       main_cac_index = _loc21_; 
+			       main_cac_index = _loc23_; // AvatarSlotID
 			   }
 			   
-			   if (_loc20_)
+			   if (_loc22_) // CustomCostume
 			   {
-			       var first:Array = _loc10_[0];
+			       var first:Array = _loc12_[0];
 				   var key:String = first[0] + first[1].toString();
-				   map_cc[key] = _loc11_;
+				   map_cc[key] = _loc13_;
 				   
 				   // In 1.15 "CustomCostumeEx" was added (these are the ones like Trunks,GK4, etc that get unlocked through keys)
 				   // The game will set the regular CustomCostume to 0 if it is locked, and to 1 if it is unlocked
@@ -736,27 +763,27 @@ package action_script
 			   else
 			   {
 				   // 1.10
-				   if (_loc18_ < 0 && _loc12_ == "GOK")
+				   if (_loc20_ < 0 && _loc14_ == "GOK") // DlcKey < 0 && CID == "GOK"
 				   {
-				       dummy_goks.push(_loc11_);					   
+				       dummy_goks.push(_loc13_);					   
 				   }
-				   else if (_loc21_ != main_cac_index && _loc12_ == "HUM")
+				   else if (_loc23_ != main_cac_index && _loc14_ == "HUM") // AvatarSlotID != main_cac_index && CID == "GOK"
 				   {
-				       other_cacs.push(_loc11_);
+				       other_cacs.push(_loc13_);
 				   }
 			   }	   
 			  
 			   //////////
 			   
-               _loc25_ = this.m_callback.GetUserDataInt(ReceiveType_CostumeID + (_loc5_ + 1) * CharacterTableData);
-               if(_loc25_ == 0)
+               _loc29_ = this.m_callback.GetUserDataInt(ReceiveType_CostumeID + (_loc7_ + 1) * CharacterTableData);
+               if(_loc29_ == 0)
                {
                   break;
                }
-               _loc5_++;
+               _loc7_++;
             }
-            _loc3_.push(_loc10_);
-            _loc5_++;
+            _loc5_.push(_loc12_);
+            _loc7_++;
          }
 		 
 		 //////////
@@ -764,12 +791,12 @@ package action_script
 		 var i:int = 0;
 		 var SlotsString:String = XV2Patcher.GetSlotsData();
 		 
-		 _loc3_ = new Array(); 	
+		 _loc5_ = new Array(); 	
 		 
 		 // Loop for xv2patcher
 		 while (i < SlotsString.length)
 		 {
-			_loc10_ = new Array();
+			_loc12_ = new Array();
 			
 			if (SlotsString.substr(i, 1) != "{")
 			{
@@ -782,7 +809,7 @@ package action_script
 			while (SlotsString.substr(i, 1) == "[")
 			{
 				i++;				
-				_loc11_ = new Array();
+				_loc13_ = new Array();
 				
 				var pos:int = SlotsString.indexOf("]", i);
 				if (pos == -1)
@@ -800,33 +827,37 @@ package action_script
 					return null;
 				}
 				
-				_loc11_.push(fields[0]); // Code
-				_loc11_.push(int(fields[1])); // Mid
-				_loc11_.push(int(fields[2])); // Model preset
-				_loc11_.push(int(fields[3])); // Unlock index
-				_loc11_.push(int(fields[4])); // Flag GK2				
-				_loc11_.push(new Array(int(fields[5]), int(fields[6]))); // Voices id list
-				_loc11_.push(int(fields[7])); // Dlc key flag
-				_loc11_.push(int(fields[8])); // Dlc key 2 (aka, upper 32 bits) Added in 1.16, started to being in use in 1.18
-				_loc11_.push(0); // Custom costume flag
-				_loc11_.push(main_cac_index); // Avatar ID (new in 1.10)
-				_loc11_.push(-1); // After TU9 Order, whatever this shit is. It was added in 1.14, let's set it to -1...
-				_loc11_.push(0); // Custom costume ex
-				_loc11_.push(int(fields[9])); // Flag CGK2 (1.22)
+				_loc13_.push(fields[0]); // Code
+				_loc13_.push(int(fields[1])); // Mid
+				_loc13_.push(int(fields[2])); // Model preset
+				_loc13_.push(int(fields[3])); // Unlock index
+				_loc13_.push(int(fields[4])); // Flag GK2				
+				_loc13_.push(new Array(int(fields[5]), int(fields[6]))); // Voices id list
+				_loc13_.push(int(fields[7])); // Dlc key flag
+				_loc13_.push(int(fields[8])); // Dlc key 2 (aka, upper 32 bits) Added in 1.16, started to being in use in 1.18
+				_loc13_.push(0); // Custom costume flag
+				_loc13_.push(main_cac_index); // Avatar ID (new in 1.10)
+				_loc13_.push(-1); // After TU9 Order, whatever this shit is. It was added in 1.14, let's set it to -1...
+				_loc13_.push(0); // Custom costume ex
+				_loc13_.push(int(fields[9])); // Flag CGK2 (1.22)
+				// 1.23: CharaSingleUnlockKey && CharaSingleUnlockKey2. All values have been observed as 0 by dumping them inb this script
+				// In any case, they don't seem to be related to the CST fields unk_28, unk_2C or unk_34
+				_loc13_.push(0);
+				_loc13_.push(0);
 								
 				i = pos+1;
-				_loc10_.push(_loc11_);
+				_loc12_.push(_loc13_);
 			}
 			
-			if (_loc10_.length > 0)
+			if (_loc12_.length > 0)
 			{
-				var first:Array = _loc10_[0];
+				var first:Array = _loc12_[0];
 				var key:String = first[0] + first[1].toString();
 				var cc:Array = map_cc[key];
 								
 				if (cc != undefined)
 				{
-					_loc10_.push(cc);
+					_loc12_.push(cc);
 				}				
 			}
 			
@@ -837,7 +868,7 @@ package action_script
 			}
 			
 			i++;
-			_loc3_.push(_loc10_);
+			_loc5_.push(_loc12_);
 		 }
 		 
 		 // 1.10: insert the dummy goks now		 
@@ -845,7 +876,7 @@ package action_script
 		 {
 	         var dummy_slot:Array = new Array();
 			 dummy_slot.push(dummy_goks[i]);
-			 _loc3_.push(dummy_slot);
+			 _loc5_.push(dummy_slot);
 		 }	
 
 		 // 1.10: insert the other cacs now
@@ -859,7 +890,7 @@ package action_script
 				 
 				 if (i != 0)
                  {
-					_loc3_.push(cac_slot); // put previous
+					_loc5_.push(cac_slot); // put previous
 				 }
 				 
 				 cac_slot = new Array();
@@ -869,66 +900,65 @@ package action_script
 			 
 			 if (i == other_cacs.length-1)
 			 {
-				_loc3_.push(cac_slot);
+				_loc5_.push(cac_slot);
 			 }
 		 }
 		 
 		 //////////	
 		 
-		 
-         var _loc6_:int = 0;
-         var _loc7_:int = 0;
-         _loc5_ = 0;
-         while(_loc5_ < _loc3_.length)
+         var _loc8_:int = 0;
+         var _loc9_:int = 0;
+         _loc7_ = 0;
+         while(_loc7_ < _loc5_.length)
          {
-            _loc26_ = _loc3_[_loc5_];
-            _loc27_ = true;
-            _loc28_ = 0;
-            while(_loc28_ < _loc26_.length)
+            _loc30_ = _loc5_[_loc7_];
+            _loc31_ = true;
+            _loc32_ = 0;
+            while(_loc32_ < _loc30_.length)
             {
-               if((param1 & _loc26_[_loc28_][VarTypeDlcKeyFlag]) == 0 && (param2 & _loc26_[_loc28_][VarTypeDlcKeyFlag2]) == 0)
+               if((param1 & _loc30_[_loc32_][VarTypeDlcKeyFlag]) == 0 && (param2 & _loc30_[_loc32_][VarTypeDlcKeyFlag2]) == 0 && (param3 & _loc30_[_loc32_][VarTypeCharaSingleUnlockFlag]) == 0 && (param4 & _loc30_[_loc32_][VarTypeCharaSingleUnlockFlag2]) == 0)
                {
-                  trace("delete chara:" + _loc5_ + "," + _loc28_ + "," + _loc26_[_loc28_][VarTypeCode]);
-                  _loc26_.splice(_loc28_,1);
-                  _loc28_--;
+                  trace("delete chara:" + _loc7_ + "," + _loc32_ + "," + _loc30_[_loc32_][VarTypeCode]);
+                  _loc30_.splice(_loc32_,1);
+                  _loc32_--;
                }
                else
                {
-                  _loc27_ = false;
+                  _loc31_ = false;
                }
-               _loc28_++;
+               _loc32_++;
             }
-            if(_loc27_)
+            if(_loc31_)
             {
-               _loc3_.splice(_loc5_,1);
-               _loc5_--;
+               _loc5_.splice(_loc7_,1);
+               _loc7_--;
             }
             else
             {
-               _loc29_ = _loc7_;
-               _loc30_ = _loc26_[0][VarTypeAfterTU9Order];
-               if(_loc30_ == -1)
+               _loc33_ = _loc9_;
+               _loc34_ = _loc30_[0][VarTypeAfterTU9Order];
+               if(_loc34_ == -1)
                {
-                  _loc29_ = _loc7_;
+                  _loc33_ = _loc9_;
                }
                else
                {
-                  _loc29_ = _loc30_ + 122;
-                  _loc7_--;
+                  _loc33_ = _loc34_ + 122;
+                  _loc9_--;
                }
-               CharaListShiftCount.push(_loc29_);
+               CharaListShiftCount.push(_loc33_);
             }
-            _loc5_++;
+            _loc7_++;
+            _loc9_++;
+         }
+         var _loc10_:int = 3 - _loc5_.length % 3;
+         _loc7_ = 0;
+         while(_loc10_ > _loc7_)
+         {
+            _loc5_.concat([[[InvalidCode,0,0,0]]]);
             _loc7_++;
          }
-         var _loc8_:int = 3 - _loc3_.length % 3;
-         _loc5_ = 0;
-         while(_loc8_ > _loc5_)
-         {
-            _loc3_.concat([[[InvalidCode,0,0,0]]]);
-            _loc5_++;
-         }
-         return _loc3_;
+         return _loc5_;
       }
       
       private function requestUnlock(param1:Event) : void
@@ -1024,8 +1054,8 @@ package action_script
          this.m_timeline.stage.removeEventListener(Event.ENTER_FRAME,this.requestUnlock);
          this.m_timeline.stage.addEventListener(Event.ENTER_FRAME,this.waitUnlock);
       }
-	  
-	   //////////
+      
+      //////////
 	  // Decompiler failed with this function (produced bad result), so here it is manually decompiled from version 1.11
 	  // If the function doesn't change in the future, just carry it over the next version
 	  //////////
@@ -2008,7 +2038,8 @@ package action_script
          }
       }
       
-      private function changeLR(param1:Boolean) : void
+      //private function changeLR(param1:Boolean) : void
+	  private function changeLR(param1:Boolean, jumpPage:Boolean) : void
       {
          var _loc2_:int = 0;
          var _loc3_:int = 0;
@@ -2021,7 +2052,18 @@ package action_script
                {
                   break;
                }
-               this.m_select_column--;
+			   
+               //////////
+			   if (jumpPage) 
+               {
+                  this.m_select_column -= 7;
+               }
+               else
+               {
+                  this.m_select_column--;
+               }
+			   //////////
+			   
                if(this.m_select_column < 0)
                {
                   this.m_select_column = this.m_chara_num_column - 1;
@@ -2032,7 +2074,17 @@ package action_script
             }
             else
             {
-               this.m_select_column++;
+               //////////
+			   if (jumpPage) 
+               {
+                  this.m_select_column += 7;
+               }
+               else
+               {
+                  this.m_select_column++;
+               }
+			   //////////
+			   
                if(this.m_chara_num_column <= this.m_select_column)
                {
                   this.m_select_column = 0;
@@ -2762,6 +2814,7 @@ package action_script
             {
                _loc3_.visible = false;
             }
+            trace("m_icon_show_wait[" + _loc2_ + "]:" + this.m_icon_show_wait[_loc2_] + " visible:" + _loc3_.visible);
             _loc2_++;
          }
       }
@@ -2769,6 +2822,7 @@ package action_script
       private function updateDisply() : *
       {
          var _loc7_:* = undefined;
+         trace("updateDisplay");
          var _loc1_:int = this.m_select_info[this.m_current_player_index][SelectInfoTypeListIndex];
          var _loc2_:Array = this.getCharaInfo(_loc1_);
          this.updateCharaIcon();
@@ -2958,7 +3012,10 @@ package action_script
          {
             return;
          }
-         this.changeLR(true);
+         //////////
+		 // this.changeLR(true);
+		 this.changeLR(true, false);
+		 //////////
          this.updatePage();
          this.setSelectChara();
          this.sendCharaInfo(this.m_current_player_index);
@@ -2971,7 +3028,10 @@ package action_script
          {
             return;
          }
-         this.changeLR(false);
+         //////////
+		 // this.changeLR(false);
+		 this.changeLR(false, false)
+		 //////////
          this.updatePage();
          this.setSelectChara();
          this.sendCharaInfo(this.m_current_player_index);
@@ -3003,6 +3063,34 @@ package action_script
          this.sendCharaInfo(this.m_current_player_index);
          this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
       }
+	  
+	  //////////
+	  private function pushKeyPrevPage() : void
+      {
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         {
+            return;
+         }
+         this.changeLR(true, true);
+         this.updatePage();
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
+      }	  
+      
+      private function pushKeyNextPage() : void
+      {
+         if(this.m_current_player_index != PlayerIndexOwn && this.m_callback.GetUserDataInt(ReceiveType_FlagLocalBattle) && !this.m_callback.GetUserDataInt(ReceiveType_Flag2pController))
+         {
+            return;
+         }
+         this.changeLR(false, true);
+         this.updatePage();
+         this.setSelectChara();
+         this.sendCharaInfo(this.m_current_player_index);
+         this.m_callback.CallbackSe(this.m_callback.SeTypeCarsol);
+      }
+	  //////////
       
       private function pushKeyL() : void
       {
@@ -3194,6 +3282,16 @@ package action_script
                this.pushDown();
                this.m_flag_change_disp = true;
                break;
+			//////////
+            case 33: // RT/R2/Page Up
+               this.pushKeyNextPage();
+               this.m_flag_change_disp = true;
+               break;
+            case 45: // LT/L2/Insert
+               this.pushKeyPrevPage();
+               this.m_flag_change_disp = true;
+               break;
+			//////////
             case Keyboard.DELETE:
                this.pushKeyL();
                this.m_flag_change_disp = true;
@@ -3207,14 +3305,16 @@ package action_script
                this.m_flag_change_disp = true;
                break;
             case 89:
+               this.pushKeyRandom();
+               this.m_flag_change_disp = true;
+               break;
+			////////// 1.23 note: after years, it seems Dimps or Qloc have finally fixed the zoom bug, so my fix, which was almost identical, is not longer needed
             case Keyboard.END:
-                ////////// Fix to zoom bug
-			   if (isKeyboardControllerActive || param1.keyCode == 89)
-			   {
-					pushKeyRandom();
-					m_flag_change_disp = true;
-			   }
-			   //////////
+               if(this.isKeyboardControllerActive)
+               {
+                  this.pushKeyRandom();
+                  this.m_flag_change_disp = true;
+               }
                break;
             case Keyboard.SPACE:
             case 83:
